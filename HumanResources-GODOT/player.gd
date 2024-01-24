@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var fall_acceleration = 75
 # jumping (vertical) impulse in m/s
 @export var jump_impulse = 20
-#second test for git
+
 var target_velocity = Vector3.ZERO
 
 func _physics_process(delta):
