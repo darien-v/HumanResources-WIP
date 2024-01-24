@@ -27,9 +27,9 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_bfkgm")]
 
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.445339, 0.895362, 0, -0.895362, 0.445339, 0, 14.2151, 11.1931)
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.573577, 0.819152, 0, -0.819152, 0.573577, 0, 15, 12)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+[node name="PlayerView" type="Camera3D" parent="Player/CameraPivot"]
 projection = 1
 size = 19.0
