@@ -1,12 +1,98 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=8 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
+[ext_resource type="PackedScene" uid="uid://bgg5q07bu17rt" path="res://art/basic_sword.glb" id="2_4ow74"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
 
 [sub_resource type="BoxMesh" id="BoxMesh_secun"]
 size = Vector3(60, 2, 60)
+
+[sub_resource type="Animation" id="Animation_g6tpi"]
+resource_name = "light_attack"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sword:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-4.14522e-16, 1.5708, -1.5708)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Sword/Sketchfab_model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8, 1.5),
+"transitions": PackedFloat32Array(1, 1, 0.5, 2),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0), Vector3(-1.0472, 1.17124e-08, 1.17125e-08), Vector3(-2.44346, 0, 0), Vector3(-1.5708, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pivot/Sword/Sketchfab_model:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 2.36176), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_nxvvh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sword:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-4.14522e-16, 1.5708, -1.5708)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Sword/Sketchfab_model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pivot/Sword/Sketchfab_model:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_opaqk"]
+_data = {
+"RESET": SubResource("Animation_nxvvh"),
+"light_attack": SubResource("Animation_g6tpi")
+}
 
 [node name="Main" type="Node"]
 
@@ -27,9 +113,24 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_bfkgm")]
 
+[node name="Sword" parent="Player/Pivot" index="1" instance=ExtResource("2_4ow74")]
+transform = Transform3D(-4.32839e-16, 1.13247e-08, 0.15, -0.15, -6.55671e-09, 6.21784e-17, 6.55671e-09, -0.15, 1.13247e-08, 0.775722, -0.0186579, -0.889862)
+
+[node name="Sketchfab_model" parent="Player/Pivot/Sword" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.999999, 0, -0.999999, -4.37114e-08, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_opaqk")
+}
+autoplay = "light_attack"
+
 [node name="CameraPivot" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.445339, 0.895362, 0, -0.895362, 0.445339, 0, 14.2151, 11.1931)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 projection = 1
 size = 19.0
+
+[editable path="Player"]
+[editable path="Player/Pivot/Sword"]
