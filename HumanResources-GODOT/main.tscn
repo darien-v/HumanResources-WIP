@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=12 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
 [ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://textbox_test.tres" id="2_svert"]
+[ext_resource type="Script" path="res://PlayerView.gd" id="3_ubs70"]
 [ext_resource type="Script" path="res://textbox_temp.gd" id="4_07pqn"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
 [ext_resource type="Texture2D" uid="uid://coem8o1rcccbl" path="res://art/2D Sprites/textbox_indicator/peepee.png" id="5_mwuui"]
@@ -51,6 +52,11 @@ transform = Transform3D(1, 0, 0, 0, 0.573577, 0.819152, 0, -0.819152, 0.573577, 
 [node name="PlayerView" type="Camera3D" parent="Player/CameraPivot"]
 projection = 1
 size = 19.0
+script = ExtResource("3_ubs70")
+
+[node name="cameraTimer" type="Timer" parent="Player/CameraPivot/PlayerView"]
+wait_time = 7.0
+one_shot = true
 
 [node name="textbox_temp" type="AnimatedSprite3D" parent="Player/CameraPivot"]
 transform = Transform3D(62.329, 0, 0, 0, 10.0096, -9.53674e-07, 0, 0, 6.5255, 0, -6.36527, -7.60238)
