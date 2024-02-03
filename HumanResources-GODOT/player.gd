@@ -6,6 +6,8 @@ extends CharacterBody3D
 @export var fall_acceleration = 75
 # jumping (vertical) impulse in m/s
 @export var jump_impulse = 20
+# allows player to inspect/interact with objects
+@export var interactable = "None"
 
 var target_velocity = Vector3.ZERO
 
