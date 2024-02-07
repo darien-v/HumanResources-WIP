@@ -23,8 +23,6 @@ var interactionName = ""
 var specificTree = "N/A"
 # if the object is an npc, we will need to know the npc's attitude
 var attitude = "Neutral"
-# and if this is the first interaction
-var firstInteraction = false
 # everything will have a default dialog tree we can use unless otherwise specified
 var dialogTree = "Default"
 
@@ -67,6 +65,7 @@ func initVars():
 	interactionName = player.get("interactionName")
 	interactionGroup = player.get("interactionGroup")
 	specificInteraction = player.get("specificInteraction")
+	specificTree = player.get("specificTree")
 	dialogNode = "Start"
 	optionEmotion = "Neutral"
 	phraseNum = 0
@@ -102,33 +101,24 @@ func getDialogPath():
 # get our dialog tree name
 func getDialogTreeName():
 	if specificInteraction:
-		if specificTree == "N/A":
-			if firstInteraction:
-				dialogTree = "FirstMeet"
-			elif interactionGroup == "NPC":
+		if specificTree == "":
+			if interactionGroup == "NPC":
 				var attitudeNum = player.get("attitude")
-				if attitudeNum > 0:
-					attitude = "Default//Approving"
-				elif attitudeNum < 0:
-					attitude = "Default//Disapproving"
-				else:
-					attitude = "Default//Neutral"
-				dialogTree = "Default"
+				attitude = player.checkNPCApproval()
+				dialogTree = "Default" + "//" + attitude
 		else:
 			dialogTree = specificTree
 
 # get the dialog tree's... dialog tree
 func getDialogTreeValue(keys):
-	var temp
 	# first check if we have an exact match
 	if dialogTree in keys:
 		return dialogTree
 	# if not, we gotta go through the keys individually
 	# partial matches can happen in the case of keys like Approving//Neutral
-	while len(keys) > 0:
-		temp = keys.pop_back()
-		if dialogTree in temp:
-			return temp
+	for key in keys:
+		if dialogTree in key:
+			return key
 	# if no match, just use default
 	return "Default"
 
@@ -187,14 +177,14 @@ func startInteraction():
 func scrollOptions():
 	# scrolling down
 	if Input.is_action_just_pressed("move_back"):
-		optionSelected -= 1
-		if optionSelected <= 0:
-			optionSelected = numOptions
-	# scrolling up
-	elif Input.is_action_just_pressed("move_forward"):
 		optionSelected += 1
 		if optionSelected > numOptions:
 			optionSelected = 1
+	# scrolling up
+	elif Input.is_action_just_pressed("move_forward"):
+		optionSelected -= 1
+		if optionSelected <= 0:
+			optionSelected = numOptions
 	elif Input.is_action_just_pressed("interact"):
 		print("choice selected")
 		processChoice()
@@ -461,6 +451,7 @@ func processChoice():
 	$Timer.wait_time = textSpeed
 	# show the new text
 	phraseNum = 0
+	optionSelected = 1
 	# save consequence of choice
 	player.processReaction(dialog[dialogNode][phraseNum]["Emotion"])
 	nextPhrase()

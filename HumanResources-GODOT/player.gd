@@ -18,6 +18,8 @@ extends CharacterBody3D
 @export var attitude = 0
 # in case of special interaction scenes
 @export var interactionName = ""
+# in case we desire a specific branch
+@export var specificTree = ""
 # lets us save the npc we interacted with
 var npc
 # lets us categorize interactions
@@ -35,6 +37,8 @@ func _physics_process(delta):
 	if not textbox.visible:
 		# process player movement
 		move_player(delta)
+		# process collisions
+		player_collisions()
 	
 # putting things into tiny functions
 # so the main one is a little less cluttered
@@ -76,15 +80,14 @@ func move_player(delta):
 	# Moving the Character
 	velocity = target_velocity
 	move_and_slide()
-	
-	# process collisions
-	player_collisions()
 
 # player collision checker
 func player_collisions():
 	# always reset to default
 	interactable = "None"
 	interactionGroup = "environmental"
+	interactionName = ""
+	specificTree = ""
 	specificInteraction = false
 	# Iterate through all collisions that occurred this frame
 	for index in range(get_slide_collision_count()):
@@ -96,6 +99,7 @@ func player_collisions():
 		if collider == null:
 			interactable = "None"
 			interactionName = ""
+			specificTree = ""
 			interactionGroup = "environmental"
 			specificInteraction = false
 			continue
@@ -108,22 +112,25 @@ func player_collisions():
 				npc = collider
 				specificInteraction = true
 				interactionObjectPath = npc.get_path()
-			interactable = npc.name
+				attitude = npc.get("attitude")
+				# check if this is your first interaction with npc
+				if npc.get("interactions") == 0:
+					specificTree = "FirstMeet"
+			interactable = collider.name
 			# here is where youd do whatever to get the name of the script you want
 			interactionName = interactable # placeholder
-			attitude = npc.get_meta("attitude")
 			break
 
 # processes the result of an npc interaction
 # eventually we'll have some variable to determine interaction strength. later
 func processReaction(emotion):
-	print(emotion)
+	npc.incrementInteraction()
 	if emotion in positive:
-		attitude += 1
+		npc.changeAttitude(1)
 	elif emotion in negative:
-		attitude -= 1
+		npc.changeAttitude(-1)
 	else:
 		return
-	npc.set_meta("attitude", attitude)
-	print(npc.get_meta("attitude"))
-	return
+		
+func checkNPCApproval()->String:
+	return npc.approval()

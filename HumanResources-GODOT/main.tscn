@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=16 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cnnxbjorjvn7m" path="res://art/2D Sprites/textbox_indicator/1.png" id="8_0li8h"]
 [ext_resource type="PackedScene" uid="uid://desmdk118m5h2" path="res://test_npc.tscn" id="9_ehj62"]
 [ext_resource type="Texture2D" uid="uid://c6u0fvf6lq0ty" path="res://art/2D Sprites/textbox_indicator/2.png" id="9_ly38w"]
+[ext_resource type="Script" path="res://npc_basic.gd" id="12_4jmty"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
@@ -183,4 +184,12 @@ render_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16178, 0.262092, -6.33648)
 collision_layer = 2
 collision_mask = 3
+script = ExtResource("12_4jmty")
+metadata/attitude = 0
+
+[node name="test npc2" parent="." groups=["NPC", "interactable"] instance=ExtResource("9_ehj62")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.65562, 0.262092, -6.33648)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("12_4jmty")
 metadata/attitude = 0
