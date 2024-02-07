@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://player.gd" id="1_5upvd"]
 [ext_resource type="PackedScene" uid="uid://b5y0kamyusqj7" path="res://art/player.glb" id="1_agci3"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_t5u73"]
-radius = 0.850981
+[sub_resource type="BoxShape3D" id="BoxShape3D_enytg"]
+size = Vector3(1, 1, 1.42877)
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 2
@@ -15,5 +15,5 @@ script = ExtResource("1_5upvd")
 [node name="Character" parent="Pivot" instance=ExtResource("1_agci3")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.778542, 0)
-shape = SubResource("SphereShape3D_t5u73")
+transform = Transform3D(1.43123, 0, 0, 0, 1.43123, 0, 0, 0, 1.43123, 0, 0.778542, 0.490018)
+shape = SubResource("BoxShape3D_enytg")

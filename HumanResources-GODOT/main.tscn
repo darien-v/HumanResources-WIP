@@ -1,13 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=15 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
 [ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://textbox_test.tres" id="2_svert"]
 [ext_resource type="Script" path="res://PlayerView.gd" id="3_ubs70"]
-[ext_resource type="Script" path="res://textbox_temp.gd" id="4_07pqn"]
+[ext_resource type="Script" path="res://textbox.gd" id="4_07pqn"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
-[ext_resource type="Texture2D" uid="uid://coem8o1rcccbl" path="res://art/2D Sprites/textbox_indicator/peepee.png" id="5_mwuui"]
 [ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_x5upw"]
+[ext_resource type="Script" path="res://option.gd" id="7_gb3p3"]
+[ext_resource type="Texture2D" uid="uid://cnnxbjorjvn7m" path="res://art/2D Sprites/textbox_indicator/1.png" id="8_0li8h"]
+[ext_resource type="PackedScene" uid="uid://desmdk118m5h2" path="res://test_npc.tscn" id="9_ehj62"]
+[ext_resource type="Texture2D" uid="uid://c6u0fvf6lq0ty" path="res://art/2D Sprites/textbox_indicator/2.png" id="9_ly38w"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
@@ -19,11 +22,14 @@ size = Vector3(60, 2, 60)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_mwuui")
+"texture": ExtResource("8_0li8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ly38w")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 4.0
 }]
 
 [node name="Main" type="Node"]
@@ -31,7 +37,7 @@ script = ExtResource("1_7avpk")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-collision_layer = 2
+collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
@@ -45,6 +51,7 @@ transform = Transform3D(1, 0, 0, 0, 0.14116, 0.989987, 0, -0.989987, 0.14116, 0,
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_bfkgm")]
+collision_mask = 6
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.573577, 0.819152, 0, -0.819152, 0.573577, 0, 15, 12)
@@ -65,24 +72,88 @@ texture_filter = 0
 sprite_frames = ExtResource("2_svert")
 animation = &"textbox_test"
 script = ExtResource("4_07pqn")
-dialogPath = "res://dialogue/sample.json"
 
 [node name="textbox_dialogue" type="Label3D" parent="Player/CameraPivot/textbox_temp"]
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999042, 1.11759e-08, 0, 4.47035e-08, 0.153245, -0.219428, 0.213992, -0.00860023)
+visible = false
 texture_filter = 0
 render_priority = 3
 outline_render_priority = 1
-text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 font = ExtResource("5_x5upw")
 font_size = 150
 outline_size = 50
 horizontal_alignment = 0
 vertical_alignment = 0
-autowrap_mode = 1
+autowrap_mode = 2
 width = 5500.0
+
+[node name="option1" type="Label3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0160439, 0, 0, 0, 0.0999043, 1.11759e-08, 0, 5.96046e-08, 0.153245, -0.219428, 0.213992, -0.00859988)
+visible = false
+texture_filter = 0
+render_priority = 3
+outline_render_priority = 1
+text = "Someday you will have to meet God, and he won't be so merciful"
+font = ExtResource("5_x5upw")
+font_size = 150
+outline_size = 50
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 5500.0
+script = ExtResource("7_gb3p3")
+
+[node name="option2" type="Label3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0160439, 0, 0, 0, 0.0999043, 1.11759e-08, 0, 1.11759e-07, 0.153245, -0.218522, 0.0900058, -0.0113146)
+visible = false
+texture_filter = 0
+render_priority = 3
+outline_render_priority = 1
+text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+font = ExtResource("5_x5upw")
+font_size = 150
+outline_size = 50
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 5500.0
+script = ExtResource("7_gb3p3")
+
+[node name="option3" type="Label3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0160439, 0, 0, 0, 0.0999045, 1.11759e-08, 0, 1.49012e-07, 0.153245, -0.218054, -0.0252906, -0.0411692)
+visible = false
+texture_filter = 0
+render_priority = 3
+outline_render_priority = 1
+text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+font = ExtResource("5_x5upw")
+font_size = 150
+outline_size = 50
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 5500.0
+script = ExtResource("7_gb3p3")
+
+[node name="option4" type="Label3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0160439, 0, 0, 0, 0.0999046, 1.11759e-08, 0, 1.78814e-07, 0.153245, -0.217148, -0.149277, -0.043884)
+visible = false
+texture_filter = 0
+render_priority = 3
+outline_render_priority = 1
+text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+font = ExtResource("5_x5upw")
+font_size = 150
+outline_size = 50
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 5500.0
+script = ExtResource("7_gb3p3")
 
 [node name="textbox_speaker" type="Label3D" parent="Player/CameraPivot/textbox_temp"]
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999039, 1.11759e-08, 0, -7.45058e-09, 0.153245, -0.230591, 0.301978, -0.0172615)
+visible = false
 texture_filter = 0
 render_priority = 3
 outline_render_priority = 1
@@ -96,7 +167,7 @@ uppercase = true
 [node name="Timer" type="Timer" parent="Player/CameraPivot/textbox_temp"]
 
 [node name="Indicator" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
-transform = Transform3D(0.0141617, 0, 0, 0, 0.0138023, -3.72529e-09, 0, 1.86265e-09, 0.165337, 0.203032, -0.201442, 0.0179211)
+transform = Transform3D(0.00863869, 0, 0, 0, 0.0439222, -8.73115e-10, 0, 3.35276e-08, 0.0026002, 0.222677, -0.196861, 0.0187976)
 visible = false
 texture_filter = 0
 render_priority = 3
@@ -104,5 +175,12 @@ sprite_frames = SubResource("SpriteFrames_8pmr8")
 
 [node name="Portrait" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999038, 1.49012e-08, 0, 0, 0.153245, -0.226748, 0.256412, -0.121833)
+visible = false
 texture_filter = 0
 render_priority = -1
+
+[node name="test npc" parent="." groups=["NPC", "interactable"] instance=ExtResource("9_ehj62")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16178, 0.262092, -6.33648)
+collision_layer = 2
+collision_mask = 3
+metadata/attitude = 0
