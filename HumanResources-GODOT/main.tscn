@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=18 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
@@ -11,7 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://cnnxbjorjvn7m" path="res://art/2D Sprites/textbox_indicator/1.png" id="8_0li8h"]
 [ext_resource type="PackedScene" uid="uid://desmdk118m5h2" path="res://test_npc.tscn" id="9_ehj62"]
 [ext_resource type="Texture2D" uid="uid://c6u0fvf6lq0ty" path="res://art/2D Sprites/textbox_indicator/2.png" id="9_ly38w"]
+[ext_resource type="Texture2D" uid="uid://yjta66grbalu" path="res://art/2D Sprites/text_option_border.png" id="11_pqt7h"]
 [ext_resource type="Script" path="res://npc_basic.gd" id="12_4jmty"]
+[ext_resource type="Script" path="res://option_indicator.gd" id="12_8aqil"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
@@ -179,6 +181,16 @@ transform = Transform3D(0.0160439, 0, 0, 0, 0.0999038, 1.49012e-08, 0, 0, 0.1532
 visible = false
 texture_filter = 0
 render_priority = -1
+
+[node name="option_indicator" type="Sprite3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(1.04508, 0, 0, 0, 0.25873, -2.08616e-07, 0, 2.98023e-08, 1.51905, -0.00372736, 0.168081, -0.0162611)
+visible = false
+texture_filter = 0
+render_priority = 3
+texture = ExtResource("11_pqt7h")
+script = ExtResource("12_8aqil")
+
+[node name="indicator_timer" type="Timer" parent="Player/CameraPivot/textbox_temp/option_indicator"]
 
 [node name="test npc" parent="." groups=["NPC", "interactable"] instance=ExtResource("9_ehj62")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16178, 0.262092, -6.33648)

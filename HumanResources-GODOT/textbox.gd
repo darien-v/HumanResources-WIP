@@ -175,19 +175,28 @@ func startInteraction():
 	nextPhrase()
 	
 func scrollOptions():
-	# scrolling down
-	if Input.is_action_just_pressed("move_back"):
-		optionSelected += 1
-		if optionSelected > numOptions:
-			optionSelected = 1
-	# scrolling up
-	elif Input.is_action_just_pressed("move_forward"):
-		optionSelected -= 1
-		if optionSelected <= 0:
-			optionSelected = numOptions
-	elif Input.is_action_just_pressed("interact"):
-		print("choice selected")
-		processChoice()
+	# only scroll once previous scrolling done
+	if not $option_indicator.get("moving"):
+		# scrolling down
+		if Input.is_action_just_pressed("move_back"):
+			optionSelected += 1
+			if optionSelected > numOptions:
+				while optionSelected != 1:
+					$option_indicator.moveUp()
+					optionSelected -= 1
+			$option_indicator.moveDown()
+		# scrolling up
+		elif Input.is_action_just_pressed("move_forward"):
+			optionSelected -= 1
+			if optionSelected <= 0:
+				while optionSelected != numOptions:
+					$option_indicator.moveDown()
+					optionSelected += 1
+			$option_indicator.moveUp()
+		elif Input.is_action_just_pressed("interact"):
+			print("choice selected")
+			$option_indicator.reset()
+			processChoice()
 		
 
 # currently dont need anything initialized upon startup
@@ -201,6 +210,7 @@ func _process(_delta):
 	if showingText:
 		if showChoices and finished:
 			$Indicator.visible = false
+			$option_indicator.visible = true
 			if not choicesInitialized:
 				checkChoicesInit()
 			else:

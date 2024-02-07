@@ -30,21 +30,37 @@ var negative = ["Sad", "Angry"]
 # lets us check if in dialogue, which restricts movement
 @onready var textbox = $CameraPivot/textbox_temp
 
+# lets us know if the player has moved, important for dialog
+var oldpos
+
 var target_velocity = Vector3.ZERO
+
+# reset interaction vars to default
+func resetInteraction():
+	interactable = "None"
+	interactionName = ""
+	specificTree = ""
+	interactionGroup = "environmental"
+	specificInteraction = false
+
+# on object creation, get the starting position
+func _ready():
+	oldpos = global_position
 
 func _physics_process(delta):
 	# only need to process these if not in dialogue
 	if not textbox.visible:
 		# process player movement
 		move_player(delta)
-		# process collisions
-		player_collisions()
 	
 # putting things into tiny functions
 # so the main one is a little less cluttered
 
 # player movement function
 func move_player(delta):
+	# save oldpos
+	oldpos = global_position
+	
 	# input direction
 	var direction = Vector3.ZERO
 
@@ -80,15 +96,18 @@ func move_player(delta):
 	# Moving the Character
 	velocity = target_velocity
 	move_and_slide()
+	
+	# process interactable collisions if we moved
+	if oldpos != global_position:
+		player_interactable_collisions()
+	# else, if we're interacting w npc, continue
+	elif interactionGroup == "NPC":
+		npcInteraction()
 
 # player collision checker
-func player_collisions():
+func player_interactable_collisions():
 	# always reset to default
-	interactable = "None"
-	interactionGroup = "environmental"
-	interactionName = ""
-	specificTree = ""
-	specificInteraction = false
+	resetInteraction()
 	# Iterate through all collisions that occurred this frame
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -97,11 +116,7 @@ func player_collisions():
 
 		# If the collision is with ground
 		if collider == null:
-			interactable = "None"
-			interactionName = ""
-			specificTree = ""
-			interactionGroup = "environmental"
-			specificInteraction = false
+			resetInteraction()
 			continue
 
 		# If the collider is with an interactable object
@@ -110,16 +125,22 @@ func player_collisions():
 			if collider.is_in_group("NPC"):
 				interactionGroup = "NPC"
 				npc = collider
-				specificInteraction = true
-				interactionObjectPath = npc.get_path()
-				attitude = npc.get("attitude")
-				# check if this is your first interaction with npc
-				if npc.get("interactions") == 0:
-					specificTree = "FirstMeet"
+				npcInteraction()
 			interactable = collider.name
 			# here is where youd do whatever to get the name of the script you want
 			interactionName = interactable # placeholder
 			break
+
+# the actual interaction processing for npcs
+func npcInteraction():
+	specificInteraction = true
+	interactionObjectPath = npc.get_path()
+	attitude = npc.get("attitude")
+	# check if this is your first interaction with npc
+	if npc.get("interactions") == 0:
+		specificTree = "FirstMeet"
+	else:
+		specificTree = ""
 
 # processes the result of an npc interaction
 # eventually we'll have some variable to determine interaction strength. later
