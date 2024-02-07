@@ -23,7 +23,8 @@ func _physics_process(delta):
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
-	
+	if Input.is_action_pressed("light_attack"):
+		get_node("AnimationPlayer").play("light_attack")
 	# normalize the direction vector
 	# otherwise it'll go faster on diagonals (2 keys pressed)
 	if direction != Vector3.ZERO:
