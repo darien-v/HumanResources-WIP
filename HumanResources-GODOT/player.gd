@@ -7,6 +7,8 @@ extends CharacterBody3D
 # jumping (vertical) impulse in m/s
 @export var jump_impulse = 20
 
+@onready var hitbox = $Pivot/Sword/Sketchfab_model/root/GLTF_SceneRootNode/Cube_2/Object_4/SwordHitbox
+
 var target_velocity = Vector3.ZERO
 
 func _physics_process(delta):
@@ -23,8 +25,14 @@ func _physics_process(delta):
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
+	# left click triggers light attack
 	if Input.is_action_pressed("light_attack"):
 		get_node("AnimationPlayer").play("light_attack")
+		#when an attack is performed, only then does the hitbox turn on
+		if hitbox != null:
+			print("hitbox on")
+			hitbox.monitoring = true
+		
 	# normalize the direction vector
 	# otherwise it'll go faster on diagonals (2 keys pressed)
 	if direction != Vector3.ZERO:
@@ -46,3 +54,9 @@ func _physics_process(delta):
 	# Moving the Character
 	velocity = target_velocity
 	move_and_slide()
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "light_attack":
+		print("hitbox off")
+		hitbox.monitoring = false
