@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=11 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
 [ext_resource type="PackedScene" uid="uid://bgg5q07bu17rt" path="res://art/basic_sword.glb" id="2_4ow74"]
 [ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://enemy.tscn" id="3_meatd"]
-[ext_resource type="Script" path="res://SwordHitbox.gd" id="3_n6fjm"]
 [ext_resource type="Script" path="res://enemy.gd" id="4_wbgm3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
@@ -127,7 +126,6 @@ transform = Transform3D(1, 0, 0, 0, -3.61999e-06, 0.999999, 0, -0.999999, -3.619
 
 [node name="SwordHitbox" type="Area3D" parent="Player/Pivot/Sword/Sketchfab_model/root/GLTF_SceneRootNode/Cube_2/Object_4" index="0" groups=["weapon_hitboxes"]]
 monitoring = false
-script = ExtResource("3_n6fjm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Pivot/Sword/Sketchfab_model/root/GLTF_SceneRootNode/Cube_2/Object_4/SwordHitbox"]
 transform = Transform3D(1.25, 0, -6.93889e-18, -2.84217e-14, 1.25, 9.09495e-12, 2.60209e-18, -1.45519e-11, 1.25, 0, 0, 0)
@@ -147,7 +145,7 @@ projection = 1
 size = 19.0
 
 [node name="Enemy" parent="." instance=ExtResource("3_meatd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.297625, 0.207556, -4.70194)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.297625, 0.795102, -4.07309)
 script = ExtResource("4_wbgm3")
 
 [connection signal="animation_finished" from="Player/AnimationPlayer" to="Player" method="_on_animation_player_animation_finished"]
