@@ -1,4 +1,4 @@
-extends Sprite3D
+extends AnimatedSprite3D
 
 # original positions
 var origY
@@ -20,6 +20,11 @@ func _ready():
 	origY = self.position.y
 	origZ = self.position.z
 
+
+# use this to actually do the shit
+func initialize():
+	self.visible = true
+	self.play("default")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -54,3 +59,4 @@ func reset():
 	self.visible = false
 	self.position.y = origY
 	self.position.z = origZ
+	self.stop()

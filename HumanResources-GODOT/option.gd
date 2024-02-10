@@ -18,6 +18,9 @@ var optionSelected = 0
 # the textbox itself
 @onready var textbox = $".."
 
+# player portrait
+@onready var playerPortrait = $"../player_portrait"
+
 func reset_self():
 	option = ""
 	emotion = ""
@@ -80,7 +83,12 @@ func printLetter():
 
 # option behavior when being selected
 func onSelection():
+	# go all caps bitch
 	self.uppercase = true
+	# change textbox color and player portrait based on option emotion
+	var emotionTemp = (self.emotion.split('//'))[0]
+	textbox.setEmotion(emotionTemp)
+	playerPortrait.playEmotion(emotionTemp)
 
 # going to try to include mouseover functionality
 # but no guarantees tee hee

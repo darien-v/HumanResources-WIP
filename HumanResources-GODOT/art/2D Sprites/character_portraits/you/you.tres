@@ -1,0 +1,62 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://c5ks4ggyqxv7f"]
+
+[ext_resource type="Texture2D" uid="uid://cymra2ho261xh" path="res://art/2D Sprites/character_portraits/example/link.jpg" id="1_1i1s7"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"excited",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"nervous",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"neutral",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"sad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1i1s7")
+}],
+"loop": true,
+"name": &"surprised",
+"speed": 5.0
+}]

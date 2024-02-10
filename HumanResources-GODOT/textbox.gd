@@ -5,47 +5,35 @@
 extends AnimatedSprite3D
 
 # things we can adjust later
-@export var dialogPath = []
 @export var textSpeed = 0.005
 @export var showDialog = true
 
 # we can have at max 305 chars per page
 @export var maxChars = 305
 
-# get the object the player is interacting with
+# get the player object so we can determine interaction params
 @onready var player = $"../.."
-var interactable = ""
-var interactionGroup = ""
-# and whether that object has its own file or not
-var specificInteraction = false
-var interactionName = ""
-# if it has its own file, does it want us to activate a specific tree?
-var specificTree = "N/A"
-# if the object is an npc, we will need to know the npc's attitude
-var attitude = "Neutral"
-# everything will have a default dialog tree we can use unless otherwise specified
-var dialogTree = "Default"
 
-# all of the other vars we need
-var dialogNode = "Start"
+# basically state variables
 var showingText = false
 var printingText = true
 var changePages = false
 var showNextPage = true
+var showChoices = false
+var choicesInitialized = false
+var finished = false
+
+# all of the other vars we need
+var dialogNode = "Start"
 var dialog
 var currentDialog
 var dialogSplitPages = []
-var currentText = ""
-var letters = []
 var numLetters
 var currentLetter
 var phraseNum = 0
 var numPhrases = 0
 var pageNum = 0
 var interactions = 0
-var showChoices = false
-var choicesInitialized = false
-var finished = false
 
 # also, we need to actually set up the textbox!
 @onready var textboxAnim  = $"."
@@ -55,26 +43,21 @@ var finished = false
 @onready var options = [$option1, $option2, $option3, $option4]
 @export var optionSelected = 1
 var numOptions = 0
-# this allows us to adjust sprite based on option emotion
-@export var optionEmotion = "Neutral"
+
+# oh, and the portraits
+@onready var speakerPortrait = $speaker_portrait
+@onready var playerPortrait = $player_portrait
+var playerShowing = false
 
 # initializes our common vars. easier than copy paste
 func initVars():
-	print("initializing")
-	interactable = player.get("interactable")
-	interactionName = player.get("interactionName")
-	interactionGroup = player.get("interactionGroup")
-	specificInteraction = player.get("specificInteraction")
-	specificTree = player.get("specificTree")
+	#print("initializing")
 	dialogNode = "Start"
-	optionEmotion = "Neutral"
 	phraseNum = 0
 	numPhrases = 0
 	pageNum = 0
 	interactions = 0
 	optionSelected = 1
-	currentText = ""
-	letters.clear()
 	dialogSplitPages.clear()
 	finished = false
 	showingText = true
@@ -82,11 +65,11 @@ func initVars():
 	showNextPage = true
 	changePages = false
 	showChoices = false
-	dialogPath = ["res://dialogue",get_tree().get_current_scene().get_name()]
+	playerShowing = false
 
 # this is clunky, but allows us to have a variable dialog path so yay
-func getDialogPath():
-	dialogPath.append(interactionGroup)
+func getDialogPath(interactionGroup, specificInteraction, interactionName, interactable) -> String:
+	var dialogPath = ["res://dialogue",get_tree().get_current_scene().get_name(), interactionGroup]
 	# in theory, objects with specific dialog trees have their own files
 	if specificInteraction:
 		dialogPath.append(interactable)
@@ -97,20 +80,23 @@ func getDialogPath():
 	# every file is a json always
 	dialogPath = ['/'.join(dialogPath),".json"]
 	dialogPath = ''.join(dialogPath)
+	return dialogPath
 	
 # get our dialog tree name
-func getDialogTreeName():
+func getDialogTreeName(specificInteraction, specificTree, interactionGroup, interactable, keys):
+	# blank var to store attitude
+	var attitude = ""
+	# blank variable to hold our result
+	var dialogTree = ""
+	# use this information to determine possible tree name
 	if specificInteraction:
 		if specificTree == "":
 			if interactionGroup == "NPC":
-				var attitudeNum = player.get("attitude")
 				attitude = player.checkNPCApproval()
 				dialogTree = "Default" + "//" + attitude
 		else:
 			dialogTree = specificTree
-
-# get the dialog tree's... dialog tree
-func getDialogTreeValue(keys):
+	# then use the keys from the dialog dict to find actual tree name
 	# first check if we have an exact match
 	if dialogTree in keys:
 		return dialogTree
@@ -124,28 +110,33 @@ func getDialogTreeValue(keys):
 
 # shows textbox and starts animation
 func makeVisible():
-	print("showing textbox")
+	#print("showing textbox")
 	textboxAnim.visible = true
 	textboxAnim.play("textbox_test")
 	textbox_speaker.visible = true
 	textbox_dialogue.visible = true
 	$Indicator.visible = false
-	print("textbox shown!")
+	$Indicator.play("default")
+	speakerPortrait.initialize()
+	#print("textbox shown!")
 	
 # hides everything
 # we do this rather than destroying/creating each time
 func makeInvisible():
 	# conditional prevents reset from coinciding with new instance
 	if not (showingText or printingText):
-		print("hiding textbox")
+		#print("hiding textbox")
 		textboxAnim.visible = false
 		textboxAnim.stop()
 		textbox_speaker.visible = false
 		textbox_dialogue.visible = false
 		$Indicator.visible = false
+		$Indicator.stop()
 		textbox_speaker.text = ""
 		textbox_dialogue.text = ""
-		print("textbox hidden!")
+		speakerPortrait.hideSelf()
+		playerPortrait.hideSelf()
+		#print("textbox hidden!")
 	
 # specifically for clearing options
 func hideOptions():
@@ -160,12 +151,16 @@ func startInteraction():
 	makeVisible()
 	# timer controls how fast text scrolls
 	$Timer.wait_time = textSpeed
-	# get dialog file path
-	getDialogPath()
-	# get the dialog tree name
-	getDialogTreeName()
+	# need to pass these to path and tree
+	# get all the variables we need from the player
+	# maybe make interaction into its own object later? idk
+	var interactionName = player.get("interactionName")
+	var specificInteraction = player.get("specificInteraction")
+	var specificTree = player.get("specificTree")
+	var interactionGroup = player.get("interactionGroup")
+	var interactable = player.get("interactable")
 	# parse the dialog into something usable
-	dialog = getDialog()
+	dialog = getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable)
 	assert(dialog, "Dialog not found")
 	# get our current node of dialog
 	currentDialog = dialog[dialogNode]
@@ -173,7 +168,26 @@ func startInteraction():
 	dialogSplitPages = dialogSplit()
 	# start readin boah
 	nextPhrase()
-	
+		
+# get the dialog tree from specified file
+func getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable) -> Dictionary:
+	var dialogPath = getDialogPath(interactionGroup, specificInteraction, interactionName, interactable)
+	# if file doesnt exist, we have an error
+	assert(FileAccess.file_exists(dialogPath), "File path does not exist")
+	# otherwise, get the json data from the file and store as list of dict
+	var json_string = FileAccess.get_file_as_string(dialogPath)
+	var output = JSON.parse_string(json_string)
+	# now, our dicts will have a very special organization
+	# it goes [interactable][dialogTree][dialogNode] 
+	# and the name, emotion, text, choices are in there
+	if typeof(output) == TYPE_ARRAY:
+		# specifically get the dialog for the thing we are interacting with
+		var temp = output[0][interactable]
+		# get the dialogTree we want by looking through the keys
+		return temp[getDialogTreeName(specificInteraction, specificTree, interactionGroup, interactable, temp.keys())]
+	else:
+		return {}
+		
 func scrollOptions():
 	# only scroll once previous scrolling done
 	if not $option_indicator.get("moving"):
@@ -194,10 +208,9 @@ func scrollOptions():
 					optionSelected += 1
 			$option_indicator.moveUp()
 		elif Input.is_action_just_pressed("interact"):
-			print("choice selected")
+			#print("choice selected")
 			$option_indicator.reset()
 			processChoice()
-		
 
 # currently dont need anything initialized upon startup
 func _ready():
@@ -210,7 +223,7 @@ func _process(_delta):
 	if showingText:
 		if showChoices and finished:
 			$Indicator.visible = false
-			$option_indicator.visible = true
+			$option_indicator.initialize()
 			if not choicesInitialized:
 				checkChoicesInit()
 			else:
@@ -228,7 +241,7 @@ func checkChoicesInit():
 	for i in options:
 		choicesInitialized = i.get("currentlyPrinting")
 	choicesInitialized = !choicesInitialized
-	print(choicesInitialized)
+	#print(choicesInitialized)
 	
 # when player presses interact, 
 # check if we skip to end of dialog
@@ -238,33 +251,15 @@ func checkCompletion():
 	if Input.is_action_just_pressed("interact"):
 		# normal protocol
 		if finished or showNextPage or changePages:
-			print("interaction leading to nextPhrase")
+			#print("interaction leading to nextPhrase")
 			nextPhrase()
 		# protocol for skipping scroll
 		else:
-			print("skipped to end of page")
+			#print("skipped to end of page")
 			$textbox_dialogue.text = dialogSplitPages[pageNum]
 			printingText = false
 			showNextPage = true
 
-# get the dialog tree from specified file
-func getDialog() -> Dictionary:
-	# if file doesnt exist, we have an error
-	assert(FileAccess.file_exists(dialogPath), "File path does not exist")
-	# otherwise, get the json data from the file and store as list of dict
-	var json_string = FileAccess.get_file_as_string(dialogPath)
-	var output = JSON.parse_string(json_string)
-	# now, our dicts will have a very special organization
-	# it goes [interactable][dialogTree][dialogNode] 
-	# and the name, emotion, text, choices are in there
-	if typeof(output) == TYPE_ARRAY:
-		# specifically get the dialog for the thing we are interacting with
-		var temp = output[0][interactable]
-		# get the dialogTree we want by looking through the keys
-		return temp[getDialogTreeValue(temp.keys())]
-	else:
-		return {}
-		
 # splits stuff up to fit into the box 
 func dialogSplit():
 	# clear our current dialogue from queue
@@ -272,7 +267,7 @@ func dialogSplit():
 	pageNum = 0
 	# see how many phrases of dialog this node has
 	numPhrases = len(currentDialog)
-	print(' '.join(["numPhrases", numPhrases]))
+	#print(' '.join(["numPhrases", numPhrases]))
 	# get the next set of dialogue
 	# remember the structure: dialog[dialogNode] -> array of text
 	var text = currentDialog[phraseNum]["Text"]
@@ -303,43 +298,45 @@ func dialogSplit():
 				text = text.slice((maxChars-1), -1)
 	else:
 		dialogSplitPages.append(text)
-	print("dialogSplitPages: " + ' '.join(dialogSplitPages))
+	#print("dialogSplitPages: " + ' '.join(dialogSplitPages))
 	return dialogSplitPages
 
 # the bulk of the functionality
 func nextPhrase() -> void:
-	print("entered nextPhrase")
-	print(' '.join(["phraseNum", phraseNum]))
+	#print("entered nextPhrase")
+	#print(' '.join(["phraseNum", phraseNum]))
 	# check if we've reached end of dialog
 	if phraseNum >= numPhrases:
-		print("phraseNum exceeding")
+		#print("phraseNum exceeding")
 		# check if there are any choices to display
 		if showChoices and not printingText:
-			print("about to print choices")
+			#print("about to print choices")
 			finished = false
 			printChoices()
 			return
 		else:
-			print("dialog end")
+			#print("dialog end")
 			showingText = false
 			printingText = false
 			makeInvisible()
 			return
 	# check if we need to get new pages
 	elif changePages:
-		print("changing pages")
+		#print("changing pages")
 		changePages = false
 		showNextPage = true
 		dialogSplitPages = dialogSplit()
 	
 	# only print page if necessary
 	if showNextPage:
-		print("showing next page")
-		# initializing
+		#print("showing next page")
+		# initializing globals
 		finished = false
 		showNextPage = false
 		printingText = true
-		currentText = ""
+		# initializing locals
+		var letters = []
+		var currentText = ""
 		$textbox_dialogue.text = currentText
 		
 		# get emotion and name, and see if there will be choices after printing
@@ -348,11 +345,23 @@ func nextPhrase() -> void:
 		var speaker = temp["Name"]
 		$textbox_speaker.text = speaker
 		
+		# set up the portrait
+		if speaker.to_lower() != "you":
+			speakerPortrait.setPortrait(speaker)
+		speakerPortrait.playEmotion(emotion)
+		
+		# set color according to emotion of speaker
+		setEmotion(emotion)
+		
 		# if there are choices after printing, check if choices dict valid
 		# if it is, indicate we will show choices at end
 		if "Choices" in temp.keys():
+			# if we havent yet, bring the player portrait in
+			if not playerShowing:
+				playerPortrait.comeOntoScreen()
+				playerShowing = true
 			if len(temp["Choices"].keys()) > 0:
-				print("choices available")
+				#print("choices available")
 				showChoices = true
 		else:
 			showChoices = false
@@ -361,12 +370,6 @@ func nextPhrase() -> void:
 		var text = dialogSplitPages[pageNum]
 		letters = text.split()
 		numLetters = len(text)
-		
-		# havent got any portraits yet so we have placeholder lines lol
-		var img = speaker + emotion + ".png"
-		if FileAccess.file_exists(img):
-			currentLetter = 0
-		else: currentLetter = 0
 		
 		# as we start a new page, start from the beginning
 		currentLetter = 0
@@ -382,12 +385,11 @@ func nextPhrase() -> void:
 			await $Timer.timeout
 		
 		# once we finish printing, mark page as finished
-		print("Finished printing")
+		#print("Finished printing")
 		finished = true
 		printingText = false
-		# go to next page and reset queue
+		# go to next page
 		pageNum+=1
-		letters.clear()
 		
 		# check if we've reached the end
 		if pageNum >= len(dialogSplitPages):
@@ -402,12 +404,13 @@ func nextPhrase() -> void:
 
 # basically copies the above but for printing choices
 func printChoices():
-	print("printing choices")
+	#print("printing choices")
 	# initializing
 	showNextPage = false
 	printingText = true
-	currentText = ""
+	var currentText = ""
 	$textbox_dialogue.text = currentText
+	speakerPortrait.pauseEmotion()
 	# speaker will always be player when making choices
 	var speaker = "You"
 	$textbox_speaker.text = speaker
@@ -422,26 +425,40 @@ func printChoices():
 		options[index].setOption(choices[key], key)
 		index += 1
 	numOptions = index
+	# set color and player to match first option
+	var firstEmotion = (options[0].get("emotion").split('//'))[0]
+	textboxAnim.setEmotion(firstEmotion)
+	playerPortrait.playEmotion(firstEmotion)
 	# hold the script until choices are initialized
 	while not choicesInitialized:
 		checkChoicesInit()
 	finished = true
-	print("finished setting choices")
+	#print("finished setting choices")
 	
 # allows us to accept and process the choice
 func processChoice():
-	print("entered processChoice")
+	#print("entered processChoice")
+	# pause player portrait
+	playerPortrait.pauseEmotion()
 	# get our object
 	var selection = options[optionSelected-1]
 	# indicate that we've completed an interaction
 	interactions += 1
 	# // is our indicator in case we need to go to a specific node
 	var emotion = (selection.get("emotion")).split("//")
+	#print(emotion)
 	var temp
 	# check if anything after //
 	if len(emotion) > 1:
+		# if so, adjust node and interactions accordingly
 		if len(emotion[1]) > 0:
 			dialogNode = emotion[1]
+			# get only the number using regex
+			var regex = RegEx.new()
+			regex.compile("([0-9])*")
+			interactions = (regex.search(emotion[1]).get_string()).to_int()
+			# repeat interaction increment, otherwise it breaks
+			interactions+=1
 		else:
 			temp = emotion[0]
 			# if nothing was after //, the next node is emotion+interaction#
@@ -465,3 +482,13 @@ func processChoice():
 	# save consequence of choice
 	player.processReaction(dialog[dialogNode][phraseNum]["Emotion"])
 	nextPhrase()
+	
+func setEmotion(emotion):
+	if emotion in player.get("positive"):
+		self.set_modulate(Color(1,1,0.800,1))
+	elif emotion in player.get("negative"):
+		self.set_modulate(Color(0.800,1,1,1))
+	elif emotion in player.get("strong"):
+		self.set_modulate(Color(1,0.345,0.541,1))
+	else:
+		self.set_modulate(Color(1,1,1,1))

@@ -23,8 +23,9 @@ extends CharacterBody3D
 # lets us save the npc we interacted with
 var npc
 # lets us categorize interactions
-var positive = ["Happy", "Excited"]
-var negative = ["Sad", "Angry"]
+@export var positive = ["Happy", "Excited"]
+@export var negative = ["Sad", "Nervous"]
+@export var strong = ["Angry", "Surprised"]
 # other emotions are just neutral
 
 # lets us check if in dialogue, which restricts movement
@@ -46,6 +47,7 @@ func resetInteraction():
 # on object creation, get the starting position
 func _ready():
 	oldpos = global_position
+	$CameraPivot/textbox_temp/player_portrait.setPortrait("you")
 
 func _physics_process(delta):
 	# only need to process these if not in dialogue
@@ -148,7 +150,7 @@ func processReaction(emotion):
 	npc.incrementInteraction()
 	if emotion in positive:
 		npc.changeAttitude(1)
-	elif emotion in negative:
+	elif emotion in negative or emotion == "Angry":
 		npc.changeAttitude(-1)
 	else:
 		return

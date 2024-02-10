@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=27 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
@@ -8,12 +8,20 @@
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
 [ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_x5upw"]
 [ext_resource type="Script" path="res://option.gd" id="7_gb3p3"]
-[ext_resource type="Texture2D" uid="uid://cnnxbjorjvn7m" path="res://art/2D Sprites/textbox_indicator/1.png" id="8_0li8h"]
+[ext_resource type="Texture2D" uid="uid://d316hsricpbm6" path="res://art/2D Sprites/textbox_indicator/1.png" id="8_0li8h"]
 [ext_resource type="PackedScene" uid="uid://desmdk118m5h2" path="res://test_npc.tscn" id="9_ehj62"]
-[ext_resource type="Texture2D" uid="uid://c6u0fvf6lq0ty" path="res://art/2D Sprites/textbox_indicator/2.png" id="9_ly38w"]
-[ext_resource type="Texture2D" uid="uid://yjta66grbalu" path="res://art/2D Sprites/text_option_border.png" id="11_pqt7h"]
+[ext_resource type="SpriteFrames" uid="uid://ctmxroxg4woxd" path="res://art/2D Sprites/character_portraits/example/example.tres" id="9_ivt47"]
+[ext_resource type="Texture2D" uid="uid://beqrsi6ahjf3f" path="res://art/2D Sprites/textbox_indicator/2.png" id="9_ly38w"]
+[ext_resource type="Script" path="res://characterPortraits.gd" id="10_5qi0k"]
+[ext_resource type="SpriteFrames" uid="uid://c5ks4ggyqxv7f" path="res://art/2D Sprites/character_portraits/you/you.tres" id="10_s5flu"]
+[ext_resource type="Texture2D" uid="uid://cwt7g61j2uyob" path="res://art/2D Sprites/textbox_indicator/3.png" id="11_0enat"]
 [ext_resource type="Script" path="res://npc_basic.gd" id="12_4jmty"]
 [ext_resource type="Script" path="res://option_indicator.gd" id="12_8aqil"]
+[ext_resource type="Texture2D" uid="uid://b6cawmf8a3jbx" path="res://art/2D Sprites/textbox_indicator/4.png" id="12_vecnn"]
+[ext_resource type="Texture2D" uid="uid://d1ydkfxbbm01" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-1.png" id="13_qhqeb"]
+[ext_resource type="Texture2D" uid="uid://cubxt4j8tc2ji" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-2.png" id="14_ev6s5"]
+[ext_resource type="Texture2D" uid="uid://3ont16506q2p" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-3.png" id="15_4n544"]
+[ext_resource type="Texture2D" uid="uid://qdfephu6gemt" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-4.png" id="16_fn57s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
@@ -24,15 +32,41 @@ size = Vector3(60, 2, 60)
 [sub_resource type="SpriteFrames" id="SpriteFrames_8pmr8"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": ExtResource("8_0li8h")
 }, {
 "duration": 1.0,
 "texture": ExtResource("9_ly38w")
+}, {
+"duration": 2.0,
+"texture": ExtResource("11_0enat")
+}, {
+"duration": 2.0,
+"texture": ExtResource("12_vecnn")
 }],
 "loop": true,
 "name": &"default",
-"speed": 4.0
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yp6kk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_qhqeb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ev6s5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_4n544")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_fn57s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
 }]
 
 [node name="Main" type="Node"]
@@ -94,8 +128,8 @@ width = 5500.0
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999043, 1.11759e-08, 0, 5.96046e-08, 0.153245, -0.219428, 0.213992, -0.00859988)
 visible = false
 texture_filter = 0
-render_priority = 3
-outline_render_priority = 1
+render_priority = 5
+outline_render_priority = 4
 text = "Someday you will have to meet God, and he won't be so merciful"
 font = ExtResource("5_x5upw")
 font_size = 150
@@ -110,8 +144,8 @@ script = ExtResource("7_gb3p3")
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999043, 1.11759e-08, 0, 1.11759e-07, 0.153245, -0.218522, 0.0900058, -0.0113146)
 visible = false
 texture_filter = 0
-render_priority = 3
-outline_render_priority = 1
+render_priority = 5
+outline_render_priority = 4
 text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 font = ExtResource("5_x5upw")
 font_size = 150
@@ -126,8 +160,8 @@ script = ExtResource("7_gb3p3")
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999045, 1.11759e-08, 0, 1.49012e-07, 0.153245, -0.218054, -0.0252906, -0.0411692)
 visible = false
 texture_filter = 0
-render_priority = 3
-outline_render_priority = 1
+render_priority = 5
+outline_render_priority = 4
 text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 font = ExtResource("5_x5upw")
 font_size = 150
@@ -142,8 +176,8 @@ script = ExtResource("7_gb3p3")
 transform = Transform3D(0.0160439, 0, 0, 0, 0.0999046, 1.11759e-08, 0, 1.78814e-07, 0.153245, -0.217148, -0.149277, -0.043884)
 visible = false
 texture_filter = 0
-render_priority = 3
-outline_render_priority = 1
+render_priority = 5
+outline_render_priority = 4
 text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 font = ExtResource("5_x5upw")
 font_size = 150
@@ -169,25 +203,38 @@ uppercase = true
 
 [node name="Timer" type="Timer" parent="Player/CameraPivot/textbox_temp"]
 
+[node name="speaker_portrait" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0160439, 0, 0, 0, 0.0999043, 1.11759e-08, 0, 7.45058e-08, 0.153245, -0.186676, 0.224979, -0.0422349)
+visible = false
+render_priority = -2
+sprite_frames = ExtResource("9_ivt47")
+animation = &"neutral"
+script = ExtResource("10_5qi0k")
+
+[node name="player_portrait" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0160439, 0, 0, 0, 0.0999043, 1.11759e-08, 0, 8.9407e-08, 0.153245, 0.187767, 0.224979, -0.0422349)
+visible = false
+render_priority = -2
+sprite_frames = ExtResource("10_s5flu")
+animation = &"neutral"
+script = ExtResource("10_5qi0k")
+
 [node name="Indicator" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
-transform = Transform3D(0.00863869, 0, 0, 0, 0.0439222, -8.73115e-10, 0, 3.35276e-08, 0.0026002, 0.222677, -0.196861, 0.0187976)
+transform = Transform3D(0.0341287, 2.56008e-08, -5.25832e-18, -5.15331e-09, 0.169547, 1.68802e-09, -1.37668e-14, 3.94881e-07, -0.000905545, -0.0642489, 0.630876, -0.00029707)
 visible = false
 texture_filter = 0
 render_priority = 3
 sprite_frames = SubResource("SpriteFrames_8pmr8")
+frame_progress = 0.601674
 
-[node name="Portrait" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
-transform = Transform3D(0.0160439, 0, 0, 0, 0.0999038, 1.49012e-08, 0, 0, 0.153245, -0.226748, 0.256412, -0.121833)
-visible = false
-texture_filter = 0
-render_priority = -1
-
-[node name="option_indicator" type="Sprite3D" parent="Player/CameraPivot/textbox_temp"]
-transform = Transform3D(1.04508, 0, 0, 0, 0.25873, -2.08616e-07, 0, 2.98023e-08, 1.51905, -0.00372736, 0.168081, -0.0162611)
+[node name="option_indicator" type="AnimatedSprite3D" parent="Player/CameraPivot/textbox_temp"]
+transform = Transform3D(0.0267547, 0, 0, 0, 0.180425, -1.78814e-07, 0, 2.98023e-08, 1.84097, -0.00372737, 0.602329, -0.00443339)
 visible = false
 texture_filter = 0
 render_priority = 3
-texture = ExtResource("11_pqt7h")
+sprite_frames = SubResource("SpriteFrames_yp6kk")
+frame = 1
+frame_progress = 0.0233305
 script = ExtResource("12_8aqil")
 
 [node name="indicator_timer" type="Timer" parent="Player/CameraPivot/textbox_temp/option_indicator"]
