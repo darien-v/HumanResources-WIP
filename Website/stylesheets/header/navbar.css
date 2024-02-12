@@ -1,0 +1,13 @@
+/* customizing the stylization of the navbar */
+/* doing in separate file so i can potentially add effects later */
+
+.big-title-round{
+	font-family: 'Righteous', sans-serif;
+	font-size: 3em;
+}
+
+.subtitle-childish{
+	font-family: 'Gaegu', sans-serif;
+	font-size: 1.5em;
+}
+
