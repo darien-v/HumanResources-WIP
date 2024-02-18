@@ -84,16 +84,13 @@ func getDialogPath(interactionGroup, specificInteraction, interactionName, inter
 	
 # get our dialog tree name
 func getDialogTreeName(specificInteraction, specificTree, interactionGroup, interactable, keys):
-	# blank var to store attitude
-	var attitude = ""
 	# blank variable to hold our result
 	var dialogTree = ""
 	# use this information to determine possible tree name
 	if specificInteraction:
 		if specificTree == "":
 			if interactionGroup == "NPC":
-				attitude = player.checkNPCApproval()
-				dialogTree = "Default" + "//" + attitude
+				dialogTree = player.checkNPCApproval()
 		else:
 			dialogTree = specificTree
 	# then use the keys from the dialog dict to find actual tree name
@@ -102,8 +99,12 @@ func getDialogTreeName(specificInteraction, specificTree, interactionGroup, inte
 		return dialogTree
 	# if not, we gotta go through the keys individually
 	# partial matches can happen in the case of keys like Approving//Neutral
+	print(dialogTree)
 	for key in keys:
-		if dialogTree in key:
+		#print("Key: " + key)
+		var temp = key.split("//")
+		print(temp)
+		if dialogTree in temp:
 			return key
 	# if no match, just use default
 	return "Default"
