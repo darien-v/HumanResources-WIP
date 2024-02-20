@@ -1,0 +1,26 @@
+
+@keyframes waggle{
+	0%{transform:scale(1,1) translate(0%, 0%) rotate(0deg);}
+	2%{transform:rotate(10deg);}
+	20%{transform:scale(4,4) translate(40%, 40%) rotate(0deg);}
+	30%{transform:scale(4,4) translate(45%, 45%) rotate(25deg);}
+	35%{transform:scale(4,4) translate(45%, 45%) rotate(-25deg);}
+	40%{transform:scale(4,4) translate(45%, 45%) rotate(25deg);}
+	45%{transform:scale(4,4) translate(45%, 45%) rotate(-25deg);}
+	50%{transform:scale(4,4) translate(45%, 45%) rotate(25deg);}
+	55%{transform:scale(4,4) translate(45%, 45%) rotate(-25deg);}
+	60%{transform:scale(4,4) translate(45%, 45%) rotate(25deg);}
+	70%{transform:scale(2.7,2.7) translate(40%, 40%) rotate(0deg);}
+	80%{transform:rotate(-10deg);}
+	100%{transform:scale(1,1) translate(0%, 0%) rotate(0deg);}
+}
+
+.waggle-on-mouseover{
+	animation-name: waggle;
+	animation-duration: 5s;
+	animation-direction: normal;
+	animation-iteration-count: infinite;
+	animation-play-state: paused;
+	animation-timing-function: ease-in-out;
+	z-index: 999;
+}
