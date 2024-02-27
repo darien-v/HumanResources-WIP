@@ -1,0 +1,17 @@
+[{
+	"None": 
+	{
+		"Default":
+		{
+			"Start":
+			[
+				{
+					"Name":"You", 
+					"Emotion":"Neutral", 
+					"Text":"Nothing to see here",
+				}
+			]
+		}
+	}
+	
+}]

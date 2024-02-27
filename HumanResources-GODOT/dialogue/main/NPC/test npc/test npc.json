@@ -1,0 +1,43 @@
+[{
+	"test npc": 
+	{
+		"Default":
+		{
+			"Start":
+			[
+				{
+					"Name":"Test NPC", 
+					"Emotion":"Neutral", 
+					"Text":"Why hello there"
+				},
+				{
+					"Name":"Test NPC", 
+					"Emotion":"Happy", 
+					"Text":"I hope this works!",
+					"Choices":
+					{
+						"Happy//":"It did!",
+						"Sad//":"It didn't"
+					}
+				}
+			],
+			"Happy1":
+			[
+				{
+					"Name":"Test NPC", 
+					"Emotion":"Happy", 
+					"Text":"Swepic (Swag and epic)"
+				}
+			],
+			"Sad1":
+			[
+				{
+					"Name":"Test NPC", 
+					"Emotion":"Angry", 
+					"Text":"Someday you will have to meet God, and he won't be so merciful"
+				}
+			]
+		}
+	}
+	
+}]
