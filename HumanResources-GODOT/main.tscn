@@ -1,11 +1,13 @@
-[gd_scene load_steps=56 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=34 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
-
+[ext_resource type="PackedScene" uid="uid://bgg5q07bu17rt" path="res://art/basic_sword.glb" id="2_4ow74"]
 [ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://textbox_test.tres" id="2_svert"]
-[ext_resource type="Script" path="res://PlayerView.gd" id="3_ubs70"]
+[ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://enemy.tscn" id="3_meatd"]
+[ext_resource type="Script" path="res://SwordHitbox.gd" id="3_n6fjm"]
 [ext_resource type="Script" path="res://textbox.gd" id="4_07pqn"]
+[ext_resource type="Script" path="res://enemy.gd" id="4_wbgm3"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
 [ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_x5upw"]
 [ext_resource type="Script" path="res://option.gd" id="7_gb3p3"]
@@ -24,18 +26,14 @@
 [ext_resource type="Texture2D" uid="uid://3ont16506q2p" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-3.png" id="15_4n544"]
 [ext_resource type="Texture2D" uid="uid://qdfephu6gemt" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-4.png" id="16_fn57s"]
 
-[ext_resource type="PackedScene" uid="uid://bgg5q07bu17rt" path="res://art/basic_sword.glb" id="2_4ow74"]
-[ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://enemy.tscn" id="3_meatd"]
-[ext_resource type="Script" path="res://SwordHitbox.gd" id="3_n6fjm"]
-[ext_resource type="Script" path="res://enemy.gd" id="4_wbgm3"]
-
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
 
 [sub_resource type="BoxMesh" id="BoxMesh_secun"]
 size = Vector3(60, 2, 60)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nvdyi"]
+points = PackedVector3Array(0.918107, 1.02711, 0.47963, -0.985497, -0.740283, -0.675901, -0.985052, -0.739899, 0.684165, 0.91905, -0.91008, -0.641611, -0.812217, 0.95685, -0.84261, 0.885871, -0.842782, 0.888998, -0.880278, 0.889447, 0.885377, 0.848252, 0.753676, -0.944397, -0.712465, -0.909103, -0.912911, -0.747069, -0.944072, 0.854322, 0.646842, 0.721804, 0.990057, 0.613479, 1.19917, -0.131754, -0.915724, 1.09454, 0.241755, 0.714984, -0.739905, -0.981758, -0.713046, -0.637908, 0.990376, -0.747551, 0.688323, -0.982492, 0.986261, 0.687442, 0.751729, 0.752001, -0.982464, 0.686929, 0.98601, 0.789221, -0.640955, -0.985313, 0.722132, -0.709758, 0.713752, 1.06029, 0.716913, -0.748686, -0.980509, -0.711187, 0.986786, -0.637689, -0.743556, -0.713081, 1.19815, 0.208155, 0.779848, 0.990483, -0.808457, -0.983995, 0.755146, 0.717375, 0.614453, -0.980905, -0.779769, 0.986849, -0.739749, 0.650076, 0.647242, -0.706103, 0.990667, -0.780778, -0.569752, -0.981508, -0.644958, 0.721888, 0.990191, -0.643143, 1.16086, -0.300778)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8pmr8"]
 animations = [{
@@ -76,9 +74,6 @@ animations = [{
 "name": &"default",
 "speed": 6.0
 }]
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nvdyi"]
-points = PackedVector3Array(0.918107, 1.02711, 0.47963, -0.985497, -0.740283, -0.675901, -0.985052, -0.739899, 0.684165, 0.91905, -0.91008, -0.641611, -0.812217, 0.95685, -0.84261, 0.885871, -0.842782, 0.888998, -0.880278, 0.889447, 0.885377, 0.848252, 0.753676, -0.944397, -0.712465, -0.909103, -0.912911, -0.747069, -0.944072, 0.854322, 0.646842, 0.721804, 0.990057, 0.613479, 1.19917, -0.131754, -0.915724, 1.09454, 0.241755, 0.714984, -0.739905, -0.981758, -0.713046, -0.637908, 0.990376, -0.747551, 0.688323, -0.982492, 0.986261, 0.687442, 0.751729, 0.752001, -0.982464, 0.686929, 0.98601, 0.789221, -0.640955, -0.985313, 0.722132, -0.709758, 0.713752, 1.06029, 0.716913, -0.748686, -0.980509, -0.711187, 0.986786, -0.637689, -0.743556, -0.713081, 1.19815, 0.208155, 0.779848, 0.990483, -0.808457, -0.983995, 0.755146, 0.717375, 0.614453, -0.980905, -0.779769, 0.986849, -0.739749, 0.650076, 0.647242, -0.706103, 0.990667, -0.780778, -0.569752, -0.981508, -0.644958, 0.721888, 0.990191, -0.643143, 1.16086, -0.300778)
 
 [sub_resource type="Animation" id="Animation_nxvvh"]
 length = 0.001
@@ -186,9 +181,6 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("1_bfkgm")]
 collision_mask = 6
 
-[node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.573577, 0.819152, 0, -0.819152, 0.573577, 0, 15, 12)
-
 [node name="Sword" parent="Player/Pivot" index="1" instance=ExtResource("2_4ow74")]
 transform = Transform3D(1.96571e-12, -5.42999e-07, 0.15, -0.15, -5.42999e-07, 6.21783e-17, 5.42999e-07, -0.15, -5.42999e-07, 0.775722, -0.0186579, -0.889862)
 
@@ -203,19 +195,12 @@ script = ExtResource("3_n6fjm")
 transform = Transform3D(1.25, 0, -6.93889e-18, -2.84217e-14, 1.25, 9.09495e-12, 2.60209e-18, -1.45519e-11, 1.25, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_nvdyi")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
-libraries = {
-"": SubResource("AnimationLibrary_opaqk")
-}
-autoplay = "light_attack"
-
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.445339, 0.895362, 0, -0.895362, 0.445339, 0, 14.2151, 11.1931)
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.573577, 0.819152, 0, -0.819152, 0.573577, 0, 15, 12)
 
 [node name="PlayerView" type="Camera3D" parent="Player/CameraPivot"]
 projection = 1
 size = 19.0
-script = ExtResource("3_ubs70")
 
 [node name="cameraTimer" type="Timer" parent="Player/CameraPivot/PlayerView"]
 wait_time = 7.0
@@ -357,6 +342,15 @@ frame_progress = 0.0233305
 script = ExtResource("12_8aqil")
 
 [node name="indicator_timer" type="Timer" parent="Player/CameraPivot/textbox_temp/option_indicator"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_opaqk")
+}
+autoplay = "light_attack"
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.445339, 0.895362, 0, -0.895362, 0.445339, 0, 14.2151, 11.1931)
 
 [node name="test npc" parent="." groups=["NPC", "interactable"] instance=ExtResource("9_ehj62")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16178, 0.262092, -6.33648)
