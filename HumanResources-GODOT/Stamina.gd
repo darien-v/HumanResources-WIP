@@ -1,6 +1,9 @@
 extends Label
 
-var stamina = 100
+var MAX_STAMINA = 100
+var MIN_STAMINA = 0
+var stamina = MAX_STAMINA
+var elapsed = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,8 +11,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	elapsed += delta
+	if elapsed >= 2 and stamina < MAX_STAMINA:
+		stamina += 1
+		text = "STAMINA: %s" % stamina
+		elapsed = 0
 
 func _on_light_attack():
-	stamina -= 1
-	text = "STAMINA: %s" % stamina
+	if stamina > MIN_STAMINA:
+		stamina -= 1
+		text = "STAMINA: %s" % stamina
