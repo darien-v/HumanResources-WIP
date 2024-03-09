@@ -13,7 +13,7 @@ func _process(_delta):
 		queue_free()
 
 func _on_area_entered(area):
-	if area.is_in_group("weapon_hitboxes"):
+	if area.is_in_group("Weapon_Hitboxes") and area.isActive():
 		print("weapon hit detected")
 		health -= area.get_meta("damage")
 		print(health)

@@ -35,8 +35,14 @@ signal lightAttackActive
 
 # lets us know if the player has moved, important for dialog
 var oldpos
+var attacking = false;
+var walking = false;
+var idling = false;
 
-@onready var hitbox = $Pivot/Sword/Sketchfab_model/root/GLTF_SceneRootNode/Cube_2/Object_4/SwordHitbox
+@onready var hitbox = $"Pivot/ProtagTestLoopMaybe/metarig/Skeleton3D/BoneAttachment3D/Amoray-Note1/gold_stuff/polySurface2/Area3D"
+
+# allows us to play animations
+@onready var animationPlayer = $Pivot/ProtagTestLoopMaybe/AnimationPlayer;
 
 var target_velocity = Vector3.ZERO
 
@@ -56,6 +62,11 @@ func _ready():
 	lightAttackActive.connect($/root/Main/UserInterface/Stamina._on_light_attack.bind())
 
 func _physics_process(delta):
+	if not walking and not attacking:
+		if not idling:
+			animationPlayer.stop();
+			animationPlayer.play("Idle")
+			idling = true
 	# only need to process these if not in dialogue
 	if not textbox.visible:
 		# process player movement
@@ -74,21 +85,53 @@ func move_player(delta):
 
 	# check for each move input + update direction
 	# XZ plane = ground
+	idling = true;
 	if Input.is_action_pressed("move_right"):
 		direction.x += 1
+		if not walking:
+			animationPlayer.stop();
+			animationPlayer.play("Walk")
+			walking = true;
+		idling = false;
 	if Input.is_action_pressed("move_left"):
 		direction.x -= 1
+		if not walking:
+			animationPlayer.stop();
+			animationPlayer.play("Walk")
+			walking = true;
+		idling = false;
 	if Input.is_action_pressed("move_back"):
 		direction.z += 1
+		if not walking:
+			animationPlayer.stop();
+			animationPlayer.play("Walk")
+			walking = true;
+		idling = false;
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
+		if not walking:
+			animationPlayer.stop();
+			animationPlayer.play("Walk")
+			walking = true;
+		idling = false;
+	
+	# if we didnt do anything, go back to idling
+	if idling:
+		walking = false;
+		# we set it to false to ensure animation resets
+		idling = false;
+	
 	# left click triggers light attack
 	if Input.is_action_pressed("light_attack"):
-		get_node("AnimationPlayer").play("light_attack")
 		lightAttackActive.emit()
-		#when an attack is performed, only then does the hitbox turn on
+		idling = false;
+		animationPlayer.stop();
+		animationPlayer.play("Slash")
+		attacking = true;
+		# when an attack is performed, only then does the hitbox turn on
 		if hitbox != null:
 			print("hitbox on")
+			hitbox.setActive();
 			hitbox.monitoring = true
 		
 	# normalize the direction vector
@@ -173,6 +216,8 @@ func checkNPCApproval()->String:
 	return npc.approval()
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "light_attack":
+	if attacking:
 		print("hitbox off")
+		hitbox.setInactive();
 		hitbox.monitoring = false
+		attacking = false;
