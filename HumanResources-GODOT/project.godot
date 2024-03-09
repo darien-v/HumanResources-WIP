@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 
 [editor]
 
+movie_writer/movie_file="/Users/scapodicci/Desktop/OSD_Project/game_videos/HR_preview.avi"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 

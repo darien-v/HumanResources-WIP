@@ -27,6 +27,8 @@ var npc
 @export var negative = ["Sad", "Nervous"]
 @export var strong = ["Angry", "Surprised"]
 # other emotions are just neutral
+# emits if player is attacking - needed to update stamina
+signal lightAttackActive
 
 # lets us check if in dialogue, which restricts movement
 @onready var textbox = $CameraPivot/textbox_temp
@@ -56,6 +58,8 @@ func resetInteraction():
 func _ready():
 	oldpos = global_position
 	$CameraPivot/textbox_temp/player_portrait.setPortrait("you")
+	# bind function for stamina updating
+	lightAttackActive.connect($/root/Main/UserInterface/Stamina._on_light_attack.bind())
 
 func _physics_process(delta):
 	if not walking and not attacking:
@@ -119,6 +123,7 @@ func move_player(delta):
 	
 	# left click triggers light attack
 	if Input.is_action_pressed("light_attack"):
+		lightAttackActive.emit()
 		idling = false;
 		animationPlayer.stop();
 		animationPlayer.play("Slash")
