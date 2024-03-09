@@ -3,17 +3,17 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d2grjoab1nh4b"
-path="res://.godot/imported/protag.glb-44f1954225987fef9e971e6b81e1ca21.scn"
+uid="uid://dy3akj1dk18pc"
+path="res://.godot/imported/ProtagTestLoopMaybe.glb-421ef07e6e0b679a2c0108d44436f5e8.scn"
 
 [deps]
 
-source_file="res://models/protag.glb"
-dest_files=["res://.godot/imported/protag.glb-44f1954225987fef9e971e6b81e1ca21.scn"]
+source_file="res://models/ProtagTestLoopMaybe.glb"
+dest_files=["res://.godot/imported/ProtagTestLoopMaybe.glb-421ef07e6e0b679a2c0108d44436f5e8.scn"]
 
 [params]
 
-nodes/root_type="CharacterBody3D"
+nodes/root_type=""
 nodes/root_name=""
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
