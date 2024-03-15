@@ -46,7 +46,7 @@ var attacking = false;
 var walking = false;
 var idling = false;
 
-@onready var hitbox = $"Pivot/ProtagTestLoopMaybe/metarig/Skeleton3D/BoneAttachment3D/Amoray-Note1/gold_stuff/polySurface2/Area3D"
+@onready var hitbox = $"Pivot/ProtagTestLoopMaybe/metarig/Skeleton3D/BoneAttachment3D/Amoray-Note1/gold_stuff/polySurface2/StaticBody3D"
 @onready var staminaMeter = $"../UserInterface/Stamina";
 
 # allows us to play animations
@@ -146,7 +146,6 @@ func move_player(delta):
 			if hitbox != null:
 				print("hitbox on")
 				hitbox.setActive();
-				hitbox.monitoring = true
 		
 	# normalize the direction vector
 	# otherwise it'll go faster on diagonals (2 keys pressed)
@@ -236,5 +235,4 @@ func _on_animation_player_animation_finished(anim_name):
 	if attacking:
 		print("hitbox off")
 		hitbox.setInactive();
-		hitbox.monitoring = false
 		attacking = false;
