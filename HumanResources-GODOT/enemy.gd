@@ -1,6 +1,9 @@
 extends Area3D
 
-var health = 30
+@export var health = 30
+@export var humanResources = 10
+signal death(humanResources)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -10,7 +13,8 @@ func _ready():
 # temporarily disable delta as a param till needed
 func _process(_delta):
 	if health <= 0:
-		queue_free()
+		death.emit(humanResources);
+		queue_free();
 
 func _on_area_entered(area):
 	if area.is_in_group("Weapon_Hitboxes") and area.isActive():

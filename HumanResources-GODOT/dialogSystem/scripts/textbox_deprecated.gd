@@ -2,7 +2,7 @@
 # absolute *base* functionality taken from here https://www.youtube.com/watch?v=GzPvN5wsp7Y
 # had to rewrite and add a shit ton
 # also i need to clean this up for efficiency eventually
-extends AnimatedSprite3D
+extends AnimatedSprite2D
 
 # things we can adjust later
 @export var textSpeed = 0.005
@@ -12,7 +12,7 @@ extends AnimatedSprite3D
 @export var maxChars = 305
 
 # get the player object so we can determine interaction params
-@onready var player = $"../.."
+@onready var player = $"../../Player"
 
 # basically state variables
 var showingText = false
@@ -37,16 +37,17 @@ var interactions = 0
 
 # also, we need to actually set up the textbox!
 @onready var textboxAnim  = $"."
-@onready var textbox_speaker = $textbox_speaker
-@onready var textbox_dialogue = $textbox_dialogue
+@onready var textbox_speaker = $"../speaker"
+@onready var textbox_dialogue = $"../dialog"
 # and the ever infamous options
-@onready var options = [$option1, $option2, $option3, $option4]
+@onready var options = [$"../option1", $"../option2", $"../option3", $"../option4"]
+@onready var optionIndicator = $option_indicator
 @export var optionSelected = 1
 var numOptions = 0
 
 # oh, and the portraits
-@onready var speakerPortrait = $speaker_portrait
-@onready var playerPortrait = $player_portrait
+@onready var speakerPortrait = $"../Portraits/speaker_portrait"
+@onready var playerPortrait = $"../Portraits/response_portrait"
 var playerShowing = false
 
 # initializes our common vars. easier than copy paste
@@ -191,26 +192,26 @@ func getDialog(interactionName, specificInteraction, specificTree, interactionGr
 		
 func scrollOptions():
 	# only scroll once previous scrolling done
-	if not $option_indicator.get("moving"):
+	if not optionIndicator.get("moving"):
 		# scrolling down
 		if Input.is_action_just_pressed("move_back"):
 			optionSelected += 1
 			if optionSelected > numOptions:
 				while optionSelected != 1:
-					$option_indicator.moveUp()
+					optionIndicator.moveUp()
 					optionSelected -= 1
-			$option_indicator.moveDown()
+			optionIndicator.moveDown()
 		# scrolling up
 		elif Input.is_action_just_pressed("move_forward"):
 			optionSelected -= 1
 			if optionSelected <= 0:
 				while optionSelected != numOptions:
-					$option_indicator.moveDown()
+					optionIndicator.moveDown()
 					optionSelected += 1
-			$option_indicator.moveUp()
+			optionIndicator.moveUp()
 		elif Input.is_action_just_pressed("interact"):
 			#print("choice selected")
-			$option_indicator.reset()
+			optionIndicator.reset()
 			processChoice()
 
 # currently dont need anything initialized upon startup
@@ -224,7 +225,7 @@ func _process(_delta):
 	if showingText:
 		if showChoices and finished:
 			$Indicator.visible = false
-			$option_indicator.initialize()
+			optionIndicator.initialize()
 			if not choicesInitialized:
 				checkChoicesInit()
 			else:
@@ -257,7 +258,7 @@ func checkCompletion():
 		# protocol for skipping scroll
 		else:
 			#print("skipped to end of page")
-			$textbox_dialogue.text = dialogSplitPages[pageNum]
+			textbox_dialogue.text = dialogSplitPages[pageNum]
 			printingText = false
 			showNextPage = true
 
@@ -338,13 +339,13 @@ func nextPhrase() -> void:
 		# initializing locals
 		var letters = []
 		var currentText = ""
-		$textbox_dialogue.text = currentText
+		textbox_dialogue.text = currentText
 		
 		# get emotion and name, and see if there will be choices after printing
 		var temp = currentDialog[phraseNum]
 		var emotion = temp["Emotion"]
 		var speaker = temp["Name"]
-		$textbox_speaker.text = speaker
+		textbox_speaker.text = speaker
 		
 		# set up the portrait
 		if speaker.to_lower() != "you":
@@ -380,7 +381,7 @@ func nextPhrase() -> void:
 			if printingText == false:
 				break
 			currentText = ''.join([currentText,letters[currentLetter]])
-			$textbox_dialogue.text = currentText
+			textbox_dialogue.text = currentText
 			currentLetter += 1
 			$Timer.start()
 			await $Timer.timeout
@@ -410,11 +411,11 @@ func printChoices():
 	showNextPage = false
 	printingText = true
 	var currentText = ""
-	$textbox_dialogue.text = currentText
+	textbox_dialogue.text = currentText
 	speakerPortrait.pauseEmotion()
 	# speaker will always be player when making choices
 	var speaker = "You"
-	$textbox_speaker.text = speaker
+	textbox_speaker.text = speaker
 	# get and print our options
 	var choices = dialog[dialogNode][phraseNum-1]["Choices"]
 	var choiceKeys = choices.keys()

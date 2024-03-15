@@ -1,10 +1,10 @@
-extends AnimatedSprite3D
+extends AnimatedSprite2D
 
 var spriteFoldersLocation = "res://art/2D Sprites/character_portraits/"
 var darkened = Color(.271,.271,.271,1)
 var characterName = ""
 # timing
-@onready var timer = $"../option_indicator/indicator_timer"
+@onready var timer = $"../../textbox/option_indicator/indicator_timer"
 var timeInterval = .01
 
 # allows us to change who the portrait shows
@@ -19,11 +19,11 @@ func setPortrait(tempName):
 		return
 	# get our spriteframes
 	tempName = tempName.to_lower()
-	var path = ''.join([spriteFoldersLocation,tempName,'/',tempName,'.tres'])
-	var frames = load(path)
-	print(frames)
-	self.set_sprite_frames(frames)
-	print(characterName + " " + path)
+	#var path = ''.join([spriteFoldersLocation,tempName,'/',tempName,'.tres'])
+	#var frames = load(path)
+	#print(frames)
+	#self.set_sprite_frames(frames)
+	#print(characterName + " " + path)
 
 # make portrait visible
 func initialize():
@@ -39,8 +39,8 @@ func playEmotion(emotion):
 	self.set_modulate(Color(1,1,1,1))
 	# play the appropriate animation
 	var temp = emotion.to_lower()
-	self.play(temp)
-	print(self.get_animation())
+	#self.play(temp)
+	#print(self.get_animation())
 	
 # darkens the character and stops animation when not speaking
 func pauseEmotion():
@@ -51,7 +51,7 @@ func pauseEmotion():
 # we can adjust these position values later, also only moving on x axis
 func comeOntoScreen():
 	# always start darkened and neutral
-	playEmotion("neutral")
+	#playEmotion("neutral")
 	self.set_modulate(darkened)
 	# get the original (goal) position and move offscreen
 	var origX = self.position.x

@@ -30,8 +30,15 @@ var npc
 # emits if player is attacking - needed to update stamina
 signal lightAttackActive
 
+# emits if player takes damage
+signal playerDamaged(damageAmt)
+
+# emits whenever the player is speaking
+signal playerResponding
+signal playerSpeaking
+
 # lets us check if in dialogue, which restricts movement
-@onready var textbox = $CameraPivot/textbox_temp
+@onready var textbox = $"../TextInterface/textbox"
 
 # lets us know if the player has moved, important for dialog
 var oldpos
@@ -40,6 +47,7 @@ var walking = false;
 var idling = false;
 
 @onready var hitbox = $"Pivot/ProtagTestLoopMaybe/metarig/Skeleton3D/BoneAttachment3D/Amoray-Note1/gold_stuff/polySurface2/Area3D"
+@onready var staminaMeter = $"../UserInterface/Stamina";
 
 # allows us to play animations
 @onready var animationPlayer = $Pivot/ProtagTestLoopMaybe/AnimationPlayer;
@@ -57,7 +65,6 @@ func resetInteraction():
 # on object creation, get the starting position
 func _ready():
 	oldpos = global_position
-	$CameraPivot/textbox_temp/player_portrait.setPortrait("you")
 	# bind function for stamina updating
 	lightAttackActive.connect($/root/Main/UserInterface/Stamina._on_light_attack.bind())
 
@@ -82,57 +89,64 @@ func move_player(delta):
 	
 	# input direction
 	var direction = Vector3.ZERO
-
-	# check for each move input + update direction
-	# XZ plane = ground
-	idling = true;
-	if Input.is_action_pressed("move_right"):
-		direction.x += 1
-		if not walking:
-			animationPlayer.stop();
-			animationPlayer.play("Walk")
-			walking = true;
-		idling = false;
-	if Input.is_action_pressed("move_left"):
-		direction.x -= 1
-		if not walking:
-			animationPlayer.stop();
-			animationPlayer.play("Walk")
-			walking = true;
-		idling = false;
-	if Input.is_action_pressed("move_back"):
-		direction.z += 1
-		if not walking:
-			animationPlayer.stop();
-			animationPlayer.play("Walk")
-			walking = true;
-		idling = false;
-	if Input.is_action_pressed("move_forward"):
-		direction.z -= 1
-		if not walking:
-			animationPlayer.stop();
-			animationPlayer.play("Walk")
-			walking = true;
-		idling = false;
 	
-	# if we didnt do anything, go back to idling
-	if idling:
-		walking = false;
-		# we set it to false to ensure animation resets
-		idling = false;
+	# can only move if not attacking
+	if not attacking:
+		# check for each move input + update direction
+		# XZ plane = ground
+		idling = true;
+		if Input.is_action_pressed("move_right"):
+			direction.x += 1
+			if not walking:
+				animationPlayer.stop();
+				animationPlayer.play("Walk")
+				walking = true;
+			idling = false;
+		if Input.is_action_pressed("move_left"):
+			direction.x -= 1
+			if not walking:
+				animationPlayer.stop();
+				animationPlayer.play("Walk")
+				walking = true;
+			idling = false;
+		if Input.is_action_pressed("move_back"):
+			direction.z += 1
+			if not walking:
+				animationPlayer.stop();
+				animationPlayer.play("Walk")
+				walking = true;
+			idling = false;
+		if Input.is_action_pressed("move_forward"):
+			direction.z -= 1
+			if not walking:
+				animationPlayer.stop();
+				animationPlayer.play("Walk")
+				walking = true;
+			idling = false;
+		
+		# if we didnt do anything, go back to idling
+		if idling:
+			walking = false;
+			# we set it to false to ensure animation resets
+			idling = false;
 	
 	# left click triggers light attack
-	if Input.is_action_pressed("light_attack"):
+	# only activates if not already attacking
+	# soulsbourne games are animation focused
+	if Input.is_action_just_pressed("light_attack") and not attacking:
 		lightAttackActive.emit()
 		idling = false;
-		animationPlayer.stop();
-		animationPlayer.play("Slash")
-		attacking = true;
-		# when an attack is performed, only then does the hitbox turn on
-		if hitbox != null:
-			print("hitbox on")
-			hitbox.setActive();
-			hitbox.monitoring = true
+		walking = false;
+		# only perform action if we have enough stamina
+		if staminaMeter.checkStamina():
+			animationPlayer.stop();
+			animationPlayer.play("Slash")
+			attacking = true;
+			# when an attack is performed, only then does the hitbox turn on
+			if hitbox != null:
+				print("hitbox on")
+				hitbox.setActive();
+				hitbox.monitoring = true
 		
 	# normalize the direction vector
 	# otherwise it'll go faster on diagonals (2 keys pressed)
@@ -178,7 +192,7 @@ func player_interactable_collisions():
 			resetInteraction()
 			continue
 
-		# If the collider is with an interactable object
+		# If the collision is with an interactable object
 		if collider.is_in_group("interactable"):
 			# if interacting with an npc, enter appropriate filetree
 			if collider.is_in_group("NPC"):
@@ -189,6 +203,9 @@ func player_interactable_collisions():
 			# here is where youd do whatever to get the name of the script you want
 			interactionName = interactable # placeholder
 			break
+		# If the collision is with an enemy
+		elif collider.is_in_group("Weapon_Hitboxes") or collider.is_in_group("melee_enemies"):
+			playerDamaged.emit(collider.get_meta("damage"))
 
 # the actual interaction processing for npcs
 func npcInteraction():

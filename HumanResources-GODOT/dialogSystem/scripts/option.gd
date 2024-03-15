@@ -1,4 +1,4 @@
-extends Label3D
+extends RichTextLabel
 
 # lets us get option from main textbox script
 @export var option = ""
@@ -18,8 +18,12 @@ var optionSelected = 0
 # the textbox itself
 @onready var textbox = $".."
 
-# player portrait
-@onready var playerPortrait = $"../player_portrait"
+# player portrait will be controlled by signals
+
+# lets text controller know if printing done
+signal initialized
+# lets text controller know which option selected
+signal selectionMade(option)
 
 func reset_self():
 	option = ""
@@ -43,28 +47,28 @@ func _process(delta):
 		# once done printing, check if option being selected
 		if not currentlyPrinting:
 			optionSelected = textbox.get("optionSelected")
-			if optionSelected == optionNumber:
+			if optionSelected == self.get_meta("index"):
 				onSelection()
 			else:
 				self.uppercase = false
 		# check if a selection has been made
 		active = textbox.get("showChoices")
-		if not active:
-			reset_self()
 	
 # sets option text and emotion
-func setOption(optionText, optionEmotion):
-	print("creating option")
-	# make self visible
-	self.visible = true
-	# mark that this option is now active
-	active = true
-	# sets the object properties
-	option = optionText
-	emotion = optionEmotion
-	currentlyPrinting = true
-	printLetter()
-	print("option created")
+func setOption(index, optionText, optionEmotion):
+	if index == self.get_meta("index"):
+		print("creating option")
+		# only create option if index matches
+		# make self visible
+		self.visible = true
+		# mark that this option is now active
+		active = true
+		# sets the object properties
+		option = optionText
+		emotion = optionEmotion
+		currentlyPrinting = true
+		printLetter()
+		print("option created")
 	
 # the scuffed print functionality
 func printLetter():
@@ -75,11 +79,13 @@ func printLetter():
 	var letters = option.split('')
 	for letter in letters:
 		currentText = ''.join([currentText,letter])
+		print(currentText)
 		self.text = currentText
-		$"../Timer".start(textSpeed)
-		await $"../Timer".timeout
+		$"../textbox/Timer".start(textSpeed)
+		await $"../textbox/Timer".timeout
 	currentlyPrinting = false
 	print("done printing")
+	initialized.emit()
 
 # option behavior when being selected
 func onSelection():
@@ -87,10 +93,14 @@ func onSelection():
 	self.uppercase = true
 	# change textbox color and player portrait based on option emotion
 	var emotionTemp = (self.emotion.split('//'))[0]
-	textbox.setEmotion(emotionTemp)
-	playerPortrait.playEmotion(emotionTemp)
 
 # going to try to include mouseover functionality
 # but no guarantees tee hee
 func checkMouseover():
 	pass
+
+
+func _on_option_indicator_option_selected(optionIndex):
+	if optionIndex == self.get_meta("index"):
+		selectionMade.emit(self)
+	reset_self()
