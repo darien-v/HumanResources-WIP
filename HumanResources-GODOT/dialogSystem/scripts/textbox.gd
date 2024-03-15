@@ -239,6 +239,7 @@ func checkChoicesInit():
 	print("initOptions: %s" % initializedOptions)
 	print("numOptions: %s" % numOptions)
 	if initializedOptions == numOptions:
+		textbox_dialogue.text = "" # redundancy
 		finished = true
 		choiceSetup = false
 		optionIndicator.initialize()
@@ -250,8 +251,10 @@ func checkCompletion():
 	$Indicator.visible = finished
 	if Input.is_action_just_pressed("interact"):
 		# normal protocol
-		if showChoices and choiceSetup:
-			printChoices()
+		if showChoices: 
+			if choiceSetup and finished:
+				printChoices()
+				textbox_dialogue.text = "" # redundancy
 		elif finished or showNextPage or changePages:
 			print("interaction leading to nextPhrase")
 			printingText = true
@@ -266,6 +269,7 @@ func checkCompletion():
 				phraseNum += 1
 				changePages = true
 			printingText = false
+			finished = true
 			showNextPage = true
 
 # checks if text is outside textbox bounds
@@ -403,10 +407,6 @@ func nextPhrase() -> void:
 			changePages = true
 			phraseNum += 1
 			currentLetter = 0
-		
-		# check if we still need to do choices
-		if showChoices:
-			finished = false
 	
 	return
 
@@ -415,10 +415,11 @@ func printChoices():
 	#print("printing choices")
 	# initializing
 	showNextPage = false
-	printingText = true
+	printingText = false
 	textbox_dialogue.text = ""
 	# speaker will always be player when making choices
 	textbox_speaker.text = "You"
+	printingText = true
 	# get and print our options
 	var choices = dialog[dialogNode][phraseNum-1]["Choices"]
 	var choiceKeys = choices.keys()
@@ -430,6 +431,7 @@ func printChoices():
 		index += 1
 		print(index)
 		printOption.emit(index, choices[key], key)
+		textbox_dialogue.text = "" # redundancy
 	numOptions = index
 	# hide the text indicator
 	$Indicator.visible = false
