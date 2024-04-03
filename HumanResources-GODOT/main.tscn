@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=37 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://3ont16506q2p" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-3.png" id="15_4n544"]
 [ext_resource type="Texture2D" uid="uid://qdfephu6gemt" path="res://art/2D Sprites/option_indicator/Untitled_Artwork-4.png" id="16_fn57s"]
 [ext_resource type="Script" path="res://Stamina.gd" id="26_43b6n"]
+[ext_resource type="Script" path="res://Health.gd" id="29_o6fn3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
@@ -77,6 +78,12 @@ animations = [{
 "name": &"default",
 "speed": 6.0
 }]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4qt7"]
+bg_color = Color(0, 0.709804, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12oso"]
+bg_color = Color(0.741176, 0, 0, 1)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7avpk")
@@ -338,27 +345,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Health" type="Label" parent="UserInterface"]
-layout_mode = 0
-offset_left = 27.0
-offset_top = 22.0
-offset_right = 125.0
-offset_bottom = 45.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-text = "HEALTH: 100"
-
-[node name="Stamina" type="Label" parent="UserInterface"]
-layout_mode = 0
-offset_left = 29.0
-offset_top = 53.0
-offset_right = 231.0
-offset_bottom = 95.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-text = "STAMINA: 100"
-script = ExtResource("26_43b6n")
-
 [node name="Resources" type="Label" parent="UserInterface"]
 layout_mode = 0
 offset_left = 973.0
@@ -368,6 +354,27 @@ offset_bottom = 589.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 45
 text = "HR: 0"
+
+[node name="Stamina" type="ProgressBar" parent="UserInterface"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 68.0
+offset_right = 329.0
+offset_bottom = 95.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_a4qt7")
+step = 1.0
+show_percentage = false
+script = ExtResource("26_43b6n")
+
+[node name="Health" type="ProgressBar" parent="UserInterface"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 32.0
+offset_right = 358.0
+offset_bottom = 66.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_12oso")
+show_percentage = false
+script = ExtResource("29_o6fn3")
 
 [connection signal="animation_finished" from="Player/Pivot/ProtagTestLoopMaybe/AnimationPlayer" to="Player" method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Enemy" to="Enemy" method="_on_area_entered"]
