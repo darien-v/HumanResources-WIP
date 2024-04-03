@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=34 format=3 uid="uid://dtl107bvdp3l2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7avpk"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="1_bfkgm"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://enemy.gd" id="4_wbgm3"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
 [ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_x5upw"]
+[ext_resource type="Script" path="res://CameraPivot.gd" id="6_lbw8b"]
 [ext_resource type="Script" path="res://option.gd" id="7_gb3p3"]
 [ext_resource type="Texture2D" uid="uid://d316hsricpbm6" path="res://art/2D Sprites/textbox_indicator/1.png" id="8_0li8h"]
 [ext_resource type="PackedScene" uid="uid://desmdk118m5h2" path="res://test_npc.tscn" id="9_ehj62"]
@@ -99,10 +100,6 @@ shadow_enabled = true
 collision_mask = 6
 
 [node name="Skeleton3D" parent="Player/Pivot/ProtagTestLoopMaybe/metarig" index="5"]
-bones/1/rotation = Quaternion(0.987513, -0.0401451, 0.0386041, 0.147363)
-bones/3/rotation = Quaternion(-0.195878, 0.14701, 0.0535317, 0.968067)
-bones/7/rotation = Quaternion(0.987909, 0.0371581, -0.0380439, 0.145627)
-bones/8/rotation = Quaternion(0.0320546, 0.0349341, 0.0670315, 0.996624)
 bones/46/position = Vector3(-3.48222e-08, 0.0363513, 0.146055)
 bones/46/rotation = Quaternion(-0.608888, -0.410143, -0.448281, 0.509982)
 bones/68/position = Vector3(-4.61313e-08, 0.0363514, 0.146055)
@@ -143,7 +140,7 @@ bones/155/rotation = Quaternion(0.006349, 0.0602259, 0.0468593, 0.997064)
 bones/156/rotation = Quaternion(-0.0202314, -0.0838983, 0.0461529, 0.995199)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Player/Pivot/ProtagTestLoopMaybe/metarig/Skeleton3D" index="14"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.453146, 0.932499, 0.748191)
+transform = Transform3D(-0.843971, 0.516875, 0.143361, -0.525572, -0.850273, -0.0284784, 0.107176, -0.0993819, 0.989261, 0.399218, 1.04661, 0.0114485)
 bone_name = "hand.L"
 bone_idx = 138
 
@@ -169,6 +166,7 @@ visible = false
 [node name="CameraPivot" type="Marker3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.573577, 0.819152, 0, -0.819152, 0.573577, 0, 15, 12)
 top_level = true
+script = ExtResource("6_lbw8b")
 
 [node name="PlayerView" type="Camera3D" parent="Player/CameraPivot"]
 projection = 1
@@ -316,9 +314,6 @@ script = ExtResource("12_8aqil")
 
 [node name="indicator_timer" type="Timer" parent="Player/CameraPivot/textbox_temp/option_indicator"]
 
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.445339, 0.895362, 0, -0.895362, 0.445339, 0, 14.2151, 11.1931)
-
 [node name="test npc" parent="." groups=["NPC", "interactable"] instance=ExtResource("9_ehj62")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16178, 0.262092, -6.33648)
 collision_layer = 2
@@ -373,6 +368,7 @@ offset_bottom = 589.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 45
 text = "HR: 0"
+
 [connection signal="animation_finished" from="Player/Pivot/ProtagTestLoopMaybe/AnimationPlayer" to="Player" method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Enemy" to="Enemy" method="_on_area_entered"]
 
