@@ -38,6 +38,8 @@ var oldpos
 var attacking = false;
 var walking = false;
 var idling = false;
+var dodging = false;
+var invulnerable = false;
 
 @onready var hitbox = $"Pivot/ProtagTestLoopMaybe/metarig/Skeleton3D/BoneAttachment3D/Amoray-Note1/gold_stuff/polySurface2/Area3D"
 
@@ -133,6 +135,16 @@ func move_player(delta):
 			print("hitbox on")
 			hitbox.setActive();
 			hitbox.monitoring = true
+	if Input.is_action_just_pressed("dodge"):
+		idling = false;
+		dodging = true;
+		animationPlayer.stop();
+		#insert dodge animation here
+		#how do i turn off collision for a specified number of frames
+		#change around once actual animations have been set
+		#invulnerable from 0.25 secs to 0.75 secs
+		if animationPlayer.current_animation == "dodging" and animationPlayer.frame in [15, 45]:
+			invulnerable = true;
 		
 	# normalize the direction vector
 	# otherwise it'll go faster on diagonals (2 keys pressed)
