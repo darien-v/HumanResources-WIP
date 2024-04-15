@@ -449,44 +449,44 @@ bones/67/rotation = Quaternion(0.359952, 0.0731817, 0.0283536, 0.929664)
 bones/67/scale = Vector3(1, 1, 1)
 
 [node name="headCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="1"]
-transform = Transform3D(1, -1.04294e-07, 1.23603e-07, -1.23603e-07, 2.79397e-09, 0.999999, -1.04294e-07, -1, -1.86264e-09, 3.49724e-05, 1.56092, -185.049)
+transform = Transform3D(1, -1.04293e-07, 1.23604e-07, -1.23604e-07, 6.51927e-09, 1, -1.04293e-07, -1, 2.79397e-09, 3.63765e-05, 1.55487, -184.295)
 
 [node name="torsoCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="2"]
-transform = Transform3D(1, -1.04295e-07, 1.23603e-07, -1.23603e-07, 2.79397e-09, 0.999999, -1.04295e-07, -1, -1.86265e-09, 3.85911e-05, -1.32753, -146.93)
+transform = Transform3D(1, -1.04294e-07, 1.23604e-07, -1.23604e-07, 6.51926e-09, 1, -1.04294e-07, -1, 2.79397e-09, 3.99952e-05, -1.33358, -146.175)
 
 [node name="pelvisCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="3"]
-transform = Transform3D(1, -1.41998e-06, 9.91554e-09, -9.91554e-09, 0, 1, -1.41998e-06, -1, 0, 3.98228e-05, -1.67014, -113.084)
+transform = Transform3D(1, -1.41998e-06, 9.91645e-09, -9.91645e-09, 0, 1, -1.41998e-06, -1, 0, 3.98228e-05, -1.67014, -113.084)
 bone_idx = 0
 
 [node name="leftUpLegCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="4"]
-transform = Transform3D(-1, 1.67426e-07, -4.73871e-08, -4.06329e-08, 0.0401134, 0.999196, 1.69192e-07, 0.999195, -0.0401134, 12.7969, -0.267202, -104.568)
+transform = Transform3D(-1, 1.67426e-07, -4.7386e-08, -4.06319e-08, 0.0401133, 0.999196, 1.69192e-07, 0.999195, -0.0401133, 12.7969, -0.267199, -104.568)
 
 [node name="leftLegCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="5"]
-transform = Transform3D(-1, 1.50443e-07, 3.52911e-07, 3.36782e-07, -0.0963087, 0.995352, 1.83732e-07, 0.995352, 0.0963086, 12.7969, 1.57802, -58.6052)
+transform = Transform3D(-1, 1.50442e-07, 3.52912e-07, 3.36783e-07, -0.0963089, 0.995352, 1.83732e-07, 0.995352, 0.0963088, 12.7969, 1.57801, -58.6052)
 
 [node name="LeftArmCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="6"]
-transform = Transform3D(9.49505e-09, 1, -1.19209e-07, -1, 3.26384e-08, -1.3605e-07, -9.15796e-08, 2.38419e-07, 0.999999, 26.3704, -14.1578, -166.427)
+transform = Transform3D(-2.49847e-07, 1, 1.49012e-07, -1, -1.83577e-07, -6.38312e-08, 2.29039e-08, -2.98023e-08, 1, 24.7283, -13.7832, -166.234)
 
 [node name="LeftShoulderCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="7"]
-transform = Transform3D(-0.202788, 0.92431, -0.323307, -0.976768, -0.214297, 3.73178e-08, -0.0692836, 0.315796, 0.946294, 7.96699, -9.89108, -172.715)
+transform = Transform3D(-0.202788, 0.924311, -0.323307, -0.976769, -0.214296, 1.53002e-07, -0.0692833, 0.315796, 0.946294, 7.96699, -9.89714, -171.961)
 
 [node name="leftFootCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="8"]
-transform = Transform3D(-0.949765, 0.30406, 0.0741273, 0.271035, 0.680686, 0.680595, 0.156484, 0.666495, -0.728901, 12.7969, -3.13545, -9.89145)
+transform = Transform3D(-0.949764, 0.30406, 0.0741281, 0.271036, 0.680685, 0.680594, 0.156484, 0.666495, -0.728901, 12.7969, -3.13546, -9.89148)
 
 [node name="rightUpLegCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="9"]
-transform = Transform3D(-1, -1.5496e-06, 1.72385e-06, 1.66029e-06, 0.0401166, 0.999196, -1.6175e-06, 0.999195, -0.0401166, -12.7969, -0.267199, -104.568)
+transform = Transform3D(-1, -1.54959e-06, 1.72385e-06, 1.6603e-06, 0.0401165, 0.999196, -1.6175e-06, 0.999195, -0.0401165, -12.7969, -0.267196, -104.568)
 
 [node name="rightLegCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="10"]
-transform = Transform3D(-1, 1.69612e-06, 1.59021e-06, 1.41946e-06, -0.0963134, 0.995352, 1.84139e-06, 0.995351, 0.0963133, -12.7969, 1.57816, -58.6052)
+transform = Transform3D(-1, 1.69612e-06, 1.59021e-06, 1.41946e-06, -0.0963134, 0.995352, 1.84139e-06, 0.995351, 0.0963133, -12.7969, 1.57817, -58.6052)
 
 [node name="rightArmCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="11"]
-transform = Transform3D(2.35332e-07, -1, -9.73378e-07, 1, 3.07024e-07, 6.976e-08, -1.12788e-07, -9.73378e-07, 1, -75.6714, -14.1578, -166.427)
+transform = Transform3D(-8.61021e-07, -1, -1.42041e-06, 1, -6.79683e-07, -3.24209e-07, 2.23936e-07, -1.3012e-06, 1, -50.9994, -13.7832, -166.234)
 
 [node name="rightShoulderCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="12"]
-transform = Transform3D(1.83781e-08, -1, -2.98023e-07, 1, 9.00708e-08, 1.713e-08, -6.01582e-08, -2.98023e-07, 1, -26.3701, -14.1578, -166.427)
+transform = Transform3D(-1.07797e-06, -1, -7.45058e-07, 1, -8.96637e-07, -3.76838e-07, 2.76565e-07, -6.25849e-07, 1, -24.7281, -13.7832, -166.234)
 
 [node name="rightFootCollider" parent="Enemy/Pivot/Enemy/Armature/Skeleton3D" index="13"]
-transform = Transform3D(-0.949766, -0.304054, -0.0741313, -0.271033, 0.680681, 0.6806, -0.156479, 0.666502, -0.728896, -12.7969, -3.13553, -9.89151)
+transform = Transform3D(-0.949766, -0.304054, -0.0741305, -0.271032, 0.680682, 0.6806, -0.15648, 0.666502, -0.728896, -12.7969, -3.13553, -9.89155)
 
 [node name="debugView" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.573575, 0.819153, 0, -0.819153, 0.573575, -1.37617, 42.8028, 23.3586)

@@ -102,7 +102,7 @@ bones/62/rotation = Quaternion(0.47386, 0.150541, 0.0316903, 0.867058)
 bones/63/rotation = Quaternion(0.326133, 0.109346, -0.0375876, 0.938226)
 
 [node name="headCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.951901, 0.0831125, 0.29492, -0.306319, 0.235035, 0.922457, 0.00735128, -0.968427, 0.249189, 0.0146978, 0.432523, -5.27694)
+transform = Transform3D(0.951901, 0.0831117, 0.29492, -0.306319, 0.235034, 0.922457, 0.0073508, -0.968427, 0.249188, 0.0146974, 0.432522, -5.27695)
 bone_name = "Head"
 bone_idx = 5
 
@@ -114,7 +114,7 @@ transform = Transform3D(0.704182, 0.000448294, -0.000528008, -0.000476889, 0.703
 shape = SubResource("CapsuleShape3D_7cbpc")
 
 [node name="torsoCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.336473, 0.228418, 0.913571, -0.920045, 0.286561, 0.267209, -0.200758, -0.930434, 0.306575, -0.264197, 0.117128, -4.41991)
+transform = Transform3D(0.336472, 0.228418, 0.913571, -0.920045, 0.286561, 0.267208, -0.200758, -0.930434, 0.306574, -0.264197, 0.117128, -4.41991)
 bone_name = "Spine1"
 bone_idx = 2
 
@@ -126,7 +126,7 @@ transform = Transform3D(0.989625, 1.41561e-05, 1.57058e-05, -1.71885e-05, 0.9669
 shape = SubResource("CylinderShape3D_u4qly")
 
 [node name="pelvisCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="3"]
-transform = Transform3D(0.436581, 0.0198976, 0.899445, -0.897139, 0.0844985, 0.433592, -0.0673744, -0.996225, 0.0547413, -0.335419, 0.0079933, -3.78491)
+transform = Transform3D(0.43658, 0.0198974, 0.899445, -0.897139, 0.0844985, 0.433591, -0.0673745, -0.996225, 0.054741, -0.335419, 0.0079933, -3.78491)
 bone_name = "Hips"
 bone_idx = 0
 
@@ -138,7 +138,7 @@ transform = Transform3D(0.989625, 1.41114e-05, 1.59442e-05, -1.71959e-05, 0.9669
 shape = SubResource("CylinderShape3D_nf1ai")
 
 [node name="leftUpLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="4"]
-transform = Transform3D(-0.0116881, 0.543004, 0.839649, 0.926346, -0.310326, 0.213584, 0.37655, 0.780285, -0.499372, -0.15428, -0.405714, -3.64776)
+transform = Transform3D(-0.0116879, 0.543004, 0.839649, 0.926347, -0.310326, 0.213583, 0.376549, 0.780285, -0.499372, -0.15428, -0.405714, -3.64776)
 bone_name = "LeftUpLeg"
 bone_idx = 55
 
@@ -150,7 +150,7 @@ transform = Transform3D(0.989624, 1.68979e-05, 1.2815e-05, -1.71363e-05, 0.98923
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="leftLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="5"]
-transform = Transform3D(-0.151636, -0.376884, 0.913764, 0.898328, -0.438226, -0.0316733, 0.41238, 0.816037, 0.405009, 0.897098, -1.00658, -2.13695)
+transform = Transform3D(-0.151636, -0.376884, 0.913765, 0.898328, -0.438226, -0.0316731, 0.412379, 0.816038, 0.405009, 0.897097, -1.00657, -2.13696)
 bone_name = "LeftLeg"
 bone_idx = 56
 
@@ -162,7 +162,7 @@ transform = Transform3D(0.989624, 1.68085e-05, 1.2964e-05, -1.73151e-05, 0.98923
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="rightUpLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="6"]
-transform = Transform3D(-0.842264, 0.197217, 0.501694, 0.462139, 0.743303, 0.483662, -0.277524, 0.639223, -0.717199, -0.550752, 0.38005, -3.58903)
+transform = Transform3D(-0.842263, 0.197218, 0.501695, 0.46214, 0.743303, 0.483661, -0.277524, 0.639223, -0.717199, -0.550752, 0.380051, -3.58903)
 bone_name = "RightUpLeg"
 bone_idx = 60
 
@@ -174,7 +174,7 @@ transform = Transform3D(0.989624, 1.68532e-05, 1.29342e-05, -1.71363e-05, 0.9892
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="rightLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="7"]
-transform = Transform3D(-0.888806, -0.368345, 0.272665, 0.308736, -0.0415604, 0.950239, -0.338684, 0.92876, 0.150661, -0.168945, 1.81906, -2.35151)
+transform = Transform3D(-0.888805, -0.368345, 0.272666, 0.308736, -0.0415597, 0.950239, -0.338684, 0.928759, 0.15066, -0.168943, 1.81907, -2.35152)
 bone_name = "RightLeg"
 bone_idx = 61
 
@@ -186,7 +186,7 @@ transform = Transform3D(0.989625, 1.70171e-05, 1.29836e-05, -1.70469e-05, 0.9892
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="rightShoulderCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="8"]
-transform = Transform3D(0.948201, -0.191736, 0.253284, 0.314272, 0.682527, -0.659842, -0.0463576, 0.705262, 0.70743, -0.300585, 0.908822, -4.83036)
+transform = Transform3D(0.9482, -0.191736, 0.253285, 0.314272, 0.682526, -0.659842, -0.0463584, 0.705262, 0.707429, -0.300585, 0.908822, -4.83036)
 bone_name = "RightArm"
 bone_idx = 32
 
@@ -198,7 +198,7 @@ transform = Transform3D(1, 2.98023e-08, 1.19209e-07, 5.96046e-08, 1, 2.98023e-08
 shape = SubResource("CylinderShape3D_4lib5")
 
 [node name="LeftArmCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="9"]
-transform = Transform3D(-0.313924, 0.540167, -0.780814, -0.922038, 0.0227338, 0.38643, 0.226488, 0.841251, 0.490918, -0.174376, -1.22933, -4.9463)
+transform = Transform3D(-0.313925, 0.540167, -0.780814, -0.922039, 0.022732, 0.38643, 0.226486, 0.841251, 0.490918, -0.174377, -1.22933, -4.9463)
 bone_name = "LeftForeArm"
 bone_idx = 9
 
@@ -210,7 +210,7 @@ transform = Transform3D(1, 5.66244e-07, -8.9407e-08, -3.8743e-07, 1, 9.68575e-08
 shape = SubResource("CylinderShape3D_4xspl")
 
 [node name="LeftShoulderCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="10"]
-transform = Transform3D(-0.576023, -0.252749, -0.777377, -0.0907233, -0.925355, 0.368085, -0.812383, 0.282552, 0.510095, 0.0800707, -0.297755, -5.23075)
+transform = Transform3D(-0.576023, -0.252749, -0.777377, -0.090722, -0.925356, 0.368085, -0.812383, 0.282551, 0.510096, 0.0800697, -0.297756, -5.23075)
 bone_name = "LeftArm"
 bone_idx = 8
 
@@ -223,7 +223,7 @@ transform = Transform3D(0.531067, -0.056543, -2.39388, -2.07698, -1.23114, -0.43
 shape = SubResource("CylinderShape3D_4lib5")
 
 [node name="RightArmCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="11"]
-transform = Transform3D(0.895346, 0.364201, 0.256345, -0.108995, 0.737257, -0.666763, -0.431827, 0.569043, 0.699796, -0.493609, 1.59593, -4.12036)
+transform = Transform3D(0.895347, 0.3642, 0.256346, -0.108994, 0.737257, -0.666763, -0.431827, 0.569044, 0.699796, -0.493609, 1.59593, -4.12036)
 bone_name = "RightForeArm"
 bone_idx = 33
 
@@ -235,7 +235,7 @@ transform = Transform3D(1, 8.9407e-08, -5.96046e-08, 8.9407e-08, 1, 2.98023e-08,
 shape = SubResource("CylinderShape3D_4xspl")
 
 [node name="rightFootCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="12"]
-transform = Transform3D(-0.982521, -0.0534908, 0.1783, 0.066382, 0.794174, 0.604054, -0.173912, 0.605332, -0.776742, -0.927864, 1.73344, -0.437942)
+transform = Transform3D(-0.982521, -0.0534901, 0.1783, 0.066383, 0.794174, 0.604053, -0.173912, 0.605332, -0.776742, -0.927863, 1.73344, -0.437946)
 bone_name = "RightFoot"
 bone_idx = 62
 
@@ -247,7 +247,7 @@ transform = Transform3D(0.0208717, 0.258587, 0.955037, 0.466019, 0.840088, -0.23
 shape = SubResource("BoxShape3D_ek3np")
 
 [node name="leftFootCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="13"]
-transform = Transform3D(0.113793, 0.766446, 0.63215, 0.982049, -0.183201, 0.0453422, 0.150575, 0.615629, -0.773521, 0.120552, -1.90951, -0.455562)
+transform = Transform3D(0.113793, 0.766445, 0.632149, 0.982049, -0.1832, 0.0453422, 0.150575, 0.615629, -0.773521, 0.120552, -1.90951, -0.455564)
 bone_name = "LeftFoot"
 bone_idx = 57
 
@@ -259,7 +259,7 @@ transform = Transform3D(0.0211043, -0.258532, -0.955043, -0.465734, 0.840209, -0
 shape = SubResource("BoxShape3D_ek3np")
 
 [node name="LeftHand" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="14"]
-transform = Transform3D(-0.0612095, 0.827425, -0.55823, -0.878942, 0.220345, 0.422977, 0.472985, 0.516543, 0.713771, 0.448514, -1.20311, -3.97621)
+transform = Transform3D(-0.0612102, 0.827426, -0.558229, -0.878943, 0.220343, 0.422976, 0.472983, 0.516542, 0.713772, 0.448513, -1.20311, -3.97622)
 bone_name = "LeftHand"
 bone_idx = 10
 script = ExtResource("4_0io30")

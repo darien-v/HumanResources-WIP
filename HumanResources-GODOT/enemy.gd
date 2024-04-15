@@ -60,6 +60,7 @@ func _ready():
 	resources.connect_enemy_death(self)
 	velocity = Vector3.ZERO
 	navAgent.target_desired_distance = actionDistance
+	global_transform.origin.y = 2
 	baseY = position.y
 	# get all hitboxes connected
 	for collider in combatCollisions:
