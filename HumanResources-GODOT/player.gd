@@ -58,6 +58,8 @@ var attacking = false;
 var walking = false;
 var walkingInput = false;
 var idling = false;
+var dodging = false;
+var invulnerable = false;
 
 # lets us know what interactable areas the player is in
 var interactables
