@@ -3,6 +3,10 @@ extends Label
 var MIN_RESOURCES = 0
 var resources = 0;
 
+# mini-functions to connect necessary signals
+func connect_enemy_death(enemy):
+	enemy.death.connect(self._on_kill)
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	text = "HR: %s" % resources;

@@ -13,9 +13,23 @@ var sufficientStamina = true;
 
 # allows us to change these values later
 var lightAttackStamina = 10;
+var rollStamina = 5
+var sprintStamina = .25
 # lets us consolidate functions
 var staminaDiff = 0;
 
+# lets us easily access staminaDiffs
+var diffByType = 	{
+						"lightAttack":10,
+						"heavyAttack":20,
+						"roll":5,
+						"sprint":5
+					}
+
+# mini-functions to connect necessary signals
+func connect_stamina_use(player):
+	player.staminaUse.connect(self._on_stamina_use)
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -28,8 +42,12 @@ func _process(delta):
 		text = "STAMINA: %s" % stamina
 		elapsed = 0
 
-func _on_light_attack():
-	staminaDiff = lightAttackStamina;
+func _on_stamina_use(type):
+	staminaDiff = diffByType[type]
+	calcStamina();
+
+func manualChange(amt):
+	staminaDiff = amt
 	calcStamina();
 
 func calcStamina():

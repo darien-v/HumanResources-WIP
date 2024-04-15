@@ -1,13 +1,13 @@
-extends StaticBody3D
+extends Node3D
 
 # checks if the area parent is attacking
-@export var active = false;
+var active = false;
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var damage = (get_node(self.get_meta("parentMesh"))).get_meta("baseDamage")
-	set_meta("baseDamage", damage)
+	self.add_to_group("weapons", true)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

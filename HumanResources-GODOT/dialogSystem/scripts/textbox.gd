@@ -64,6 +64,12 @@ var interactions = 0
 @onready var textboxAnim  = $"."
 @onready var textbox_speaker = $"../speaker"
 @onready var textbox_dialogue = $"../dialog"
+# defaults for picking up items
+# will be cleaned up later etc etc
+var itemDialog = "Picked up "
+var pickup = false
+var item = null
+
 # and the ever infamous options
 @onready var optionIndicator = $option_indicator
 @export var optionSelected = 1
@@ -165,29 +171,38 @@ func makeInvisible():
 		#print("textbox hidden!")
 	
 # just putting this here to declutter process
-func startInteraction():
-	# initialize vars
-	initVars()
-	# textbox becomes visible
-	makeVisible()
-	# timer controls how fast text scrolls
-	$Timer.wait_time = textSpeed
-	# need to pass these to path and tree
-	# get all the variables we need from the player
-	# maybe make interaction into its own object later? idk
-	var interactionName = player.get("interactionName")
-	var specificInteraction = player.get("specificInteraction")
-	var specificTree = player.get("specificTree")
-	var interactionGroup = player.get("interactionGroup")
-	var interactable = player.get("interactable")
-	# parse the dialog into something usable
-	dialog = getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable)
-	assert(dialog, "Dialog not found")
-	# get our current node of dialog
-	currentDialogNode = dialog[dialogNode]
-	numPhrases = len(currentDialogNode)
-	# start readin boah
-	nextPhrase()
+func startInteraction(pickupvar=false, itemvar=null):
+	if showingText == false and showDialog:
+		player.setInAnimation()
+		print(pickupvar)
+		pickup = pickupvar
+		item = itemvar
+		# initialize vars
+		initVars()
+		# textbox becomes visible
+		makeVisible()
+		# timer controls how fast text scrolls
+		$Timer.wait_time = textSpeed
+		# only need to do all this if not just picking up an item
+		# need to pass these to path and tree
+		# get all the variables we need from the player
+		# maybe make interaction into its own object later? idk
+		if not pickup:
+			var interactionName = player.get("interactionName")
+			var specificInteraction = player.get("specificInteraction")
+			var specificTree = player.get("specificTree")
+			var interactionGroup = player.get("interactionGroup")
+			var interactable = player.get("interactable")
+			# parse the dialog into something usable
+			dialog = getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable)
+			assert(dialog, "Dialog not found")
+			# get our current node of dialog
+			currentDialogNode = dialog[dialogNode]
+			numPhrases = len(currentDialogNode)
+		else:
+			numPhrases = 1
+		# start readin boah
+		nextPhrase()
 		
 # get the dialog tree from specified file
 func getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable) -> Dictionary:
@@ -225,12 +240,6 @@ func _process(_delta):
 				playerChoosing = true
 		else:
 			checkCompletion()
-	# if the user prompted interaction, we show text
-	elif Input.is_action_just_pressed("interact"):
-		print("interaction pressed")
-		if showingText == false and showDialog:
-			print("starting interaction")
-			startInteraction()
 	
 # receives signal to say choices have been initialized
 func checkChoicesInit():
@@ -260,7 +269,7 @@ func checkCompletion():
 			printingText = true
 			nextPhrase()
 		# protocol for skipping scroll
-		else:
+		elif printingText == true:
 			print("skipped to end of page")
 			textbox_dialogue.text = currentDialogText
 			if checkTextSpill(currentLetter):
@@ -315,10 +324,11 @@ func nextPhrase() -> void:
 		#print("dialog end")
 		showingText = false
 		printingText = false
+		player.setNoAnimation()
 		makeInvisible()
 		return
 	# check if we need to get new page from node
-	elif changePages:
+	elif changePages and not pickup:
 		currentDialogText = currentDialogNode[phraseNum]["Text"]
 		print(currentDialogText)
 		visibleDialogText = currentDialogText
@@ -331,41 +341,40 @@ func nextPhrase() -> void:
 		print(visibleDialogText)
 		finished = false
 		showNextPage = false
-		printingText = true
 		# initializing locals
 		var letters = []
 		var currentText = ""
 		textbox_dialogue.text = currentText
 		
 		# get emotion and name, and see if there will be choices after printing
-		var temp = currentDialogNode[phraseNum]
-		var emotion = temp["Emotion"]
-		var speaker = temp["Name"]
-		textbox_speaker.text = speaker
-		
-		# set up the portrait
-		if speaker.to_lower() != "you":
-			speakerPortrait.setPortrait(speaker)
-		speakerPortrait.playEmotion(emotion)
-		
-		# set color according to emotion of speaker
-		setEmotion(emotion)
-		
-		# if there are choices after printing, check if choices dict valid
-		# if it is, indicate we will show choices at end
-		if "Choices" in temp.keys():
-			# if we havent yet, bring the player portrait in
-			if not playerShowing:
-				playerPortrait.comeOntoScreen()
-				playerShowing = true
-			if len(temp["Choices"].keys()) > 0:
-				print("choices available")
-				showChoices = true
-				choiceSetup = true
+		if not pickup:
+			var temp = currentDialogNode[phraseNum]
+			var emotion = temp["Emotion"]
+			var speaker = temp["Name"]
+			textbox_speaker.text = speaker
+			# set up the portrait
+			if speaker.to_lower() != "you":
+				speakerPortrait.setPortrait(speaker)
+			speakerPortrait.playEmotion(emotion)
+			# set color according to emotion of speaker
+			setEmotion(emotion)
+			# if there are choices after printing, check if choices dict valid
+			# if it is, indicate we will show choices at end
+			if "Choices" in temp.keys():
+				# if we havent yet, bring the player portrait in
+				if not playerShowing:
+					playerPortrait.comeOntoScreen()
+					playerShowing = true
+				if len(temp["Choices"].keys()) > 0:
+					print("choices available")
+					showChoices = true
+					choiceSetup = true
+			else:
+				showChoices = false
+				choiceSetup = false
 		else:
-			showChoices = false
-			choiceSetup = false
-		
+			visibleDialogText = itemDialog + item
+			
 		# get array of characters to iterate over
 		letters = visibleDialogText.split()
 		numLetters = len(visibleDialogText)
@@ -373,6 +382,9 @@ func nextPhrase() -> void:
 		# as we start a new page, start from the beginning
 		# do a temp in case we split a page :3
 		var tempCurrentLetter = 0
+		
+		# we are now printing :3
+		printingText = true
 		
 		# print the letters one at a time
 		while tempCurrentLetter < numLetters:
@@ -403,7 +415,7 @@ func nextPhrase() -> void:
 		# if we're still reading from the same node, we know 
 		# # checkTextSpill will have marked showNextPage = true
 		# # if !showNextPage, we advance phraseNum
-		if not showNextPage:
+		if (showNextPage == false) or (pickup == true):
 			changePages = true
 			phraseNum += 1
 			currentLetter = 0

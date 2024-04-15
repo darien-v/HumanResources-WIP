@@ -3,6 +3,8 @@ extends Label
 # the player can change these later by levelling up
 @export var MAX_HEALTH = 100
 
+@onready var player = $"../../Player"
+
 var MIN_HEALTH = 0
 
 var elapsed = 0
@@ -13,7 +15,7 @@ var health = MAX_HEALTH;
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	text = "Health: %s" % health;
-	pass
+	player.connect_player_hurt(self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
