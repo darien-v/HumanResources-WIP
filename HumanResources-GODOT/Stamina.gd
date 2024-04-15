@@ -1,4 +1,4 @@
-extends Label
+extends ProgressBar
 
 # the player can change these later by levelling up
 @export var MAX_STAMINA = 100
@@ -32,16 +32,16 @@ func connect_stamina_use(player):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	value = MAX_STAMINA
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	elapsed += delta
 	if elapsed >= 1 and stamina < MAX_STAMINA:
 		stamina += 1
-		text = "STAMINA: %s" % stamina
+		value = stamina
 		elapsed = 0
-
+    
 func _on_stamina_use(type):
 	staminaDiff = diffByType[type]
 	calcStamina();
