@@ -1,14 +1,13 @@
-extends Area3D
+extends Node3D
 
 # checks if the area parent is attacking
-@export var active = false;
+var active = false;
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_meta("damage", 10)
-	
-
+	self.add_to_group("weapons", true)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
