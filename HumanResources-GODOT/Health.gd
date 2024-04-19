@@ -23,7 +23,7 @@ func _on_damage(damageAmt):
 	if health < 0:
 		pass # havent programmed death yet
 	else:
-		text = "Health: %s" % health;
+		value = health
 		
 func returnHealth():
 	return health;

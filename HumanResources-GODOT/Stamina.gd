@@ -14,7 +14,6 @@ var sufficientStamina = true;
 # allows us to change these values later
 var lightAttackStamina = 10;
 var rollStamina = 5
-var sprintStamina = .25
 # lets us consolidate functions
 var staminaDiff = 0;
 
@@ -23,7 +22,7 @@ var diffByType = 	{
 						"lightAttack":10,
 						"heavyAttack":20,
 						"roll":5,
-						"sprint":5
+						"sprint":.25
 					}
 
 # mini-functions to connect necessary signals
@@ -41,7 +40,7 @@ func _process(delta):
 		stamina += 1
 		value = stamina
 		elapsed = 0
-    
+	
 func _on_stamina_use(type):
 	staminaDiff = diffByType[type]
 	calcStamina();
@@ -54,7 +53,6 @@ func calcStamina():
 	if stamina >= staminaDiff:
 		sufficientStamina = true;
 		stamina -= staminaDiff;
-		text = "STAMINA: %s" % stamina
 	else:
 		sufficientStamina = false;
 

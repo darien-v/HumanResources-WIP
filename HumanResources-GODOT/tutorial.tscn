@@ -1,23 +1,38 @@
-[gd_scene load_steps=27 format=3 uid="uid://dtl107bvdp3l2"]
+[gd_scene load_steps=29 format=3 uid="uid://qen21520gaa6"]
 
+[ext_resource type="Script" path="res://main.gd" id="1_666go"]
+[ext_resource type="Script" path="res://Resources.gd" id="2_ffvxb"]
+[ext_resource type="Script" path="res://Stamina.gd" id="2_fxqa6"]
+[ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://textbox_test.tres" id="2_svert"]
+[ext_resource type="Script" path="res://Health.gd" id="3_g4xt6"]
+[ext_resource type="ArrayMesh" uid="uid://0246fhjud8gu" path="res://models/Desk-WithStuff.obj" id="4_3h2lm"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/textbox.gd" id="4_07pqn"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
+[ext_resource type="ArrayMesh" uid="uid://wn7eylewa5kg" path="res://models/WaterCooler.obj" id="5_rdm2s"]
 [ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_x5upw"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/option.gd" id="7_gb3p3"]
-[ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://textbox_test.tres" id="2_svert"]
 [ext_resource type="SpriteFrames" uid="uid://ctmxroxg4woxd" path="res://art/2D Sprites/character_portraits/example/example.tres" id="9_ivt47"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/characterPortraits.gd" id="10_5qi0k"]
 [ext_resource type="SpriteFrames" uid="uid://bygl77t1d27x8" path="res://indicator.tres" id="11_pimdg"]
-[ext_resource type="Script" path="res://npc_basic.gd" id="12_4jmty"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/option_indicator.gd" id="12_8aqil"]
 [ext_resource type="SpriteFrames" uid="uid://cgwrv62lxykmk" path="res://option_indicator.tres" id="12_snfd7"]
+[ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="18_qiecw"]
+[ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://testEnemy.tscn" id="19_wf7ol"]
+[ext_resource type="PackedScene" uid="uid://bc7iqx5nl7ja0" path="res://weapons/Amoray Note.tscn" id="20_qjsyg"]
 [ext_resource type="FontFile" uid="uid://c102fu0xf67kd" path="res://fonts/CourierPrime-Bold.ttf" id="22_mme0b"]
 [ext_resource type="FontFile" uid="uid://cj7c8xs0yi4mj" path="res://fonts/CourierPrime-Italic.ttf" id="23_esx6h"]
-[ext_resource type="Script" path="res://Stamina.gd" id="26_43b6n"]
-[ext_resource type="Script" path="res://Health.gd" id="27_id5rx"]
-[ext_resource type="Script" path="res://Resources.gd" id="29_rfic1"]
-[ext_resource type="ArrayMesh" uid="uid://0246fhjud8gu" path="res://models/Desk-WithStuff.obj" id="26_6krfb"]
-[ext_resource type="ArrayMesh" uid="uid://wn7eylewa5kg" path="res://models/WaterCooler.obj" id="27_j7hrl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4qt7"]
+bg_color = Color(0, 0.709804, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12oso"]
+bg_color = Color(0.741176, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_secun"]
+size = Vector3(60, 2, 60)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ah5c0"]
 size = Vector3(0.493591, 0.669434, 1.40598)
@@ -29,13 +44,8 @@ size = Vector3(1, 0.623535, 0.437012)
 height = 1.76048
 radius = 0.158031
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4qt7"]
-bg_color = Color(0, 0.709804, 0.2, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12oso"]
-bg_color = Color(0.741176, 0, 0, 1)
-
 [node name="Main" type="Node"]
+script = ExtResource("1_666go")
 
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
@@ -52,6 +62,7 @@ offset_bottom = 589.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 45
 text = "HR: 0"
+script = ExtResource("2_ffvxb")
 
 [node name="Stamina" type="ProgressBar" parent="UserInterface"]
 layout_mode = 0
@@ -62,7 +73,7 @@ offset_bottom = 95.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_a4qt7")
 step = 1.0
 show_percentage = false
-script = ExtResource("26_43b6n")
+script = ExtResource("2_fxqa6")
 
 [node name="Health" type="ProgressBar" parent="UserInterface"]
 layout_mode = 0
@@ -72,7 +83,7 @@ offset_right = 358.0
 offset_bottom = 66.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_12oso")
 show_percentage = false
-script = ExtResource("29_o6fn3")
+script = ExtResource("3_g4xt6")
 
 [node name="Rooms" type="Node3D" parent="."]
 
@@ -130,7 +141,7 @@ shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Desk"]
 transform = Transform3D(1.49739, 0, 74.985, 0, 75, 0, -74.985, 0, 1.49739, -12.5638, -0.4877, -10.2706)
-mesh = ExtResource("26_6krfb")
+mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Desk"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -12.709, 1.17358, -9.98199)
@@ -144,7 +155,7 @@ shape = SubResource("BoxShape3D_5hyfu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Desk2"]
 transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 9.60053, -0.4877, -10.2706)
-mesh = ExtResource("26_6krfb")
+mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Desk2"]
 transform = Transform3D(-0.1888, 0, -4.99643, 0, 5, 0, 4.99643, 0, -0.1888, 9.21242, 1.17358, -10.1959)
@@ -292,7 +303,7 @@ mesh = SubResource("BoxMesh_secun")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk"]
 transform = Transform3D(1.49739, 0, 74.985, 0, 75, 0, -74.985, 0, 1.49739, -19.0351, -0.4877, -65.0222)
-mesh = ExtResource("26_6krfb")
+mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -19.1803, 1.17358, -64.7336)
@@ -306,7 +317,7 @@ shape = SubResource("BoxShape3D_5hyfu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk2"]
 transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 11.3747, -0.487696, -89.2704)
-mesh = ExtResource("26_6krfb")
+mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk2"]
 transform = Transform3D(-0.1888, 0, -4.99643, 0, 5, 0, 4.99643, 0, -0.1888, 10.9866, 1.17359, -89.1957)
@@ -320,7 +331,7 @@ shape = SubResource("BoxShape3D_5hyfu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk3"]
 transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 19.2408, -0.487696, -59.7536)
-mesh = ExtResource("26_6krfb")
+mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk3"]
 transform = Transform3D(-0.1888, 0, -4.99643, 0, 5, 0, 4.99643, 0, -0.1888, 18.8526, 1.17359, -59.679)
@@ -402,12 +413,11 @@ shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Exit/StaticBody3D"]
 transform = Transform3D(80, 0, 0, 0, 80, 0, 0, 0, 80, -44.5, 0, -75)
-mesh = ExtResource("27_j7hrl")
+mesh = ExtResource("5_rdm2s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Exit/StaticBody3D"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -44.5, 0, -75)
 shape = SubResource("CylinderShape3D_pnrff")
-script = ExtResource("29_rfic1")
 
 [node name="TextInterface" type="Control" parent="."]
 layout_mode = 3
@@ -655,6 +665,194 @@ theme_override_font_sizes/mono_font_size = 30
 text = "sdfsfdsfsdfsd"
 script = ExtResource("7_gb3p3")
 metadata/index = 4
+
+[node name="Player" parent="." instance=ExtResource("18_qiecw")]
+transform = Transform3D(0.310917, 0, 0, 0, 0.310917, 0, 0, 0, 0.310917, 0, 1.90353, 10.515)
+collision_mask = 6
+
+[node name="PlayerView" type="Camera3D" parent="Player"]
+transform = Transform3D(3.21629, 0, 0, 0, 1.84478, 2.63464, 0, -2.63464, 1.84478, 0, 42.8028, 15.4192)
+current = true
+size = 19.0
+
+[node name="cameraTimer" type="Timer" parent="Player/PlayerView"]
+wait_time = 7.0
+one_shot = true
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Room1" type="Node3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.93013, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, -9.87455)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, -9.87455)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 0.197132)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 0.197132)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 8.58035)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 8.58035)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 16.5915)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D8" type="SpotLight3D" parent="Lights/Room1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 16.5915)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="Room2" type="Node3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.23713, 4.93013, -80.4201)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, -9.87455)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, -9.87455)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 0.197132)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 0.197132)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 8.58035)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 8.58035)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 16.5915)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D8" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 16.5915)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D9" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, -9.87456)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D10" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 0.197128)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D11" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 8.58035)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D12" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 16.5915)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D13" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 29.1323)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D14" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 29.1323)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="SpotLight3D15" type="SpotLight3D" parent="Lights/Room2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 29.1323)
+light_energy = 10.0
+light_size = 0.514
+spot_range = 32.8216
+spot_angle = 89.99
+
+[node name="Enemy" parent="." instance=ExtResource("19_wf7ol")]
+transform = Transform3D(4.33534, 0, 0, 0, 4.33534, 0, 0, 0, 4.33534, -1.36919, 4.31596, -70.1012)
+
+[node name="Amoray Note" parent="." instance=ExtResource("20_qjsyg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.49144, 0.55088, 8.00143)
 
 [connection signal="playerOption" from="TextInterface/textbox" to="TextInterface/textbox/option_indicator" method="becomeActive"]
 [connection signal="printOption" from="TextInterface/textbox" to="TextInterface/option1" method="setOption"]

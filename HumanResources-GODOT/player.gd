@@ -298,9 +298,10 @@ func check_collisions(object=self):
 		var collision = get_slide_collision(index)
 		var collider = collision.get_collider()
 		# If the collision is with ground
-		if (collider == null and not pickup) or collider.name == "Ground":
-			resetInteraction()
-			continue
+		if collider == null or collider.name == "Ground":
+			if not pickup and pickupItem == null:
+				resetInteraction()
+				continue
 		else:
 			print(collider.name)
 		# If the collision is with an interactable object
@@ -321,10 +322,14 @@ func check_collisions(object=self):
 
 func entered_interactable_area(object):
 	if object.is_in_group("interactables"):
+		print("interactable")
 		if object.is_in_group("collectibles"):
+			print("collectible")
 			pickup = true
 			pickupItem = object
+			print(pickupItem)
 func exited_interactable_area():
+	print("exited interactable range")
 	resetInteraction()
 
 # the actual interaction processing for npcs
