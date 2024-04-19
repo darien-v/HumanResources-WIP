@@ -1,7 +1,9 @@
-[gd_scene load_steps=33 format=3 uid="uid://bc7iqx5nl7ja0"]
+[gd_scene load_steps=35 format=3 uid="uid://bc7iqx5nl7ja0"]
 
 [ext_resource type="Script" path="res://SwordHitbox.gd" id="1_jp7lt"]
 [ext_resource type="Script" path="res://weapons/interactionBox.gd" id="2_gw6fw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uyc7h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7vptr"]
 resource_name = "standardSurface1"
@@ -346,26 +348,32 @@ shadow_mesh = SubResource("ArrayMesh_ghi5i")
 [sub_resource type="BoxShape3D" id="BoxShape3D_ykvac"]
 size = Vector3(8.6041, 3.44739, 18.4452)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x07rg"]
+
 [node name="Amoray Note" type="Node3D" groups=["collectibles", "equipables", "weapons"]]
 metadata/baseDamage = 10
 metadata/type = "spear"
 
 [node name="pCylinder3" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.232205, 0, 0, 0, 0, 0.232205, 0, -1, 0, 0, 0, -2.15457)
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_l8vlp")
 skeleton = NodePath("")
 
 [node name="gold_stuff" type="Node3D" parent="."]
 
 [node name="pCylinder4" type="MeshInstance3D" parent="gold_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_81gfn")
 skeleton = NodePath("")
 
 [node name="pCylinder7" type="MeshInstance3D" parent="gold_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_1dg3h")
 skeleton = NodePath("")
 
 [node name="pCube1" type="MeshInstance3D" parent="gold_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_q0sc6")
 skeleton = NodePath("")
 
@@ -377,6 +385,7 @@ metadata/parentMesh = NodePath("../..")
 metadata/baseDamage = 10
 
 [node name="polySurface2" type="MeshInstance3D" parent="gold_stuff/hitbox"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_8sdgt")
 skeleton = NodePath("")
 
@@ -391,18 +400,22 @@ shape = SubResource("CapsuleShape3D_hdp10")
 [node name="red_stuff" type="Node3D" parent="."]
 
 [node name="polySurface3" type="MeshInstance3D" parent="red_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_vmlnw")
 skeleton = NodePath("")
 
 [node name="pCylinder5" type="MeshInstance3D" parent="red_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_llcw3")
 skeleton = NodePath("")
 
 [node name="pCylinder6" type="MeshInstance3D" parent="red_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_sj4ev")
 skeleton = NodePath("")
 
 [node name="pTorus1" type="MeshInstance3D" parent="red_stuff"]
+material_override = SubResource("StandardMaterial3D_uyc7h")
 mesh = SubResource("ArrayMesh_ir83p")
 skeleton = NodePath("")
 
@@ -414,3 +427,6 @@ script = ExtResource("2_gw6fw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.385391, 1.22369, -0.540215)
 shape = SubResource("BoxShape3D_ykvac")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_x07rg")

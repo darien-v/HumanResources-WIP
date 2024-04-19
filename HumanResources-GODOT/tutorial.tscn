@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://qen21520gaa6"]
+[gd_scene load_steps=45 format=3 uid="uid://qen21520gaa6"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_666go"]
 [ext_resource type="Script" path="res://Resources.gd" id="2_ffvxb"]
@@ -7,20 +7,29 @@
 [ext_resource type="Script" path="res://Health.gd" id="3_g4xt6"]
 [ext_resource type="ArrayMesh" uid="uid://0246fhjud8gu" path="res://models/Desk-WithStuff.obj" id="4_3h2lm"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/textbox.gd" id="4_07pqn"]
+[ext_resource type="Texture2D" uid="uid://dg7rqmf0xehc0" path="res://Textures/HR_Textures/DeskWithStuffUV_Desk_BaseColor.png" id="5_3met0"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="5_bvye2"]
 [ext_resource type="ArrayMesh" uid="uid://wn7eylewa5kg" path="res://models/WaterCooler.obj" id="5_rdm2s"]
 [ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_x5upw"]
+[ext_resource type="Texture2D" uid="uid://clt3pgj6f45h2" path="res://Textures/HR_Textures/DeskWithStuffUV_Desk_Height.png" id="6_d7mwj"]
+[ext_resource type="Texture2D" uid="uid://cb1ft4asmctfu" path="res://Textures/HR_Textures/DeskWithStuffUV_Desk_Metalness.png" id="7_54myo"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/option.gd" id="7_gb3p3"]
+[ext_resource type="Texture2D" uid="uid://bb6tfecu0sshp" path="res://Textures/HR_Textures/DeskWithStuffUV_Desk_Normal.png" id="8_bk6bc"]
+[ext_resource type="Texture2D" uid="uid://benvt8xcrp7da" path="res://Textures/HR_Textures/DeskWithStuffUV_Desk_Roughness.png" id="9_gb6yq"]
 [ext_resource type="SpriteFrames" uid="uid://ctmxroxg4woxd" path="res://art/2D Sprites/character_portraits/example/example.tres" id="9_ivt47"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/characterPortraits.gd" id="10_5qi0k"]
+[ext_resource type="Texture2D" uid="uid://bjaelfal7virn" path="res://Textures/HR_Textures/WaterCoolerUV2_WaterCooler_BaseColor.png" id="11_bfdqb"]
 [ext_resource type="SpriteFrames" uid="uid://bygl77t1d27x8" path="res://indicator.tres" id="11_pimdg"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/option_indicator.gd" id="12_8aqil"]
+[ext_resource type="Texture2D" uid="uid://432ogoddbl4c" path="res://Textures/HR_Textures/WaterCoolerUV2_WaterCooler_Metalness.png" id="12_h4w0p"]
 [ext_resource type="SpriteFrames" uid="uid://cgwrv62lxykmk" path="res://option_indicator.tres" id="12_snfd7"]
+[ext_resource type="Texture2D" uid="uid://dtpgu3g81i3o8" path="res://Textures/HR_Textures/WaterCoolerUV2_WaterCooler_Roughness.png" id="13_kthgm"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://player.tscn" id="18_qiecw"]
 [ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://testEnemy.tscn" id="19_wf7ol"]
 [ext_resource type="PackedScene" uid="uid://bc7iqx5nl7ja0" path="res://weapons/Amoray Note.tscn" id="20_qjsyg"]
 [ext_resource type="FontFile" uid="uid://c102fu0xf67kd" path="res://fonts/CourierPrime-Bold.ttf" id="22_mme0b"]
 [ext_resource type="FontFile" uid="uid://cj7c8xs0yi4mj" path="res://fonts/CourierPrime-Italic.ttf" id="23_esx6h"]
+[ext_resource type="Texture2D" uid="uid://tljm50jhrj07" path="res://Textures/HR_Textures/AmorayNoteUV_lambert1_BaseColor.png" id="30_8agc5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4qt7"]
 bg_color = Color(0, 0.709804, 0.2, 1)
@@ -34,15 +43,56 @@ size = Vector3(60, 2, 60)
 [sub_resource type="BoxMesh" id="BoxMesh_secun"]
 size = Vector3(60, 2, 60)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cttmn"]
+albedo_texture = ExtResource("5_3met0")
+metallic = 1.0
+metallic_texture = ExtResource("7_54myo")
+roughness_texture = ExtResource("9_gb6yq")
+normal_texture = ExtResource("8_bk6bc")
+heightmap_texture = ExtResource("6_d7mwj")
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ah5c0"]
 size = Vector3(0.493591, 0.669434, 1.40598)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5hyfu"]
 size = Vector3(1, 0.623535, 0.437012)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d0215"]
+albedo_texture = ExtResource("5_3met0")
+metallic = 1.0
+metallic_texture = ExtResource("7_54myo")
+roughness_texture = ExtResource("9_gb6yq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1n0nc"]
+albedo_texture = ExtResource("5_3met0")
+metallic = 1.0
+metallic_texture = ExtResource("7_54myo")
+roughness_texture = ExtResource("9_gb6yq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6hu7"]
+albedo_texture = ExtResource("5_3met0")
+metallic = 1.0
+metallic_texture = ExtResource("7_54myo")
+roughness_texture = ExtResource("9_gb6yq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bnyw8"]
+albedo_texture = ExtResource("5_3met0")
+metallic = 1.0
+metallic_texture = ExtResource("7_54myo")
+roughness_texture = ExtResource("9_gb6yq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nvdr1"]
+albedo_texture = ExtResource("11_bfdqb")
+metallic = 1.0
+metallic_texture = ExtResource("12_h4w0p")
+roughness_texture = ExtResource("13_kthgm")
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_pnrff"]
 height = 1.76048
 radius = 0.158031
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uqb4v"]
+albedo_texture = ExtResource("30_8agc5")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_666go")
@@ -141,6 +191,7 @@ shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Desk"]
 transform = Transform3D(1.49739, 0, 74.985, 0, 75, 0, -74.985, 0, 1.49739, -12.5638, -0.4877, -10.2706)
+material_override = SubResource("StandardMaterial3D_cttmn")
 mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Desk"]
@@ -155,6 +206,7 @@ shape = SubResource("BoxShape3D_5hyfu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Desk2"]
 transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 9.60053, -0.4877, -10.2706)
+material_override = SubResource("StandardMaterial3D_d0215")
 mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Desk2"]
@@ -303,6 +355,7 @@ mesh = SubResource("BoxMesh_secun")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk"]
 transform = Transform3D(1.49739, 0, 74.985, 0, 75, 0, -74.985, 0, 1.49739, -19.0351, -0.4877, -65.0222)
+material_override = SubResource("StandardMaterial3D_1n0nc")
 mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk"]
@@ -317,6 +370,7 @@ shape = SubResource("BoxShape3D_5hyfu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk2"]
 transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 11.3747, -0.487696, -89.2704)
+material_override = SubResource("StandardMaterial3D_k6hu7")
 mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk2"]
@@ -331,6 +385,7 @@ shape = SubResource("BoxShape3D_5hyfu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk3"]
 transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 19.2408, -0.487696, -59.7536)
+material_override = SubResource("StandardMaterial3D_bnyw8")
 mesh = ExtResource("4_3h2lm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk3"]
@@ -413,6 +468,7 @@ shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Exit/StaticBody3D"]
 transform = Transform3D(80, 0, 0, 0, 80, 0, 0, 0, 80, -44.5, 0, -75)
+material_override = SubResource("StandardMaterial3D_nvdr1")
 mesh = ExtResource("5_rdm2s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Exit/StaticBody3D"]
@@ -853,6 +909,9 @@ transform = Transform3D(4.33534, 0, 0, 0, 4.33534, 0, 0, 0, 4.33534, -1.36919, 4
 
 [node name="Amoray Note" parent="." instance=ExtResource("20_qjsyg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.49144, 0.55088, 8.00143)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Amoray Note"]
+material_override = SubResource("StandardMaterial3D_uqb4v")
 
 [connection signal="playerOption" from="TextInterface/textbox" to="TextInterface/textbox/option_indicator" method="becomeActive"]
 [connection signal="printOption" from="TextInterface/textbox" to="TextInterface/option1" method="setOption"]
