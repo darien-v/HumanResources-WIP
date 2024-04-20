@@ -301,9 +301,8 @@ func check_collisions(object=self):
 		if collider == null or collider.name == "Ground":
 			if not pickup and pickupItem == null:
 				resetInteraction()
-				continue
-		else:
-			print(collider.name)
+			continue
+		print(collider)
 		# If the collision is with an interactable object
 		if collider.is_in_group("interactables"):
 					# if interacting with an npc, enter appropriate filetree
@@ -317,6 +316,7 @@ func check_collisions(object=self):
 			continue
 		# If the collision is with an enemy
 		elif collider.is_in_group("weapons"):
+			print(collider)
 			if collider.isActive():
 				playerDamaged.emit(collider.get_meta("damage"))
 

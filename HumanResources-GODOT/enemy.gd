@@ -29,6 +29,7 @@ var hitboxes = []
 @onready var animationPlayer = $Pivot/Enemy/AnimationPlayer
 
 var aggro = false
+var checking = false
 var circling = false
 var comboAttacks = 2
 var totalAttacks = 0
@@ -36,15 +37,15 @@ var playerInSight = false
 var playerMissingDuration = 0
 var playerDirection = Vector3.ZERO
 var inAnimation = false
-var attackDistance = 3.5
-var actionDistance = 8
+var attackDistance = 6
+var actionDistance = 10
 var speedUp = true
 var baseY
 var checkingRayCast = false
 var canAttack = true
 
-@onready var VisionArea = $VisionArea
-@onready var VisionRaycast = $VisionRaycast
+@onready var VisionArea = $Pivot/VisionArea
+@onready var VisionRaycast = $Pivot/Eyes/VisionRaycast
 @onready var timer = $Timer
 @onready var target
 
@@ -60,7 +61,6 @@ func _ready():
 	resources.connect_enemy_death(self)
 	velocity = Vector3.ZERO
 	navAgent.target_desired_distance = actionDistance
-	global_transform.origin.y = 2
 	baseY = position.y
 	# get all hitboxes connected
 	for collider in combatCollisions:
@@ -70,16 +70,20 @@ func _ready():
 func _physics_process(delta):
 	#move_enemy(delta)
 	if aggro == true and not inAnimation:
-		checkingRayCast = false
-		checkForPlayer()
 		pathfinding()
+		if not checkingRayCast:
+			checkingRayCast = true
+			checkForPlayer()
 		if playerDirection != Vector3.ZERO:
-			playerDirection.y = baseY
 			pivot.look_at(playerDirection, Vector3.UP, true)
 			pivot.rotation.x = 0
-		animationPlayer.play("walkCycles/walkingBasic")
-		global_transform.origin.y = 2
+		# if no other animation queued, start walking
+		if not inAnimation:
+			animationPlayer.play("walkCycles/walkingBasic")
 		move_and_slide()
+	# if nothing found but something still in range, keep checking
+	if not aggro and checking:
+		check_vision(target)
 	else:
 		velocity = Vector3.ZERO
 	enemy_collisions()
@@ -153,32 +157,28 @@ func check_vision(overlap):
 			checkingRayCast = true
 			print("Checking RayCast")
 			VisionRaycast.force_raycast_update()
-			
 			if VisionRaycast.is_colliding():
 				print("CANSEE")
 				var collider = VisionRaycast.get_collider()
-				
-				if collider.is_in_group("playerInteraction"):
-					target = collider.get_parent()
-					aggro = true
-				elif collider.is_in_group("protagbody"):
+				if collider.is_in_group("protagbody"):
+					print("PLAYERBODY")
 					target = collider.get_parent()
 					target = target.get_parent()
 					aggro = true
+					checking = false
+			checkingRayCast = false
 
 func checkForPlayer():
 	var playerSeen = false
-	VisionRaycast.look_at(playerDirection, Vector3.UP)
-		
+	#print("checking for player")
 	VisionRaycast.force_raycast_update()
 	if VisionRaycast.is_colliding():
 		var collider = VisionRaycast.get_collider()
-		#print(collider)
 		if collider.is_in_group("protagbody"):
+			#print("PLAYERSEEN")
 			playerSeen = true
 			playerMissingDuration = 0
 			playerDirection = target.global_transform.origin
-			playerDirection.y = 0
 	if aggro:
 		playerDirection = target.global_transform.origin
 		if playerSeen == false:
@@ -188,11 +188,16 @@ func checkForPlayer():
 		if playerMissingDuration >= 10000:
 			animationPlayer.stop()
 			aggro = false
+	checkingRayCast = false
 	
 
 func _on_VisionArea_area_entered(area):
 	if not aggro and not checkingRayCast:
-		check_vision(area)
+		target = area
+		check_vision(target)
+		checking = true
+func _on_VisionArea_area_exited(area):
+	checking = false
 
 func _on_animation_player_animation_finished(animName):
 	inAnimation = false
@@ -202,6 +207,7 @@ func _on_animation_player_animation_finished(animName):
 func decide_action():
 	if not inAnimation:
 		var distance = navAgent.distance_to_target()
+		#print(distance)
 		if distance <= attackDistance:
 			speedMod = 3
 			if canAttack:
@@ -215,7 +221,6 @@ func circle_player():
 	pass
 	
 func basic_attack():
-	global_transform.origin.y = 0
 	if totalAttacks == comboAttacks:
 		inAnimation = false
 		canAttack = false
@@ -228,7 +233,8 @@ func basic_attack():
 		hitbox.setActive()
 	print("attacking")
 	totalAttacks += 1
-	animationPlayer.play("enemyMelee/swipe")
+	animationPlayer.stop()
+	animationPlayer.play("meleeAttacks/swipe_left")
 
 func _on_timer_timeout():
 	totalAttacks = 0
