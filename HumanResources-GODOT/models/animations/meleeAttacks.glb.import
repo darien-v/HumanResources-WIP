@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://bhe55dnmwom8j"
-path="res://.godot/imported/enemyMelee.glb-d4ffcfb42d10d50a29eb35feddac6a19.res"
+uid="uid://dotn8x4j77od0"
+path="res://.godot/imported/meleeAttacks.glb-d862f6755064bb9b762c4a364e8adb8c.res"
 
 [deps]
 
-source_file="res://models/animations/enemyMelee.glb"
-dest_files=["res://.godot/imported/enemyMelee.glb-d4ffcfb42d10d50a29eb35feddac6a19.res"]
+source_file="res://models/animations/meleeAttacks.glb"
+dest_files=["res://.godot/imported/meleeAttacks.glb-d862f6755064bb9b762c4a364e8adb8c.res"]
 
 [params]
 

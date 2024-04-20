@@ -1,10 +1,10 @@
 extends AnimationPlayer
 
-@onready var player = $"../../.."
+@onready var parent = $"../../.."
 
 # Connect signal(s) here
 func _ready():
-	player.connect_anim_finish(self)
+	parent.connect_anim_finish(self)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
