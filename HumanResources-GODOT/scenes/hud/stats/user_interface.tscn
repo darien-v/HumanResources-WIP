@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpf1g5g4jko6a"]
+
+[ext_resource type="Script" path="res://scenes/hud/stats/Resources.gd" id="1_phm35"]
+[ext_resource type="Script" path="res://scenes/hud/stats/Stamina.gd" id="2_770i7"]
+[ext_resource type="Script" path="res://scenes/hud/stats/Health.gd" id="3_6p4fw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4qt7"]
+bg_color = Color(0, 0.709804, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12oso"]
+bg_color = Color(0.741176, 0, 0, 1)
+
+[node name="UserInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Resources" type="Label" parent="."]
+layout_mode = 0
+offset_left = 973.0
+offset_top = 526.0
+offset_right = 1086.0
+offset_bottom = 589.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 45
+text = "HR: 0"
+script = ExtResource("1_phm35")
+
+[node name="Stamina" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 68.0
+offset_right = 329.0
+offset_bottom = 95.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_a4qt7")
+step = 1.0
+show_percentage = false
+script = ExtResource("2_770i7")
+
+[node name="Health" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 32.0
+offset_right = 358.0
+offset_bottom = 66.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_12oso")
+show_percentage = false
+script = ExtResource("3_6p4fw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="Stamina" method="_on_timer_timeout"]

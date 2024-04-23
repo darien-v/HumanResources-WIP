@@ -2,9 +2,9 @@ import sys
 
 # dialog tree object to store all the nodes and print to file
 class dialogTree:
-    nodes = {}
-    nodeIndex = 0
+    nodes = []
     key = "dialog"
+    title = "None"
     def __init__(self, title):
         self.title = title
     def __str__(self):
@@ -21,11 +21,9 @@ class dialogTree:
         nodelist = [self.nodes[x] for x in keys]
         return nodelist
     def add_node(self, node):
-        self.nodes[nodeIndex] = node
-        node.set_index(nodeIndex)
-        nodeIndex += 1
-    def delete_node(self, node):
-        self.nodes.pop(node.index, None)
+        self.nodes.append(node)
+    def delete_node(self, index):
+        node = self.nodes.pop(index, None)
         del node
     def create_file(self, filepath):
         filepath = filepath + f'/{self.title}.json'
@@ -37,23 +35,20 @@ class dialogTree:
     
 # dialog node object to store related pages, allow choice traversal
 class dialogNode:
-    pages = {}
-    pageIndex = 0
+    pages = []
     newPagesPossible = True
     toNodes = set([])
     fromNodes = set([])
-    index = 0
+    title = "Start"
     def __init__(self, title):
         self.title = title
     def __str__(self):
         string = '{' + f'"{self.title}": \n\t['
         pagelist = self.page_list()
-        for page in pagelist:
+        for page in pages:
             string = string + str(page) + ","
         string = string + "\n\t]\n}"
         return string
-    def set_index(self, index):
-        self.index = index
     def connect_to(self, node):
         self.toNodes.add(node)
         node.fromNodes.add(self)
@@ -62,29 +57,21 @@ class dialogNode:
         node.toNodes.add(self)
     def print_title(self):
         return self.title
-    def page_list(self):
-        keys = self.pages.keys()
-        keys.sort()
-        pagelist = [self.pages[x] for x in keys]
-        return pagelist
     def add_page(self, page):
-        self.pages[pageIndex] = page
-        page.set_index(pageIndex)
-        pageIndex+=1
-    def delete_page(self, page):
-        self.pages.pop(page.index, None)
+        self.pages.append(page)
+    def delete_page(self, index):
+        self.pages.pop(index, None)
         del page
     def toggle_new_pages(self):
-        self.newPagesPossible = !self.newPagesPossible
+        self.newPagesPossible = not self.newPagesPossible
 
 # dialog page object to store actual dialog data
 class dialogPage:
-    choices = set([])
+    choices = []
     choicesPossible = True
     speaker = "none"
     emotion = "none"
     text = "filler"
-    index = 0
     def __init__(self, parent_node):
         self.parent_node = parent_node
     def __str__(self):
@@ -105,8 +92,6 @@ class dialogPage:
         string = '\n\t'.join(string)
         string += '\n}'
         return string
-    def set_index(self, index):
-        self.index = index
     def set_speaker(self, speaker):
         self.speaker = speaker
     def set_emotion(self, emotion):
@@ -119,8 +104,8 @@ class dialogPage:
             self.choicesPossible = False 
         elif len(self.choices == 1):
             self.parent_node.toggle_new_pages()
-    def delete_choice(self, choice):
-        self.choices.remove(choice)
+    def delete_choice(self, index):
+        choice = self.choices.pop(index, None)
         self.choicesPossible = True
         del choice
         if len(self.choices) == 0:

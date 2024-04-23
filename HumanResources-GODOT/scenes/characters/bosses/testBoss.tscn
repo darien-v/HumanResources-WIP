@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2i3jby0l3krn"]
+
+[ext_resource type="PackedScene" uid="uid://xw0mwnrpa2if" path="res://models/placeholders/Boss.glb" id="1_e0jmr"]
+[ext_resource type="PackedScene" uid="uid://bjdxvkmmxs1j5" path="res://scenes/utilities/animation/animation_player.tscn" id="2_wojqj"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0188929, 0, 1.28528)
+
+[node name="Boss" parent="Pivot" instance=ExtResource("1_e0jmr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.835234, 0)
+
+[node name="AnimationPlayer" parent="Pivot/Boss" instance=ExtResource("2_wojqj")]
