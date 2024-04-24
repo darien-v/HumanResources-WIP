@@ -108,6 +108,11 @@ var weaponType
 # allows us to play animations
 @onready var animationPlayer = $Pivot/protagImportable/AnimationPlayer;
 @onready var skeleton = $Pivot/protagImportable/Armature/Skeleton3D
+@onready var face = {
+						"eyes":[$Pivot/protagImportable/Armature/Skeleton3D/LeftEye/eye, $Pivot/protagImportable/Armature/Skeleton3D/RightEye/eye],
+						"brows":[$Pivot/protagImportable/Armature/Skeleton3D/LeftEye/brow, $Pivot/protagImportable/Armature/Skeleton3D/RightEye/brow],
+						"mouth":$Pivot/protagImportable/Armature/Skeleton3D/Mouth/mouth
+					}
 
 var target_velocity = Vector3.ZERO
 
@@ -135,6 +140,12 @@ func _ready():
 	# connect area entered to the damage func
 	for collider in combatCollisions:
 		collider.area_entered.connect(self._on_HurtboxArea_area_entered)
+	# play the eyes and eyebrows
+	for eye in face["eyes"]:
+		eye.play("front")
+	for brow in face["brows"]:
+		brow.play("default")
+	face["mouth"].play("default")
 
 func _physics_process(delta):
 	# only need to process these if not in dialogue
