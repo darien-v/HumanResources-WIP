@@ -365,8 +365,8 @@ debug_shape_custom_color = Color(0.972549, 0, 0, 1)
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
 [connection signal="area_entered" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_entered"]
-[connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_vision_area_area_exited"]
 [connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_exited"]
+[connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_vision_area_area_exited"]
 [connection signal="body_entered" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
