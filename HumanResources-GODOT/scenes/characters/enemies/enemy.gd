@@ -46,7 +46,7 @@ var canAttack = true
 @onready var VisionArea = $Pivot/VisionArea
 @onready var VisionRaycast = $Pivot/Eyes/VisionRaycast
 @onready var timer = $Timer
-@onready var target
+@onready var target = $"../Player"
 
 # mini-functions to connect necessary signals
 func connect_anim_finish(animPlayer):
@@ -65,27 +65,25 @@ func _ready():
 	for collider in combatCollisions:
 		if collider.is_in_group("weapons"):
 			hitboxes.append(collider)
+		# connect area entered to the damage func
+		collider.area_entered.connect(self._on_HurtboxArea_area_entered)
 
 func _physics_process(delta):
 	#move_enemy(delta)
 	if aggro == true and not inAnimation:
 		pathfinding()
-		if not checkingRayCast:
-			checkingRayCast = true
-			checkForPlayer()
-		if playerDirection != Vector3.ZERO:
-			pivot.look_at(playerDirection, Vector3.UP, true)
-			pivot.rotation.x = 0
+		pivot.look_at(target.global_transform.origin, Vector3.UP, true)
+		pivot.rotation.x = 0
 		# if no other animation queued, start walking
 		if not inAnimation:
 			animationPlayer.play("walkCycles/walkingBasic")
 		move_and_slide()
 	# if nothing found but something still in range, keep checking
-	if not aggro and checking:
+	if not aggro and not checkingRayCast:
 		check_vision(target)
 	else:
 		velocity = Vector3.ZERO
-	enemy_collisions()
+	check_collisions()
 	
 # putting things into tiny functions
 # so the main one is a little less cluttered
@@ -98,7 +96,7 @@ func pathfinding():
 	var newPos = navAgent.get_next_path_position()
 	#print(newPos)
 	# have to exaggerate distance for this to work
-	var newVelocity = (((playerDirection - pos).normalized()) * (speed+speedMod))
+	var newVelocity = (((target.global_transform.origin - pos).normalized()) * (speed+speedMod))
 	newVelocity.y = 0
 	velocity = newVelocity
 	#print(velocity)
@@ -107,13 +105,6 @@ func pathfinding():
 # tells the enemy where the player is
 func update_target_location():
 	navAgent.target_position = target.global_transform.origin
-
-# player collision checker
-func enemy_collisions():
-	# get collisions from every body part
-	for hitbox in combatCollisions:
-		check_collisions(hitbox)
-	check_collisions()
 					
 func check_collisions(object=self):
 	# Iterate through all collisions that occurred this frame
@@ -121,25 +112,10 @@ func check_collisions(object=self):
 		# We get one of the collisions with the player
 		var collision = object.get_slide_collision(index)
 		var collider = collision.get_collider()
-
 		# If the collision is with ground
-		if collider == null or collider.get_collision_layer() == 4:
+		if collider == null:
 			continue
-		# If the collision is with a weapon
-		if collider.is_in_group("weapons"):
-			# if the weapon is actively attacking
-			if collider.isActive():
-				print(' '.join(["Enemy hit by: ", collider]))
-				# prevent multiple damage instances in one hit
-				collider.setInactive()
-				var health = self.get_meta("health")
-				health-=collider.get_meta("baseDamage")
-				print("enemy damaged, health is %d" % health)
-				if health <= 0:
-					death.emit(humanResources)
-					queue_free()
-				else:
-					self.set_meta("health", health)
+		# this function doesnt do much right now. might be removed
 
 func _on_navigation_agent_3d_target_reached():
 	if not inAnimation:
@@ -147,37 +123,28 @@ func _on_navigation_agent_3d_target_reached():
 		decide_action()
 
 func check_vision(overlap):
-	print(overlap.get_groups())
+	if overlap == null:
+		return
 	var playerSeen = false
+	checkingRayCast = true
 	if not aggro:
 		if overlap.is_in_group("protagbody"):
-			checkingRayCast = true
 			print("Checking RayCast")
 			VisionRaycast.force_raycast_update()
 			if VisionRaycast.is_colliding():
-				print("CANSEE")
-				var collider = VisionRaycast.get_collider()
-				if collider.is_in_group("protagbody"):
-					print("PLAYERBODY")
-					target = collider.get_parent()
-					target = target.get_parent()
-					aggro = true
-					checking = false
-			checkingRayCast = false
-
-func checkForPlayer():
-	var playerSeen = false
-	#print("checking for player")
-	VisionRaycast.force_raycast_update()
-	if VisionRaycast.is_colliding():
-		var collider = VisionRaycast.get_collider()
-		if collider.is_in_group("protagbody"):
-			#print("PLAYERSEEN")
+				print("CANTSEE")
+			else:
+				aggro=true
+				playerSeen = true
+				playerMissingDuration = 0
+	else:
+		VisionRaycast.force_raycast_update()
+		playerSeen = false
+		if VisionRaycast.is_colliding():
+			print("CANTSEE")
+		else:
 			playerSeen = true
 			playerMissingDuration = 0
-			playerDirection = target.global_transform.origin
-	if aggro:
-		playerDirection = target.global_transform.origin
 		if playerSeen == false:
 			playerMissingDuration += 1
 		elif playerSeen and not inAnimation:
@@ -186,15 +153,31 @@ func checkForPlayer():
 			animationPlayer.stop()
 			aggro = false
 	checkingRayCast = false
-	
+		
+	checkingRayCast = false
 
 func _on_VisionArea_area_entered(area):
 	if not aggro and not checkingRayCast:
-		target = area
-		check_vision(target)
+		check_vision(area)
 		checking = true
 func _on_VisionArea_area_exited(area):
 	checking = false
+	
+func _on_HurtboxArea_area_entered(area):
+	if area.is_in_group("weapons"):
+		# if the weapon is actively attacking
+		if area.isActive():
+			print(' '.join(["Enemy hit by: ", area]))
+			# prevent multiple damage instances in one hit
+			area.setInactive()
+			var health = self.get_meta("health")
+			health-=area.get_meta("baseDamage")
+			print("enemy damaged, health is %d" % health)
+			if health <= 0:
+				death.emit(humanResources)
+				queue_free()
+			else:
+				self.set_meta("health", health)
 
 func _on_animation_player_animation_finished(animName):
 	inAnimation = false

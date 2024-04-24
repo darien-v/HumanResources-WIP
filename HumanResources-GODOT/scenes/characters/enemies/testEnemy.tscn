@@ -170,7 +170,7 @@ transform = Transform3D(1, 1.14356e-10, -3.96066e-11, 3.38787e-11, 2.00234e-07, 
 bone_name = "Head"
 bone_idx = 5
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/headCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/headCollider" groups=["enemybody"]]
 transform = Transform3D(1, -2.87671e-14, 0, 2.86519e-14, 1, 2.22045e-16, 0, 1.11022e-15, 1, 0, 0, 0)
 collision_layer = 18
 collision_mask = 9
@@ -184,7 +184,7 @@ transform = Transform3D(1, 1.14909e-10, -3.79714e-11, 3.38787e-11, -0.0142639, 0
 bone_name = "Spine2"
 bone_idx = 3
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/torsoCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/torsoCollider" groups=["enemybody"]]
 collision_layer = 18
 collision_mask = 9
 
@@ -197,7 +197,7 @@ transform = Transform3D(1, 1.14909e-10, -3.79714e-11, 3.38787e-11, -0.0142639, 0
 bone_name = "Hips"
 bone_idx = 1
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/pelvisCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/pelvisCollider" groups=["enemybody"]]
 collision_layer = 18
 collision_mask = 9
 
@@ -210,7 +210,7 @@ transform = Transform3D(-0.99965, -0.0262352, -0.00340847, -0.0028313, -0.022005
 bone_name = "LeftUpLeg"
 bone_idx = 59
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftUpLegCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftUpLegCollider" groups=["enemybody"]]
 collision_layer = 18
 collision_mask = 9
 
@@ -223,7 +223,7 @@ transform = Transform3D(-0.999676, 0.025289, -0.00291442, -0.00397401, -0.041950
 bone_name = "LeftLeg"
 bone_idx = 60
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftLegCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftLegCollider" groups=["enemybody"]]
 collision_layer = 18
 collision_mask = 9
 
@@ -236,7 +236,7 @@ transform = Transform3D(-0.971421, 0.234522, -0.0366137, 0.160987, 0.764315, 0.6
 bone_name = "LeftFoot"
 bone_idx = 61
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftFootCollider" groups=["enemybody", "weapons"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftFootCollider" groups=["enemybody", "weapons"]]
 collision_layer = 18
 collision_mask = 9
 script = ExtResource("3_rx8qw")
@@ -252,7 +252,7 @@ transform = Transform3D(-0.999653, 0.0262403, 0.00228212, 0.00176609, -0.0196718
 bone_name = "RightUpLeg"
 bone_idx = 64
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightUpLegCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightUpLegCollider" groups=["enemybody"]]
 collision_layer = 18
 collision_mask = 9
 
@@ -265,7 +265,7 @@ transform = Transform3D(-0.999679, -0.0252921, 0.0016891, 0.00265987, -0.0383981
 bone_name = "RightLeg"
 bone_idx = 65
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightLegCollider" groups=["enemybody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightLegCollider" groups=["enemybody"]]
 collision_layer = 18
 collision_mask = 9
 
@@ -278,7 +278,7 @@ transform = Transform3D(-7.43707e-07, -1, 9.39343e-05, 0.999811, 1.06451e-06, 0.
 bone_name = "RightForeArm"
 bone_idx = 37
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightArmCollider" groups=["enemybody", "weapons"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightArmCollider" groups=["enemybody", "weapons"]]
 collision_layer = 18
 collision_mask = 9
 script = ExtResource("3_rx8qw")
@@ -293,10 +293,11 @@ transform = Transform3D(-3.19749e-07, -1, 9.39369e-05, 0.999885, 1.08546e-06, 0.
 bone_name = "RightArm"
 bone_idx = 36
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightShoulderCollider" groups=["enemybody", "weapons"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightShoulderCollider" groups=["enemybody", "weapons"]]
 collision_layer = 18
 collision_mask = 9
 script = ExtResource("3_rx8qw")
+metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightShoulderCollider/CharacterBody3D"]
 transform = Transform3D(0.999999, 3.06954e-12, 7.82311e-08, -2.84217e-12, 1, -1.23599e-11, -9.12696e-08, 1.15463e-13, 1, 10.5785, 18.3057, -6.83547)
@@ -307,7 +308,7 @@ transform = Transform3D(-8.47006e-08, 1, 7.45374e-07, -0.999767, 3.82476e-08, 0.
 bone_name = "LeftForeArm"
 bone_idx = 13
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftArmCollider" groups=["enemybody", "weapons"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftArmCollider" groups=["enemybody", "weapons"]]
 collision_layer = 18
 collision_mask = 9
 script = ExtResource("3_rx8qw")
@@ -322,10 +323,11 @@ transform = Transform3D(-8.91159e-08, 1, 7.45058e-07, -0.999844, 3.67872e-08, 0.
 bone_name = "LeftArm"
 bone_idx = 12
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftShoulderCollider" groups=["enemybody", "weapons"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftShoulderCollider" groups=["enemybody", "weapons"]]
 collision_layer = 18
 collision_mask = 9
 script = ExtResource("3_rx8qw")
+metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftShoulderCollider/CharacterBody3D"]
 transform = Transform3D(0.999999, 3.07665e-12, 8.00937e-08, -2.82796e-12, 1, -1.24367e-11, -9.49949e-08, -1.69309e-14, 1, -4.29635, 18.3057, 0.999981)
@@ -336,7 +338,7 @@ transform = Transform3D(-0.971104, -0.23633, 0.0332524, -0.163439, 0.76008, 0.62
 bone_name = "RightFoot"
 bone_idx = 66
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightFootCollider" groups=["enemybody", "weapons"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightFootCollider" groups=["enemybody", "weapons"]]
 collision_layer = 18
 collision_mask = 9
 script = ExtResource("3_rx8qw")

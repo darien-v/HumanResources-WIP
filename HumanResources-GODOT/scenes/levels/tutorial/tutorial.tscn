@@ -78,6 +78,7 @@ script = ExtResource("1_666go")
 [node name="Player" parent="." instance=ExtResource("18_qiecw")]
 transform = Transform3D(0.310917, 0, 0, 0, 0.310917, 0, 0, 0, 0.310917, 0, -0.106666, 10.515)
 collision_mask = 6
+collision_priority = 5.0
 
 [node name="Marker3D" type="Marker3D" parent="Player"]
 script = ExtResource("5_s18pw")
@@ -391,7 +392,7 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Ground"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 15)
 mesh = SubResource("BoxMesh_secun")
 surface_material_override/0 = SubResource("StandardMaterial3D_kd1yi")
 
@@ -405,7 +406,7 @@ transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, 
 shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Wall1"]
-transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, -14.5, 15.5, 0)
+transform = Transform3D(-4.37114e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -1, -2.18557e-08, 9.55343e-16, -14.5, 15.5, 15)
 mesh = SubResource("BoxMesh_secun")
 
 [node name="Wall2" type="StaticBody3D" parent="Rooms/Start"]
@@ -418,7 +419,7 @@ transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, 
 shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Wall2"]
-transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, 14.5, 15.5, 0)
+transform = Transform3D(-4.37114e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -1, -2.18557e-08, 9.55343e-16, 14.5, 15.5, 15)
 mesh = SubResource("BoxMesh_secun")
 
 [node name="Wall3" type="StaticBody3D" parent="Rooms/Start"]

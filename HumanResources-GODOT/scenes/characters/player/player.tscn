@@ -508,7 +508,7 @@ size = Vector3(11.2804, 21.5264, 8.2063)
 [sub_resource type="BoxShape3D" id="BoxShape3D_4v3fx"]
 size = Vector3(3.96118, 0.978027, 3.37628)
 
-[node name="Player" type="CharacterBody3D" groups=["player", "protagbody"]]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_mask = 22
 collision_priority = 5.0
 script = ExtResource("1_5upvd")
@@ -614,7 +614,7 @@ transform = Transform3D(1, -9.29619e-12, -5.32491e-12, 5.91172e-12, 1.02446e-08,
 bone_name = "Head"
 bone_idx = 5
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/headCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/headCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/headCollider/CharacterBody3D"]
@@ -626,7 +626,7 @@ transform = Transform3D(1, -9.21929e-12, -5.45697e-12, 5.91172e-12, -0.0142641, 
 bone_name = "Spine1"
 bone_idx = 2
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/torsoCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/torsoCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/torsoCollider/CharacterBody3D"]
@@ -642,7 +642,7 @@ transform = Transform3D(1, 8.89211e-05, 2.79162e-06, -2.79173e-06, 1.19209e-06, 
 bone_name = "Hips"
 bone_idx = 0
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/pelvisCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/pelvisCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/pelvisCollider/CharacterBody3D"]
@@ -654,7 +654,7 @@ transform = Transform3D(-0.999646, -0.0262353, -0.00340847, -0.00283128, -0.0220
 bone_name = "LeftUpLeg"
 bone_idx = 55
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftUpLegCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftUpLegCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftUpLegCollider/CharacterBody3D"]
@@ -666,7 +666,7 @@ transform = Transform3D(-0.999672, 0.0252887, -0.00291442, -0.00397399, -0.04195
 bone_name = "LeftLeg"
 bone_idx = 56
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftLegCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftLegCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftLegCollider/CharacterBody3D"]
@@ -678,7 +678,7 @@ transform = Transform3D(-0.999663, 0.0262403, 0.00228213, 0.00176612, -0.0196716
 bone_name = "RightUpLeg"
 bone_idx = 60
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightUpLegCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightUpLegCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightUpLegCollider/CharacterBody3D"]
@@ -690,7 +690,7 @@ transform = Transform3D(-0.999689, -0.0252926, 0.00168909, 0.00265989, -0.038397
 bone_name = "RightLeg"
 bone_idx = 61
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightLegCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightLegCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightLegCollider/CharacterBody3D"]
@@ -702,7 +702,7 @@ transform = Transform3D(-9.14406e-08, -1, 9.30429e-05, 0.999885, 1.45007e-06, 0.
 bone_name = "RightArm"
 bone_idx = 32
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightShoulderCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightShoulderCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightShoulderCollider/CharacterBody3D"]
@@ -714,7 +714,7 @@ transform = Transform3D(1.54923e-07, 1, -6.40098e-10, -0.999767, 8.10884e-08, 0.
 bone_name = "LeftForeArm"
 bone_idx = 9
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/LeftArmCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/LeftArmCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/LeftArmCollider/CharacterBody3D"]
@@ -726,7 +726,7 @@ transform = Transform3D(1.53464e-07, 1, 0, -0.999844, 7.96281e-08, 0.0176298, 0.
 bone_name = "LeftArm"
 bone_idx = 8
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/LeftShoulderCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/LeftShoulderCollider" groups=["protagbody"]]
 transform = Transform3D(0.0882769, -0.345248, -0.198083, -0.00939893, -0.204648, 0.352501, -0.397926, -0.071757, -0.0522694, 5.05029, 2.5392, 1.59497)
 collision_mask = 18
 
@@ -739,7 +739,7 @@ transform = Transform3D(-5.11565e-07, -1, 9.30412e-05, 0.999811, 1.42913e-06, 0.
 bone_name = "RightForeArm"
 bone_idx = 33
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/RightArmCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/RightArmCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/RightArmCollider/CharacterBody3D"]
@@ -751,7 +751,7 @@ transform = Transform3D(-0.971113, -0.236333, 0.0332527, -0.163439, 0.76008, 0.6
 bone_name = "RightFoot"
 bone_idx = 62
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightFootCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightFootCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/rightFootCollider/CharacterBody3D"]
@@ -763,7 +763,7 @@ transform = Transform3D(-0.971417, 0.234521, -0.0366139, 0.160987, 0.764315, 0.6
 bone_name = "LeftFoot"
 bone_idx = 57
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftFootCollider" groups=["protagbody"]]
+[node name="CharacterBody3D" type="Area3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftFootCollider" groups=["protagbody"]]
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/protagImportable/Armature/Skeleton3D/leftFootCollider/CharacterBody3D"]
@@ -839,5 +839,9 @@ shape = SubResource("BoxShape3D_yc6qu")
 [node name="fallPrevention" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0226053, 0.529773, -0.128202)
 shape = SubResource("BoxShape3D_4v3fx")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
 [editable path="Pivot/protagImportable"]
