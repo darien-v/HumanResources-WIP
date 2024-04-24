@@ -62,7 +62,12 @@ var sprinting = true
 var walkingInput = false
 var idling = false
 var dodging = false
+
+# invulnerability functionality
 var invulnerable = false
+var rollTime = 1
+var hitTime = 1
+@onready var timer = $Timer
 
 # lets us know what interactable areas the player is in
 var interactables
@@ -124,8 +129,12 @@ func connect_player_hurt(healthbar):
 
 # on object creation, get the starting position
 func _ready():
+	timer.stop()
 	oldpos = global_position
 	staminaMeter.connect_player_signals(self)
+	# connect area entered to the damage func
+	for collider in combatCollisions:
+		collider.area_entered.connect(self._on_HurtboxArea_area_entered)
 
 func _physics_process(delta):
 	# only need to process these if not in dialogue
@@ -277,7 +286,7 @@ func move_player(delta):
 	
 	# process interactable collisions if we moved
 	if oldpos != global_position:
-		player_interactable_collisions()
+		check_collisions()
 		oldpos = global_position
 	# else, if we're interacting w npc, continue
 	elif interactionGroup == "NPC":
@@ -300,13 +309,6 @@ func process_action(type, isAttack):
 			print("hitbox on")
 			hitbox.setActive();
 
-# player collision checker
-func player_interactable_collisions():
-	# get collisions from every body part
-	for hitbox in combatCollisions:
-		check_collisions(hitbox)
-	check_collisions()
-
 func check_collisions(object=self):
 	for index in range(object.get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -328,12 +330,15 @@ func check_collisions(object=self):
 			# here is where youd do whatever to get the name of the script you want
 			interactionName = interactable # placeholder
 			continue
-		# If the collision is with an enemy
-		elif collider.is_in_group("weapons"):
-			print(' '.join(["Player hit by: ", collider]))
-			if collider.isActive():
-				print("player damaged")
-				playerDamaged.emit(collider.get_meta("damage"))
+
+func _on_HurtboxArea_area_entered(area):
+	if area.is_in_group("weapons"):
+		if area.isActive() and not invulnerable:
+			print(' '.join(["Player hit by: ", area]))
+			print("player damaged")
+			playerDamaged.emit(area.get_meta("damage"))
+			invulnerable = true
+			timer.start(hitTime)
 
 func entered_interactable_area(object):
 	if object.is_in_group("interactables"):
@@ -408,3 +413,8 @@ func setInAnimation():
 	inAnimation = true
 func setNoAnimation():
 	inAnimation = false
+
+
+func _on_timer_timeout():
+	timer.stop()
+	invulnerable = false

@@ -1,20 +1,28 @@
 [gd_scene load_steps=13 format=3 uid="uid://qen21520gaa6"]
 
-[ext_resource type="Script" path="res://scenes/levels/tutorial/tutorial.gd" id="1_666go"]
-[ext_resource type="PackedScene" uid="uid://dpf1g5g4jko6a" path="res://scenes/hud/stats/user_interface.tscn" id="2_l5trh"]
-[ext_resource type="PackedScene" uid="uid://bxhstmi30td3w" path="res://scenes/hud/dialog/text_interface.tscn" id="3_ms8la"]
+[ext_resource type="Script" path="res://main.gd" id="1_666go"]
+[ext_resource type="Script" path="res://Stamina.gd" id="2_fxqa6"]
+[ext_resource type="Script" path="res://Health.gd" id="3_g4xt6"]
+[ext_resource type="ArrayMesh" uid="uid://0246fhjud8gu" path="res://models/Desk-WithStuff.obj" id="4_3h2lm"]
 [ext_resource type="ArrayMesh" uid="uid://wn7eylewa5kg" path="res://models/WaterCooler.obj" id="5_rdm2s"]
-[ext_resource type="Script" path="res://scenes/characters/player/CameraPivot.gd" id="5_s18pw"]
-[ext_resource type="PackedScene" uid="uid://mn4dxvx1s03o" path="res://scenes/items/weapons/amoray_note.tscn" id="9_3qp5u"]
-[ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://scenes/characters/player/player.tscn" id="18_qiecw"]
-[ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://scenes/characters/enemies/testEnemy.tscn" id="19_wf7ol"]
-[ext_resource type="PackedScene" uid="uid://bnnidmcldne2j" path="res://desk.tscn" id="20_6xuv2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4qt7"]
+bg_color = Color(0, 0.709804, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12oso"]
+bg_color = Color(0.741176, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
 
 [sub_resource type="BoxMesh" id="BoxMesh_secun"]
 size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ah5c0"]
+size = Vector3(0.493591, 0.669434, 1.40598)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5hyfu"]
+size = Vector3(1, 0.623535, 0.437012)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_pnrff"]
 height = 1.76048
@@ -23,194 +31,42 @@ radius = 0.158031
 [node name="Main" type="Node"]
 script = ExtResource("1_666go")
 
-[node name="UserInterface" parent="." instance=ExtResource("2_l5trh")]
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="TextInterface" parent="." instance=ExtResource("3_ms8la")]
+[node name="Resources" type="Label" parent="UserInterface"]
+layout_mode = 0
+offset_left = 973.0
+offset_top = 526.0
+offset_right = 1086.0
+offset_bottom = 589.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 45
+text = "HR: 0"
 
-[node name="Player" parent="." instance=ExtResource("18_qiecw")]
-transform = Transform3D(0.310917, 0, 0, 0, 0.310917, 0, 0, 0, 0.310917, 0, 1.90353, 10.515)
-collision_mask = 6
-collision_priority = 5.0
+[node name="Stamina" type="ProgressBar" parent="UserInterface"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 68.0
+offset_right = 329.0
+offset_bottom = 95.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_a4qt7")
+step = 1.0
+show_percentage = false
+script = ExtResource("2_fxqa6")
 
-[node name="Marker3D" type="Marker3D" parent="Player"]
-script = ExtResource("5_s18pw")
-
-[node name="Camera3D" type="Camera3D" parent="Player/Marker3D"]
-transform = Transform3D(3.21629, 0, 0, 0, 2.02172, 2.50144, 0, -2.50144, 2.02172, 0, 37.098, 14.7336)
-
-[node name="CameraTimer" type="Timer" parent="Player/Marker3D/Camera3D"]
-
-[node name="Lights" type="Node3D" parent="."]
-
-[node name="Room1" type="Node3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.93013, 0)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, -9.87455)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, -9.87455)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D3" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 0.197132)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 0.197132)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 8.58035)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D6" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 8.58035)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D7" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 16.5915)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D8" type="SpotLight3D" parent="Lights/Room1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 16.5915)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="Room2" type="Node3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.23713, 4.93013, -80.4201)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, -9.87455)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, -9.87455)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D3" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 0.197132)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 0.197132)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 8.58035)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D6" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 8.58035)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D7" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 16.5915)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D8" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 16.5915)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D9" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, -9.87456)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D10" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 0.197128)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D11" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 8.58035)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D12" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 16.5915)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D13" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.6228, 16.1266, 29.1323)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D14" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10.1669, 16.1266, 29.1323)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="SpotLight3D15" type="SpotLight3D" parent="Lights/Room2"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30.6674, 16.1266, 29.1323)
-light_energy = 10.0
-light_size = 0.514
-spot_range = 32.8216
-spot_angle = 89.99
-
-[node name="Enemy" parent="." instance=ExtResource("19_wf7ol")]
-transform = Transform3D(4.33534, 0, 0, 0, 4.33534, 0, 0, 0, 4.33534, -1.36919, 4.31596, -70.1012)
+[node name="Health" type="ProgressBar" parent="UserInterface"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 32.0
+offset_right = 358.0
+offset_bottom = 66.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_12oso")
+show_percentage = false
+script = ExtResource("3_g4xt6")
 
 [node name="Rooms" type="Node3D" parent="."]
 
@@ -219,14 +75,14 @@ transform = Transform3D(4.33534, 0, 0, 0, 4.33534, 0, 0, 0, 4.33534, -1.36919, 4
 [node name="Ground" type="StaticBody3D" parent="Rooms/Start"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_layer = 4
-collision_mask = 39
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Ground"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Ground"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 15)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("BoxMesh_secun")
 
 [node name="Wall1" type="StaticBody3D" parent="Rooms/Start"]
@@ -239,7 +95,7 @@ transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, 
 shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Wall1"]
-transform = Transform3D(-4.37114e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -1, -2.18557e-08, 9.55343e-16, -14.5, 15.5, 15)
+transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, -14.5, 15.5, 0)
 mesh = SubResource("BoxMesh_secun")
 
 [node name="Wall2" type="StaticBody3D" parent="Rooms/Start"]
@@ -252,7 +108,7 @@ transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, 
 shape = SubResource("BoxShape3D_bb4f4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Wall2"]
-transform = Transform3D(-4.37114e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -1, -2.18557e-08, 9.55343e-16, 14.5, 15.5, 15)
+transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, 14.5, 15.5, 0)
 mesh = SubResource("BoxMesh_secun")
 
 [node name="Wall3" type="StaticBody3D" parent="Rooms/Start"]
@@ -264,12 +120,40 @@ collision_mask = 0
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 15.5, 14.5)
 shape = SubResource("BoxShape3D_bb4f4")
 
+[node name="Desk" type="StaticBody3D" parent="Rooms/Start"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Desk"]
+transform = Transform3D(1.49739, 0, 74.985, 0, 75, 0, -74.985, 0, 1.49739, -12.5638, -0.4877, -10.2706)
+mesh = ExtResource("4_3h2lm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Desk"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -12.709, 1.17358, -9.98199)
+shape = SubResource("BoxShape3D_ah5c0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Rooms/Start/Desk"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -12.0829, 1.05884, -12.2851)
+shape = SubResource("BoxShape3D_5hyfu")
+
+[node name="Desk2" type="StaticBody3D" parent="Rooms/Start"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Start/Desk2"]
+transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 9.60053, -0.4877, -10.2706)
+mesh = ExtResource("4_3h2lm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Start/Desk2"]
+transform = Transform3D(-0.1888, 0, -4.99643, 0, 5, 0, 4.99643, 0, -0.1888, 9.21242, 1.17358, -10.1959)
+shape = SubResource("BoxShape3D_ah5c0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Rooms/Start/Desk2"]
+transform = Transform3D(-0.0647499, 0, -4.99958, 0, 5, 0, 4.99958, 0, -0.0647499, 11.7962, 1.05884, -9.83566)
+shape = SubResource("BoxShape3D_5hyfu")
+
 [node name="Hallway" type="Node3D" parent="Rooms"]
 
 [node name="Ground" type="StaticBody3D" parent="Rooms/Hallway"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_layer = 4
-collision_mask = 39
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Hallway/Ground"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -30)
@@ -336,7 +220,7 @@ mesh = SubResource("BoxMesh_secun")
 [node name="Ground" type="StaticBody3D" parent="Rooms/Boss Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_layer = 4
-collision_mask = 39
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -75)
@@ -398,6 +282,48 @@ shape = SubResource("BoxShape3D_bb4f4")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 30, -105)
 mesh = SubResource("BoxMesh_secun")
 
+[node name="Desk" type="StaticBody3D" parent="Rooms/Boss Room"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk"]
+transform = Transform3D(1.49739, 0, 74.985, 0, 75, 0, -74.985, 0, 1.49739, -19.0351, -0.4877, -65.0222)
+mesh = ExtResource("4_3h2lm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -19.1803, 1.17358, -64.7336)
+shape = SubResource("BoxShape3D_ah5c0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Rooms/Boss Room/Desk"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -18.5542, 1.05884, -67.0367)
+shape = SubResource("BoxShape3D_5hyfu")
+
+[node name="Desk2" type="StaticBody3D" parent="Rooms/Boss Room"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk2"]
+transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 11.3747, -0.487696, -89.2704)
+mesh = ExtResource("4_3h2lm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk2"]
+transform = Transform3D(-0.1888, 0, -4.99643, 0, 5, 0, 4.99643, 0, -0.1888, 10.9866, 1.17359, -89.1957)
+shape = SubResource("BoxShape3D_ah5c0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Rooms/Boss Room/Desk2"]
+transform = Transform3D(-0.0647499, 0, -4.99958, 0, 5, 0, 4.99958, 0, -0.0647499, 13.5703, 1.05884, -88.8355)
+shape = SubResource("BoxShape3D_5hyfu")
+
+[node name="Desk3" type="StaticBody3D" parent="Rooms/Boss Room"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rooms/Boss Room/Desk3"]
+transform = Transform3D(75, 0, 0, 0, 75, 0, 0, 0, 75, 19.2408, -0.487696, -59.7536)
+mesh = ExtResource("4_3h2lm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Desk3"]
+transform = Transform3D(-0.1888, 0, -4.99643, 0, 5, 0, 4.99643, 0, -0.1888, 18.8526, 1.17359, -59.679)
+shape = SubResource("BoxShape3D_ah5c0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Rooms/Boss Room/Desk3"]
+transform = Transform3D(-0.0647499, 0, -4.99958, 0, 5, 0, 4.99958, 0, -0.0647499, 21.4364, 1.05884, -59.3187)
+shape = SubResource("BoxShape3D_5hyfu")
+
 [node name="Wall5" type="StaticBody3D" parent="Rooms/Boss Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_layer = 4
@@ -415,24 +341,6 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Boss Room/Wall6"]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 22.5, 15.5, -45)
 shape = SubResource("BoxShape3D_bb4f4")
-
-[node name="DeskCombo" type="Node3D" parent="Rooms/Boss Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.1739, 0, -99.7122)
-
-[node name="Desk" parent="Rooms/Boss Room/DeskCombo" instance=ExtResource("20_6xuv2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.45275, -7.62939e-06, 2.07343)
-
-[node name="Desk2" parent="Rooms/Boss Room/DeskCombo" instance=ExtResource("20_6xuv2")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.15686, -7.62939e-06, 0.11747)
-
-[node name="DeskCombo2" type="Node3D" parent="Rooms/Boss Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.11631, 0, -99.7122)
-
-[node name="Desk" parent="Rooms/Boss Room/DeskCombo2" instance=ExtResource("20_6xuv2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.45275, -7.62939e-06, 2.07343)
-
-[node name="Desk2" parent="Rooms/Boss Room/DeskCombo2" instance=ExtResource("20_6xuv2")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.15686, -7.62939e-06, 0.11747)
 
 [node name="Exit" type="Node3D" parent="Rooms"]
 
@@ -493,6 +401,3 @@ mesh = ExtResource("5_rdm2s")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rooms/Exit/StaticBody3D"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -44.5, 0, -75)
 shape = SubResource("CylinderShape3D_pnrff")
-
-[node name="Amoray Note" parent="." instance=ExtResource("9_3qp5u")]
-transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -9.88824, 0.566196, 11.2601)
