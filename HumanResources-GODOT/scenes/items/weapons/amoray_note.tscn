@@ -1,0 +1,59 @@
+[gd_scene load_steps=13 format=3 uid="uid://mn4dxvx1s03o"]
+
+[ext_resource type="PackedScene" uid="uid://ci4408hoqaxxb" path="res://models/weapons/AmorayNote.glb" id="1_wvdcj"]
+[ext_resource type="Texture2D" uid="uid://d3x1jocjs75jk" path="res://Textures/HR_Textures/Weapon/Amoray_Note/NewAmorayNote_lambert2_BaseColor.png" id="2_242q4"]
+[ext_resource type="Script" path="res://scenes/utilities/Hitbox.gd" id="2_ejoru"]
+[ext_resource type="Script" path="res://scenes/utilities/interactionBox.gd" id="3_j77s0"]
+[ext_resource type="Texture2D" uid="uid://io5irbax2ttn" path="res://Textures/HR_Textures/Weapon/Amoray_Note/NewAmorayNote_lambert2_Height.png" id="3_y8xgk"]
+[ext_resource type="Texture2D" uid="uid://dc2trfv8qbxjb" path="res://Textures/HR_Textures/Weapon/Amoray_Note/NewAmorayNote_lambert2_Metalness.png" id="4_uo5ms"]
+[ext_resource type="Texture2D" uid="uid://m1tq7na6i7tu" path="res://Textures/HR_Textures/Weapon/Amoray_Note/NewAmorayNote_lambert2_Normal.png" id="5_y43g8"]
+[ext_resource type="Texture2D" uid="uid://c3srbxq8t7prt" path="res://Textures/HR_Textures/Weapon/Amoray_Note/NewAmorayNote_lambert2_Roughness.png" id="6_w01wf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fqn64"]
+albedo_texture = ExtResource("2_242q4")
+metallic = 1.0
+metallic_texture = ExtResource("4_uo5ms")
+roughness_texture = ExtResource("6_w01wf")
+normal_enabled = true
+normal_texture = ExtResource("5_y43g8")
+heightmap_texture = ExtResource("3_y8xgk")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3nvjk"]
+size = Vector3(2.88068, 2.88052, 4.4361)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1aud3"]
+size = Vector3(1.63391, 1, 5.22095)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jyrcc"]
+size = Vector3(5.61619, 2.80847, 12.2984)
+
+[node name="Amoray Note" groups=["collectibles", "equipables", "weapons"] instance=ExtResource("1_wvdcj")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+metadata/type = "spear"
+metadata/baseDamage = 10
+
+[node name="Amoray_Note" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_fqn64")
+
+[node name="Hitbox" type="StaticBody3D" parent="." index="1"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("2_ejoru")
+metadata/baseDamage = 10
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11618, 0.107315, 3.15591)
+shape = SubResource("BoxShape3D_3nvjk")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Hitbox" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0874634, 0, -1.92737)
+shape = SubResource("BoxShape3D_1aud3")
+
+[node name="InteractionArea" type="Area3D" parent="." index="2"]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("3_j77s0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.155766, 0.0741577, 0.486664)
+shape = SubResource("BoxShape3D_jyrcc")

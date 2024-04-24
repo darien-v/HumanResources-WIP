@@ -40,13 +40,16 @@ signal printOption(optionNum, key, text)
 signal playerOption(numOptions)
 
 # basically state variables
-var showingText = false
+@export var showingText = false
 var printingText = true
 var changePages = true
 var showNextPage = true
 var showChoices = false
 var choiceSetup = false
 var finished = false
+
+# keeps E from being doublecounted
+var playerInteracted = false
 
 # all of the other vars we need
 var dialogNode = "Start"
@@ -97,6 +100,7 @@ func initVars():
 	changePages = true
 	showChoices = false
 	playerShowing = false
+	playerInteracted = false
 
 # this is clunky, but allows us to have a variable dialog path so yay
 func getDialogPath(interactionGroup, specificInteraction, interactionName, interactable) -> String:
@@ -169,6 +173,10 @@ func makeInvisible():
 		speakerPortrait.hideSelf()
 		playerPortrait.hideSelf()
 		#print("textbox hidden!")
+	
+# mark that player pressed button again
+func player_interacted():
+	playerInteracted = true
 	
 # just putting this here to declutter process
 func startInteraction(pickupvar=false, itemvar=null):
@@ -258,7 +266,7 @@ func checkChoicesInit():
 # or if we are done with the current page of dialog
 func checkCompletion():
 	$Indicator.visible = finished
-	if Input.is_action_just_pressed("interact"):
+	if playerInteracted:
 		# normal protocol
 		if showChoices: 
 			if choiceSetup and finished:
@@ -280,6 +288,7 @@ func checkCompletion():
 			printingText = false
 			finished = true
 			showNextPage = true
+		playerInteracted = false
 
 # checks if text is outside textbox bounds
 # we do this by verifying total lines is same or less than visible lines
@@ -351,7 +360,7 @@ func nextPhrase() -> void:
 			var temp = currentDialogNode[phraseNum]
 			var emotion = temp["Emotion"]
 			var speaker = temp["Name"]
-			textbox_speaker.text = speaker
+			textbox_speaker.text = ''.join(["[b][i]",speaker,"[/i][/b]"])
 			# set up the portrait
 			if speaker.to_lower() != "you":
 				speakerPortrait.setPortrait(speaker)

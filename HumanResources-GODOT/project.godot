@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="HumanResources"
-run/main_scene="res://main.tscn"
+run/main_scene="res://scenes/levels/tutorial/tutorial.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
 
@@ -97,6 +97,9 @@ heavy_attack={
 3d_physics/layer_1="player"
 3d_physics/layer_2="npcs"
 3d_physics/layer_3="world"
+3d_physics/layer_4="Player_Weapons"
+3d_physics/layer_5="Enemy_Weapons"
+3d_physics/layer_6="Destructibles"
 
 [rendering]
 

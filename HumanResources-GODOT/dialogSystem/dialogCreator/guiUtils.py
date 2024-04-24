@@ -9,3 +9,7 @@ def show_widget(widget):
     widget.pack()
 def delete_widget(widget):
     widget.destroy()
+def retrieve_text_input(textbox):
+    return textbox.get()
+def retrieve_tree_selection(tree):
+    return tree.item(tree.focus())['text']

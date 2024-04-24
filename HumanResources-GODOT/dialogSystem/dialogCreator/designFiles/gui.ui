@@ -83,7 +83,7 @@
                             </child>
                             <child>
                               <object class="ttk.Button" id="addName" named="True">
-                                <property name="command" type="command" cbtype="simple">addManual</property>
+                                <property name="command" type="command" cbtype="simple">addItem</property>
                                 <property name="text" translatable="yes">Add Manually</property>
                                 <layout manager="pack">
                                   <property name="expand">true</property>
@@ -129,6 +129,7 @@
                             </child>
                             <child>
                               <object class="ttk.Button" id="importEmotion" named="True">
+                                <property name="command" type="command" cbtype="simple">importList</property>
                                 <property name="text" translatable="yes">Import from File</property>
                                 <layout manager="pack">
                                   <property name="expand">true</property>
@@ -139,6 +140,7 @@
                             </child>
                             <child>
                               <object class="ttk.Button" id="addEmotion" named="True">
+                                <property name="command" type="command" cbtype="simple">addItem</property>
                                 <property name="text" translatable="yes">Add Manually</property>
                                 <layout manager="pack">
                                   <property name="expand">true</property>
@@ -190,7 +192,7 @@
                             </child>
                             <child>
                               <object class="ttk.Button" id="treeImporter" named="True">
-                                <property name="command" type="command" cbtype="simple">importTree</property>
+                                <property name="command" type="command" cbtype="simple">importTrees</property>
                                 <property name="text" translatable="yes">Import Tree(s) From File</property>
                                 <layout manager="pack">
                                   <property name="side">top</property>
@@ -367,7 +369,9 @@
                                         </child>
                                         <child>
                                           <object class="ttk.Checkbutton" id="hasChoices" named="True">
+                                            <property name="command" type="command" cbtype="simple">nodeToggleChoices</property>
                                             <property name="text" translatable="yes">Choice-Driven</property>
+                                            <property name="variable">string:nodeChoiceToggle</property>
                                             <layout manager="pack">
                                               <property name="anchor">w</property>
                                               <property name="pady">10</property>
@@ -377,7 +381,9 @@
                                         </child>
                                         <child>
                                           <object class="ttk.Checkbutton" id="newPagesPossible" named="True">
+                                            <property name="state">disabled</property>
                                             <property name="text" translatable="yes">Can Add Pages</property>
+                                            <property name="variable">string:pagesPossible</property>
                                             <layout manager="pack">
                                               <property name="anchor">w</property>
                                               <property name="side">top</property>
@@ -554,6 +560,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="ttk.Button" id="addPageTarget" named="True">
+                                                        <property name="command" type="command" cbtype="simple">targetConnector</property>
                                                         <property name="text" translatable="yes">Add Target</property>
                                                         <layout manager="pack">
                                                           <property name="anchor">n</property>
@@ -563,7 +570,9 @@
                                                     </child>
                                                     <child>
                                                       <object class="ttk.Checkbutton" id="checkbutton8">
+                                                        <property name="command" type="command" cbtype="simple">toggleChoices</property>
                                                         <property name="text" translatable="yes">Choices @ End</property>
+                                                        <property name="variable">string:choiceToggle</property>
                                                         <layout manager="pack">
                                                           <property name="anchor">n</property>
                                                           <property name="side">left</property>
@@ -572,6 +581,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="ttk.Button" id="button10">
+                                                        <property name="command" type="command" cbtype="simple">addChoice</property>
                                                         <property name="default">disabled</property>
                                                         <property name="text" translatable="yes">Add Choice</property>
                                                         <layout manager="pack">
@@ -618,6 +628,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="ttk.Button" id="pageEditorButton" named="True">
+                                                        <property name="command" type="command" cbtype="simple">savePageChanges</property>
                                                         <property name="text" translatable="yes">Save Changes</property>
                                                         <layout manager="pack">
                                                           <property name="anchor">n</property>
@@ -627,6 +638,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="ttk.Button" id="newPageCreator" named="True">
+                                                        <property name="command" type="command" cbtype="simple">createPage</property>
                                                         <property name="text" translatable="yes">New Page</property>
                                                         <layout manager="pack">
                                                           <property name="anchor">n</property>
@@ -636,6 +648,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="ttk.Button" id="pageDeleter" named="True">
+                                                        <property name="command" type="command" cbtype="simple">deletePage</property>
                                                         <property name="text" translatable="yes">Delete Page</property>
                                                         <layout manager="pack">
                                                           <property name="anchor">n</property>
@@ -769,6 +782,7 @@
                                                                 </child>
                                                                 <child>
                                                                   <object class="ttk.Button" id="addChoiceTarget" named="True">
+                                                                    <property name="command" type="command" cbtype="simple">targetConnector</property>
                                                                     <property name="text" translatable="yes">Add/Set Target</property>
                                                                     <layout manager="pack">
                                                                       <property name="anchor">n</property>
@@ -788,6 +802,7 @@
                                                                 </layout>
                                                                 <child>
                                                                   <object class="ttk.Button" id="choiceEditorButton" named="True">
+                                                                    <property name="command" type="command" cbtype="simple">saveChoice</property>
                                                                     <property name="text" translatable="yes">Save Changes</property>
                                                                     <layout manager="pack">
                                                                       <property name="anchor">n</property>
@@ -797,6 +812,7 @@
                                                                 </child>
                                                                 <child>
                                                                   <object class="ttk.Button" id="choiceDeleter" named="True">
+                                                                    <property name="command" type="command" cbtype="simple">deleteChoice</property>
                                                                     <property name="text" translatable="yes">Delete Choice</property>
                                                                     <layout manager="pack">
                                                                       <property name="anchor">n</property>
@@ -887,7 +903,21 @@
                             <property name="command" type="command" cbtype="simple">saveSelectedTrees</property>
                             <property name="text" translatable="yes">Save Selected Trees</property>
                             <layout manager="pack">
-                              <property name="side">top</property>
+                              <property name="anchor">n</property>
+                              <property name="expand">true</property>
+                              <property name="side">left</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Checkbutton" id="checkbutton1">
+                            <property name="command" type="command" cbtype="simple">treeCompiler</property>
+                            <property name="text" translatable="yes">Save to One File</property>
+                            <property name="variable">string:treesOneFile</property>
+                            <layout manager="pack">
+                              <property name="anchor">n</property>
+                              <property name="expand">true</property>
+                              <property name="side">left</property>
                             </layout>
                           </object>
                         </child>

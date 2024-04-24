@@ -1,0 +1,280 @@
+[gd_scene load_steps=13 format=3 uid="uid://bxhstmi30td3w"]
+
+[ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://scenes/hud/dialog/textbox_test.tres" id="1_554h2"]
+[ext_resource type="Script" path="res://dialogSystem/scripts/textbox.gd" id="2_wo83u"]
+[ext_resource type="SpriteFrames" uid="uid://bygl77t1d27x8" path="res://scenes/hud/dialog/indicator.tres" id="3_illja"]
+[ext_resource type="SpriteFrames" uid="uid://cgwrv62lxykmk" path="res://scenes/hud/dialog/option_indicator.tres" id="4_jvpiq"]
+[ext_resource type="Script" path="res://dialogSystem/scripts/option_indicator.gd" id="5_1p6mr"]
+[ext_resource type="SpriteFrames" uid="uid://ctmxroxg4woxd" path="res://art/2D Sprites/character_portraits/example/example.tres" id="6_47pyx"]
+[ext_resource type="Script" path="res://dialogSystem/scripts/characterPortraits.gd" id="7_b0oc3"]
+[ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="8_5gjo1"]
+[ext_resource type="FontFile" uid="uid://c102fu0xf67kd" path="res://fonts/CourierPrime-Bold.ttf" id="9_scsb6"]
+[ext_resource type="FontFile" uid="uid://cj7c8xs0yi4mj" path="res://fonts/CourierPrime-Italic.ttf" id="10_co6wd"]
+[ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="11_8n40u"]
+[ext_resource type="Script" path="res://dialogSystem/scripts/option.gd" id="12_3t8ww"]
+
+[node name="TextInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="textbox" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(570, 532.25)
+scale = Vector2(22.375, 4.09375)
+sprite_frames = ExtResource("1_554h2")
+animation = &"textbox_test"
+script = ExtResource("2_wo83u")
+
+[node name="Timer" type="Timer" parent="textbox"]
+
+[node name="Indicator" type="AnimatedSprite2D" parent="textbox"]
+visible = false
+position = Vector2(-2.50279, -32.7939)
+scale = Vector2(0.03, 0.114)
+sprite_frames = ExtResource("3_illja")
+
+[node name="option_indicator" type="AnimatedSprite2D" parent="textbox"]
+visible = false
+top_level = true
+texture_filter = 1
+position = Vector2(565, 342)
+scale = Vector2(0.594792, 0.5)
+sprite_frames = ExtResource("4_jvpiq")
+script = ExtResource("5_1p6mr")
+
+[node name="indicator_timer" type="Timer" parent="textbox/option_indicator"]
+
+[node name="SpeakerSprite" type="Control" parent="."]
+visible = false
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 5.527
+anchor_right = 5.645
+anchor_bottom = 16.478
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="speaker_portrait" type="AnimatedSprite2D" parent="SpeakerSprite"]
+visible = false
+z_index = -3
+sprite_frames = ExtResource("6_47pyx")
+animation = &"angry"
+centered = false
+script = ExtResource("7_b0oc3")
+
+[node name="ResponseSprite" type="Control" parent="."]
+visible = false
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchor_left = 23.5
+anchor_top = 5.527
+anchor_right = 28.109
+anchor_bottom = 16.478
+offset_top = -1.52588e-05
+offset_right = -0.000854492
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="response_portrait" type="AnimatedSprite2D" parent="ResponseSprite"]
+visible = false
+z_index = -3
+sprite_frames = ExtResource("6_47pyx")
+animation = &"angry"
+centered = false
+script = ExtResource("7_b0oc3")
+
+[node name="speaker" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 9.76
+anchor_right = 27.235
+anchor_bottom = 10.734
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-152.16, 87.88)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/normal_font = ExtResource("8_5gjo1")
+theme_override_fonts/bold_font = ExtResource("9_scsb6")
+theme_override_fonts/italics_font = ExtResource("10_co6wd")
+theme_override_fonts/bold_italics_font = ExtResource("11_8n40u")
+theme_override_font_sizes/normal_font_size = 50
+theme_override_font_sizes/bold_font_size = 50
+theme_override_font_sizes/italics_font_size = 50
+theme_override_font_sizes/bold_italics_font_size = 50
+theme_override_font_sizes/mono_font_size = 50
+bbcode_enabled = true
+scroll_active = false
+
+[node name="dialog" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.529
+anchor_top = 11.203
+anchor_right = 27.235
+anchor_bottom = 15.37
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_5gjo1")
+theme_override_fonts/bold_font = ExtResource("9_scsb6")
+theme_override_fonts/italics_font = ExtResource("10_co6wd")
+theme_override_fonts/bold_italics_font = ExtResource("11_8n40u")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "sdfsfdsfsdfsdsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+scroll_active = false
+
+[node name="option1" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.529
+anchor_top = 11.203
+anchor_right = 27.235
+anchor_bottom = 12.016
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-152.16, 87.88)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_5gjo1")
+theme_override_fonts/bold_font = ExtResource("9_scsb6")
+theme_override_fonts/italics_font = ExtResource("10_co6wd")
+theme_override_fonts/bold_italics_font = ExtResource("11_8n40u")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "sdfsfdsfsdfsd"
+scroll_active = false
+scroll_following = true
+script = ExtResource("12_3t8ww")
+metadata/index = 1
+
+[node name="option2" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.529
+anchor_top = 12.203
+anchor_right = 27.235
+anchor_bottom = 13.016
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-152.16, 87.88)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_5gjo1")
+theme_override_fonts/bold_font = ExtResource("9_scsb6")
+theme_override_fonts/italics_font = ExtResource("10_co6wd")
+theme_override_fonts/bold_italics_font = ExtResource("11_8n40u")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "sdfsfdsfsdfsd"
+scroll_active = false
+script = ExtResource("12_3t8ww")
+metadata/index = 2
+
+[node name="option3" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.529
+anchor_top = 13.203
+anchor_right = 27.235
+anchor_bottom = 14.203
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-152.16, 87.88)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_5gjo1")
+theme_override_fonts/bold_font = ExtResource("9_scsb6")
+theme_override_fonts/italics_font = ExtResource("10_co6wd")
+theme_override_fonts/bold_italics_font = ExtResource("11_8n40u")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "sdfsfdsfsdfsd"
+scroll_active = false
+script = ExtResource("12_3t8ww")
+metadata/index = 3
+
+[node name="option4" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.529
+anchor_top = 14.203
+anchor_right = 27.235
+anchor_bottom = 15.203
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-152.16, 87.88)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_5gjo1")
+theme_override_fonts/bold_font = ExtResource("9_scsb6")
+theme_override_fonts/italics_font = ExtResource("10_co6wd")
+theme_override_fonts/bold_italics_font = ExtResource("11_8n40u")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "sdfsfdsfsdfsd"
+script = ExtResource("12_3t8ww")
+metadata/index = 4
+
+[connection signal="playerOption" from="textbox" to="textbox/option_indicator" method="becomeActive"]
+[connection signal="printOption" from="textbox" to="option1" method="setOption"]
+[connection signal="printOption" from="textbox" to="option2" method="setOption"]
+[connection signal="printOption" from="textbox" to="option3" method="setOption"]
+[connection signal="printOption" from="textbox" to="option4" method="setOption"]
+[connection signal="optionSelected" from="textbox/option_indicator" to="option1" method="_on_option_indicator_option_selected"]
+[connection signal="optionSelected" from="textbox/option_indicator" to="option2" method="_on_option_indicator_option_selected"]
+[connection signal="optionSelected" from="textbox/option_indicator" to="option3" method="_on_option_indicator_option_selected"]
+[connection signal="optionSelected" from="textbox/option_indicator" to="option4" method="_on_option_indicator_option_selected"]
+[connection signal="initialized" from="option1" to="textbox" method="checkChoicesInit"]
+[connection signal="selectionMade" from="option1" to="textbox" method="processChoice"]
+[connection signal="initialized" from="option2" to="textbox" method="checkChoicesInit"]
+[connection signal="selectionMade" from="option2" to="textbox" method="processChoice"]
+[connection signal="initialized" from="option3" to="textbox" method="checkChoicesInit"]
+[connection signal="selectionMade" from="option3" to="textbox" method="processChoice"]
+[connection signal="initialized" from="option4" to="textbox" method="checkChoicesInit"]
+[connection signal="selectionMade" from="option4" to="textbox" method="processChoice"]
