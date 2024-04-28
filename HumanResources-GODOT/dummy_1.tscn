@@ -1,6 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl7eokvd2eeuc"]
+[gd_scene load_steps=9 format=3 uid="uid://bl7eokvd2eeuc"]
 
 [ext_resource type="ArrayMesh" uid="uid://c263fub2uyhba" path="res://models/Dummy.obj" id="1_e1dhw"]
+[ext_resource type="Texture2D" uid="uid://div6tb52m3o3p" path="res://Textures/HR_Textures/Environment/Interactive/Training_Dummy/DummyUV_lambert1_BaseColor.png" id="1_pmj88"]
+[ext_resource type="Texture2D" uid="uid://c5ofcuk6dydyg" path="res://Textures/HR_Textures/Environment/Interactive/Training_Dummy/DummyUV_lambert1_Metalness.png" id="2_lmmrc"]
+[ext_resource type="Texture2D" uid="uid://smgjxxulx012" path="res://Textures/HR_Textures/Environment/Interactive/Training_Dummy/DummyUV_lambert1_Normal.png" id="3_sujyt"]
+[ext_resource type="Texture2D" uid="uid://c5bsj5p0y3ci" path="res://Textures/HR_Textures/Environment/Interactive/Training_Dummy/DummyUV_lambert1_Roughness.png" id="4_abuef"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ei2y"]
+albedo_texture = ExtResource("1_pmj88")
+metallic = 1.0
+metallic_texture = ExtResource("2_lmmrc")
+roughness_texture = ExtResource("4_abuef")
+normal_enabled = true
+normal_texture = ExtResource("3_sujyt")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_8j7up"]
 height = 2.90866
@@ -17,6 +29,7 @@ collision_mask = 7
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_7ei2y")
 mesh = ExtResource("1_e1dhw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]

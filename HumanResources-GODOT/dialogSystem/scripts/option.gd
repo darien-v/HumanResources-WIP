@@ -3,6 +3,8 @@ extends RichTextLabel
 # lets us get option from main textbox script
 @export var option = ""
 @export var emotion = ""
+@export var target = ""
+@export var consequence = ""
 
 # allows textbox to know which option we are
 @export var optionNumber = 0
@@ -55,7 +57,7 @@ func _process(delta):
 		active = textbox.get("showChoices")
 	
 # sets option text and emotion
-func setOption(index, optionText, optionEmotion):
+func setOption(index, choice):
 	if index == self.get_meta("index"):
 		print("creating option")
 		# only create option if index matches
@@ -64,8 +66,10 @@ func setOption(index, optionText, optionEmotion):
 		# mark that this option is now active
 		active = true
 		# sets the object properties
-		option = optionText
-		emotion = optionEmotion
+		emotion = choice['emotion']
+		option = choice['text']
+		target = choice['target']
+		consequence = choice['consequence']
 		currentlyPrinting = true
 		printLetter()
 		print("option created")

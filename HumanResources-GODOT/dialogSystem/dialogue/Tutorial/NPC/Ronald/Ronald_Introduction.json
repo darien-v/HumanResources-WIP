@@ -1,0 +1,110 @@
+{
+	"dialog+": 
+	{
+
+			"2-Nervous": 
+			[
+				{
+					"speaker":"ronald",
+					"emotion":"nervous",
+					"text":"Oh god, you're probably dead"
+				},
+				{
+					"speaker":"ronald",
+					"emotion":"scared",
+					"text":"Dead and turning!"
+				},
+				{
+					"speaker":"ronald",
+					"emotion":"determined",
+					"text":"Well, I know what I have to do...!",
+					"choices":
+					[
+						{
+							"emotion":"Excited",
+							"text":"RAAA!",
+							"consequence":"-10",
+							"target":"3-Excited"
+						},
+						{
+							"emotion":"Nervous",
+							"text":"Hold on, I'm awake!",
+							"consequence":"10",
+							"target":"3-Nervous"
+						}
+					]
+				}
+			],
+
+			"3-Excited": 
+			[
+				{
+					"speaker":"ronald",
+					"emotion":"scared",
+					"text":"OH GOD! I knew it!"
+				},
+				{
+					"speaker":"ronald",
+					"emotion":"determined",
+					"text":"M-my bat, where's my--?",
+					"choices":
+					[
+						{
+							"emotion":"Nervous",
+							"text":"Hold on! I'm not going to hurt you!",
+							"consequence":"none",
+							"target":"End"
+						}
+					]
+				}
+			],
+
+			"3-Nervous": 
+			[
+				{
+					"speaker":"ronald",
+					"emotion":"happy",
+					"text":"Oh, thank JESUS. I feel like I haven't seen another human for days!",
+					"target":"End"
+				}
+			],
+
+			"End": 
+			[
+				{
+					"speaker":"ronald",
+					"emotion":"neutral",
+					"text":"Anyways, we should probably hurry. Go grab that weapon over there!"
+				},
+				{
+					"speaker":"ronald",
+					"emotion":"nervous",
+					"text":"I can hear them outside..."
+				}
+			],
+
+			"Start": 
+			[
+				{
+					"speaker":"none",
+					"emotion":"nervous",
+					"text":"Please... Wake up."
+				},
+				{
+					"speaker":"none",
+					"emotion":"nervous",
+					"text":"I don't want to be the only human here!",
+					"choices":
+					[
+						{
+							"emotion":"Nervous",
+							"text":"...",
+							"consequence":"none",
+							"target":"2-Nervous"
+						}
+					]
+				}
+			]
+
+	}
+}

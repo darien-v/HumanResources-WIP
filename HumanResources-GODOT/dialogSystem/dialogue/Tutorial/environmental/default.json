@@ -1,0 +1,15 @@
+{
+	"None": 
+	{
+
+			"Start": 
+			[
+				{
+					"speaker":"you",
+					"emotion":"neutral",
+					"text":"Nothing to see here"
+				}
+			]
+		
+	}
+}

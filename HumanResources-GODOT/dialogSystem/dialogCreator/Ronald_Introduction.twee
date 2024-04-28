@@ -1,0 +1,62 @@
+:: StoryTitle
+Ronald_Introduction
+
+
+:: StoryData
+{
+  "ifid": "FCBC1056-E145-4F86-98D8-615F07A37368",
+  "format": "Harlowe",
+  "format-version": "3.3.8",
+  "start": "Start",
+  "zoom": 1
+}
+
+
+:: 2-Nervous {"position":"900,150","size":"100,100"}
+>ronald,nervous
+Oh god, you're probably dead
+>ronald,scared
+Dead and turning! 
+>ronald,determined
+Well, I know what I have to do...!
+
+$CHOICES
+[[RAAA!//Excited->3-Excited]]->CONSEQUENCE_-10
+[[Hold on, I'm awake!//Nervous->3-Nervous]]->CONSEQUENCE_10
+
+
+:: 3-Excited {"position":"1075,50","size":"100,100"}
+>ronald,scared
+OH GOD! I knew it!
+>ronald,determined
+M-my bat, where's my--?
+
+$CHOICES
+[[Hold on! I'm not going to hurt you!//Nervous->End]]
+
+
+:: 3-Nervous {"position":"1075,250","size":"100,100"}
+>ronald,happy
+Oh, thank JESUS. I feel like I haven't seen another human for days!
+
+[[End]] 
+
+
+
+:: End {"position":"1325,150","size":"100,100"}
+>ronald,neutral
+Anyways, we should probably hurry. Go grab that weapon over there!
+>ronald,nervous
+I can hear them outside...
+
+%INTERACTION
+
+
+:: Start {"position":"800,325","size":"100,100"}
+>none,nervous
+Please... Wake up.
+>none,nervous
+I don't want to be the only human here!
+
+$CHOICES
+[[...//Nervous->2-Nervous]] 

@@ -56,6 +56,7 @@ func connect_anim_finish(animPlayer):
 func _ready():
 	self.add_to_group("enemies", true)
 	VisionRaycast.add_exception(self)
+	VisionRaycast.add_exception($"../Player/interactionRadius")
 	# signal emitted upon death
 	resources.connect_enemy_death(self)
 	velocity = Vector3.ZERO
@@ -74,12 +75,13 @@ func _physics_process(delta):
 		pathfinding()
 		pivot.look_at(target.global_transform.origin, Vector3.UP, true)
 		pivot.rotation.x = 0
+		VisionRaycast.look_at(target.global_transform.origin, Vector3.UP, true)
 		# if no other animation queued, start walking
 		if not inAnimation:
 			animationPlayer.play("walkCycles/walkingBasic")
 		move_and_slide()
 	# if nothing found but something still in range, keep checking
-	if not aggro and not checkingRayCast:
+	if not checkingRayCast:
 		check_vision(target)
 	else:
 		velocity = Vector3.ZERO
@@ -123,37 +125,49 @@ func _on_navigation_agent_3d_target_reached():
 		decide_action()
 
 func check_vision(overlap):
-	if overlap == null:
-		return
-	var playerSeen = false
-	checkingRayCast = true
-	if not aggro:
-		if overlap.is_in_group("protagbody"):
-			print("Checking RayCast")
+	if not checkingRayCast:
+		if overlap == null:
+			return
+		var playerSeen = false
+		checkingRayCast = true
+		if not aggro:
+			if overlap.is_in_group("protagbody"):
+				VisionRaycast.force_raycast_update()
+				if VisionRaycast.is_colliding():
+					var collider = VisionRaycast.get_collider()
+					print(collider)
+					if collider.is_in_group("protagbody") or collider.is_in_group("protagdecor"):
+						playerSeen = true
+					else:
+						playerSeen = false
+						print("CANTSEE")
+				else:
+					playerSeen = true
+				if playerSeen:
+					aggro=true
+					playerMissingDuration = 0
+		else:
 			VisionRaycast.force_raycast_update()
 			if VisionRaycast.is_colliding():
-				print("CANTSEE")
+				var collider = VisionRaycast.get_collider()
+				print(collider.get_groups())
+				if collider.is_in_group("protagbody") or collider.is_in_group("protagdecor") or collider.is_in_group("player"):
+					playerSeen = true
+				else:
+					playerSeen = false
+					print("CANTSEE")
 			else:
-				aggro=true
 				playerSeen = true
+			if playerSeen:
 				playerMissingDuration = 0
-	else:
-		VisionRaycast.force_raycast_update()
-		playerSeen = false
-		if VisionRaycast.is_colliding():
-			print("CANTSEE")
-		else:
-			playerSeen = true
-			playerMissingDuration = 0
-		if playerSeen == false:
-			playerMissingDuration += 1
-		elif playerSeen and not inAnimation:
-			decide_action()
-		if playerMissingDuration >= 10000:
-			animationPlayer.stop()
-			aggro = false
-	checkingRayCast = false
-		
+				if not inAnimation:
+					decide_action()
+			else:
+				playerMissingDuration += 1
+				print(playerMissingDuration)
+				if playerMissingDuration >= 2000:
+					animationPlayer.stop()
+					aggro = false
 	checkingRayCast = false
 
 func _on_VisionArea_area_entered(area):

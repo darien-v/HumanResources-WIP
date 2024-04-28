@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://mn4dxvx1s03o"]
+[gd_scene load_steps=16 format=3 uid="uid://mn4dxvx1s03o"]
 
 [ext_resource type="PackedScene" uid="uid://ci4408hoqaxxb" path="res://models/weapons/AmorayNote.glb" id="1_wvdcj"]
 [ext_resource type="Texture2D" uid="uid://d3x1jocjs75jk" path="res://Textures/HR_Textures/Weapon/Amoray_Note/NewAmorayNote_lambert2_BaseColor.png" id="2_242q4"]
@@ -19,10 +19,21 @@ normal_texture = ExtResource("5_y43g8")
 heightmap_texture = ExtResource("3_y8xgk")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3nvjk"]
-size = Vector3(2.88068, 2.88052, 4.4361)
+size = Vector3(1.19445, 0.365802, 2.34465)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1aud3"]
 size = Vector3(1.63391, 1, 5.22095)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0avsi"]
+height = 1.72321
+radius = 1.04807
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qvu32"]
+height = 2.91272
+radius = 0.635272
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ckkl"]
+size = Vector3(0.874451, 0.352051, 0.547729)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jyrcc"]
 size = Vector3(5.61619, 2.80847, 12.2984)
@@ -42,12 +53,28 @@ script = ExtResource("2_ejoru")
 metadata/baseDamage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11618, 0.107315, 3.15591)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0128755, -0.0287909, 3.05553)
 shape = SubResource("BoxShape3D_3nvjk")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Hitbox" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0874634, 0, -1.92737)
 shape = SubResource("BoxShape3D_1aud3")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Hitbox" index="2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 2.06916)
+shape = SubResource("CylinderShape3D_0avsi")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Hitbox" index="3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.212517)
+shape = SubResource("CylinderShape3D_qvu32")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Hitbox" index="4"]
+transform = Transform3D(0.825033, 0, 0, 0, -3.60633e-08, -0.825033, 0, 0.825033, -3.60633e-08, 0, 0, -2.71901)
+shape = SubResource("CylinderShape3D_qvu32")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="Hitbox" index="5"]
+transform = Transform3D(0.555744, 0, 0.831353, 0, 1, 0, -0.831353, 0, 0.555744, -0.092924, 0.0251465, 4.56379)
+shape = SubResource("BoxShape3D_1ckkl")
 
 [node name="InteractionArea" type="Area3D" parent="." index="2"]
 collision_layer = 4

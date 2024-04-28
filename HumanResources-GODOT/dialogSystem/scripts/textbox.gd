@@ -135,13 +135,6 @@ func getDialogTreeName(specificInteraction, specificTree, interactionGroup, inte
 		return dialogTree
 	# if not, we gotta go through the keys individually
 	# partial matches can happen in the case of keys like Approving//Neutral
-	print(dialogTree)
-	for key in keys:
-		#print("Key: " + key)
-		var temp = key.split("//")
-		print(temp)
-		if dialogTree in temp:
-			return key
 	# if no match, just use default
 	return "Default"
 
@@ -223,11 +216,9 @@ func getDialog(interactionName, specificInteraction, specificTree, interactionGr
 	# now, our dicts will have a very special organization
 	# it goes [interactable][dialogTree][dialogNode] 
 	# and the name, emotion, text, choices are in there
-	if typeof(output) == TYPE_ARRAY:
+	if typeof(output) == TYPE_DICTIONARY:
 		# specifically get the dialog for the thing we are interacting with
-		var temp = output[0][interactable]
-		# get the dialogTree we want by looking through the keys
-		return temp[getDialogTreeName(specificInteraction, specificTree, interactionGroup, interactable, temp.keys())]
+		return output[interactable]
 	else:
 		return {}
 
@@ -338,7 +329,7 @@ func nextPhrase() -> void:
 		return
 	# check if we need to get new page from node
 	elif changePages and not pickup:
-		currentDialogText = currentDialogNode[phraseNum]["Text"]
+		currentDialogText = currentDialogNode[phraseNum]["text"]
 		print(currentDialogText)
 		visibleDialogText = currentDialogText
 		changePages = false
@@ -358,9 +349,9 @@ func nextPhrase() -> void:
 		# get emotion and name, and see if there will be choices after printing
 		if not pickup:
 			var temp = currentDialogNode[phraseNum]
-			var emotion = temp["Emotion"]
-			var speaker = temp["Name"]
-			textbox_speaker.text = ''.join(["[b][i]",speaker,"[/i][/b]"])
+			var emotion = temp["emotion"]
+			var speaker = temp["speaker"]
+			textbox_speaker.text = ''.join(["[b][i]",speaker.to_upper(),"[/i][/b]"])
 			# set up the portrait
 			if speaker.to_lower() != "you":
 				speakerPortrait.setPortrait(speaker)
@@ -369,12 +360,12 @@ func nextPhrase() -> void:
 			setEmotion(emotion)
 			# if there are choices after printing, check if choices dict valid
 			# if it is, indicate we will show choices at end
-			if "Choices" in temp.keys():
+			if "choices" in temp.keys():
 				# if we havent yet, bring the player portrait in
 				if not playerShowing:
 					playerPortrait.comeOntoScreen()
 					playerShowing = true
-				if len(temp["Choices"].keys()) > 0:
+				if len(temp["choices"].keys()) > 0:
 					print("choices available")
 					showChoices = true
 					choiceSetup = true
@@ -442,7 +433,7 @@ func printChoices():
 	textbox_speaker.text = "You"
 	printingText = true
 	# get and print our options
-	var choices = dialog[dialogNode][phraseNum-1]["Choices"]
+	var choices = dialog[dialogNode][phraseNum-1]["choices"]
 	var choiceKeys = choices.keys()
 	var index = 0
 	# the process here is . uh um.
@@ -451,7 +442,7 @@ func printChoices():
 	for key in choiceKeys:
 		index += 1
 		print(index)
-		printOption.emit(index, choices[key], key)
+		printOption.emit(index, choices[key])
 		textbox_dialogue.text = "" # redundancy
 	numOptions = index
 	# hide the text indicator
@@ -469,29 +460,11 @@ func processChoice(selection):
 	interactions += 1
 	# no options initialized-- kill them
 	initializedOptions = 0
-	# // is our indicator in case we need to go to a specific node
-	var emotion = (selection.get("emotion")).split("//")
-	#print(emotion)
-	var temp
-	# check if anything after //
-	if len(emotion) > 1:
-		# if so, adjust node and interactions accordingly
-		if len(emotion[1]) > 0:
-			dialogNode = emotion[1]
-			# get only the number using regex
-			var regex = RegEx.new()
-			regex.compile("([0-9])*")
-			interactions = (regex.search(emotion[1]).get_string()).to_int()
-			# repeat interaction increment, otherwise it breaks
-			interactions+=1
-		else:
-			temp = emotion[0]
-			# if nothing was after //, the next node is emotion+interaction#
-			dialogNode = ''.join([temp, interactions])
-	else:
-		temp = emotion[0]
-		# if nothing was after //, the next node is emotion+interaction#
-		dialogNode = ''.join([temp, interactions])
+	# new dialogNode is the choice target
+	dialogNode = selection.get("target")
+	var consequence = selection.get("consequence")
+	if consequence == 'none':
+		consequence = 0
 	# get the new dialogNode data
 	currentDialogNode = dialog[dialogNode]
 	numPhrases = len(currentDialogNode)
@@ -504,7 +477,7 @@ func processChoice(selection):
 	phraseNum = 0
 	optionSelected = 1
 	# save consequence of choice
-	player.processReaction(dialog[dialogNode][phraseNum]["Emotion"])
+	player.processReaction(consequence)
 	nextPhrase()
 	
 func setEmotion(emotion):

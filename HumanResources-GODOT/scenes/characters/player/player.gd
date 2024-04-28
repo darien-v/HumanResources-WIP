@@ -8,7 +8,7 @@ var currentSpeed = 5
 @export var momentum = Vector3.ZERO
 @export var direction = Vector3.ZERO
 # turning speed
-@export var turnRate = 1
+@export var turnRate = .2
 # downward acceleration in m/s
 @export var fall_acceleration = 75
 # jumping (vertical) impulse in m/s
@@ -62,6 +62,10 @@ var sprinting = true
 var walkingInput = false
 var idling = false
 var dodging = false
+
+# makes turning smoother
+var actionsPressed = {}
+var turnModifier = 0
 
 # invulnerability functionality
 var invulnerable = false
@@ -231,6 +235,7 @@ func move_player(delta):
 				# our current speed is base + whatever modifiers there are
 				currentSpeed = speed + speedModifier
 				momentum = Vector3.ZERO
+				var turnaround = false
 				for action in inputDict["movement"].keys():
 					if Input.is_action_pressed(action):
 						if not walkingInput:
@@ -240,11 +245,35 @@ func move_player(delta):
 								idling = false
 								animationPlayer.play("walkCycles/walkingBasic")
 						var temp = inputDict["movement"][action] 
+						var tempVal = temp["val"]
+						# here we gather momentum, but also check if opposites were pressed
+						# for silly turnaround anim
+						turnaround = false
 						if temp["dir"] == "x":
-							momentum.x=temp["val"]
+							momentum.x=tempVal
+							if (direction.x > 0 and tempVal < 0) or (direction.x < 0 and tempVal > 0):
+								if snappedf(direction.y, .0001) == 0 and snappedf(direction.z, .0001) == 0:
+									turnaround = true
+									direction = Vector3.ZERO
+									momentum = Vector3(tempVal, 0, 0)
+									break
 						elif temp["dir"] == "z":
-							momentum.z+=temp["val"]
-						direction += momentum
+							momentum.z=tempVal
+							if (direction.z > 0 and tempVal < 0) or (direction.z < 0 and tempVal > 0):
+								if snappedf(direction.y, .0001) == 0 and snappedf(direction.x, .0001) == 0:
+									turnaround = true
+									direction = Vector3.ZERO
+									momentum = Vector3(0, 0, tempVal)
+									break
+				if turnaround:
+					inAnimation = true
+					walking = false
+					idling = false
+					walkingInput = false
+					animationPlayer.play("walkCycles/walkingTurnAround")
+					animationPlayer.speed_scale = currentSpeed/2
+				else:
+					direction += momentum
 				# and, check if we're running, but only if we're already walking
 				var sprintStop = true
 				if walkingInput:
@@ -259,7 +288,7 @@ func move_player(delta):
 					actionDone.emit()
 			
 			# if we didnt get any valid inputs, we are idling again
-			if not walkingInput:
+			if not walkingInput and not inAnimation:
 				# input direction
 				direction = Vector3.ZERO
 				walking = false
@@ -312,7 +341,6 @@ func process_action(type, isAttack):
 		else:
 			velocity = Vector3.ZERO
 		inAnimation = true
-		animationPlayer.stop()
 		animationPlayer.play(type)
 		# when an attack is performed, only then does the hitbox turn on
 		if hitbox != null and isAttack:
@@ -376,14 +404,10 @@ func npcInteraction():
 
 # processes the result of an npc interaction
 # eventually we'll have some variable to determine interaction strength. later
-func processReaction(emotion):
-	npc.incrementInteraction()
-	if emotion in positive:
-		npc.changeAttitude(1)
-	elif emotion in negative or emotion == "Angry":
-		npc.changeAttitude(-1)
-	else:
-		return
+func processReaction(consequence, increment=false):
+	if increment:
+		npc.incrementInteraction()
+	npc.changeAttitude(consequence)
 		
 func checkNPCApproval()->String:
 	return npc.approval()
@@ -400,13 +424,16 @@ func update_with_animation():
 	move_and_slide()
 
 func _on_animation_player_animation_finished(anim_name):
-	if attacking:
+	if anim_name == "walkCycles/walkingTurnAround":
+		direction = momentum
+	elif attacking:
 		print("hitbox off")
 		hitbox.setInactive()
 		attacking = false
 	if inAnimation:
 		actionDone.emit()
 		inAnimation = false
+	animationPlayer.speed_scale = 1
 	moveWithAnimation = false
 
 func equipWeapon(weaponIn, typeIn):
