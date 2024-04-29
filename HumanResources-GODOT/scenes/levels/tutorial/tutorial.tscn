@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://qen21520gaa6"]
+[gd_scene load_steps=32 format=3 uid="uid://qen21520gaa6"]
 
 [ext_resource type="Script" path="res://scenes/levels/tutorial/tutorial.gd" id="1_666go"]
 [ext_resource type="PackedScene" uid="uid://dpf1g5g4jko6a" path="res://scenes/hud/stats/user_interface.tscn" id="2_l5trh"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://432ogoddbl4c" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Metalness.png" id="10_gbtjx"]
 [ext_resource type="Texture2D" uid="uid://dtjsjo3tfmn4i" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Normal.png" id="11_7syd6"]
 [ext_resource type="Texture2D" uid="uid://dtpgu3g81i3o8" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Roughness.png" id="12_ol5hq"]
+[ext_resource type="PackedScene" uid="uid://brqsfjd1vicxx" path="res://scenes/environmental/interactive/door.tscn" id="16_sdx1o"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://scenes/characters/player/player.tscn" id="18_qiecw"]
 [ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://scenes/characters/enemies/testEnemy.tscn" id="19_wf7ol"]
 [ext_resource type="PackedScene" uid="uid://bnnidmcldne2j" path="res://desk.tscn" id="20_6xuv2"]
@@ -36,6 +37,9 @@ size = Vector3(91.2159, 2.48859, 61.0652)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bb4f4"]
 size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dya5o"]
+size = Vector3(86.9052, 2.40698, 64.5168)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_elqpt"]
 size = Vector3(55.7482, 31.7602, 1)
@@ -78,7 +82,7 @@ script = ExtResource("1_666go")
 [node name="TextInterface" parent="." instance=ExtResource("3_ms8la")]
 
 [node name="Player" parent="." instance=ExtResource("18_qiecw")]
-transform = Transform3D(0.310917, 0, 0, 0, 0.310917, 0, 0, 0, 0.310917, 0, -0.106666, 10.515)
+transform = Transform3D(0.310917, 0, 0, 0, 0.310917, 0, 0, 0, 0.310917, 0, -0.106666, 10.8257)
 collision_mask = 6
 
 [node name="Marker3D" type="Marker3D" parent="Player"]
@@ -515,11 +519,24 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Rooms/Boss Room/Wall1"]
-transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, -30, 15.5, -60)
-shape = SubResource("BoxShape3D_bb4f4")
+transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, -29.8969, 14.5823, -63.418)
+shape = SubResource("BoxShape3D_dya5o")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Rooms/Boss Room/Wall1"]
-transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, -30, 15.5, -60)
+transform = Transform3D(-3.52332e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.806041, -2.18557e-08, 9.55343e-16, -30, 15.5, -61.5)
+mesh = SubResource("BoxMesh_secun")
+
+[node name="Wall9" type="StaticBody3D" parent="NavigationRegion3D/Rooms/Boss Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Rooms/Boss Room/Wall9"]
+transform = Transform3D(-2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, -29.8969, 21.9176, -73.4182)
+shape = SubResource("BoxShape3D_dya5o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Rooms/Boss Room/Wall9"]
+transform = Transform3D(-3.52332e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.806041, -2.18557e-08, 9.55343e-16, -30, 22.8352, -74.6622)
 mesh = SubResource("BoxMesh_secun")
 
 [node name="Wall7" type="StaticBody3D" parent="NavigationRegion3D/Rooms/Boss Room"]
@@ -686,3 +703,8 @@ mesh = ExtResource("5_rdm2s")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Rooms/Exit/StaticBody3D"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -44.5, 0, -75)
 shape = SubResource("CylinderShape3D_pnrff")
+
+[node name="DoorPivot" parent="NavigationRegion3D/Rooms/Exit" instance=ExtResource("16_sdx1o")]
+transform = Transform3D(-1.6478e-07, 0, 3.76973, 0, 3.76973, 0, -3.76973, 0, -1.6478e-07, -29.5154, -0.606204, -85.7706)
+metadata/locked = true
+metadata/key = "tutorialKey"

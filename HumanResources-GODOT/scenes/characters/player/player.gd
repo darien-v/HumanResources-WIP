@@ -50,6 +50,12 @@ signal playerDamaged(damageAmt)
 signal playerResponding
 signal playerSpeaking
 
+# emits to pause everything
+signal pause
+
+# scene root is always player parent
+@onready var scene = $".."
+
 # lets us check if in dialogue, which restricts movement
 @onready var textbox = $"../TextInterface/textbox"
 
@@ -69,7 +75,7 @@ var turnModifier = 0
 
 # invulnerability functionality
 var invulnerable = false
-var rollTime = 1
+var dodgeTime = 1
 var hitTime = 1
 @onready var timer = $Timer
 
@@ -79,6 +85,10 @@ var interactables
 # lets us know if player is picking up an item
 var pickup = false
 var pickupItem = null
+
+# lets us know if the player is trying a door
+var tryDoor = false
+var door = null
 
 # simplifies actions and animations
 var inputDict = {
@@ -95,12 +105,24 @@ var inputDict = {
 							"heavy_attack"
 						],
 					"dodging":
-						[
-							"roll"
-						]
+						{
+							"roll":
+							{
+								"fallRoll":{"iframe":.35, "speedmod":5},
+								"sprintRoll":{"iframe":.45, "speedmod":3}
+							}
+						}
 				}
 var inAnimation = false
 var moveWithAnimation = false
+var currentAction = ["N/A","N/A"]
+
+# inventory
+var inventory = {
+					"keys":{"tutorialKey":1},
+					"weapons":{},
+					"consumables":{}
+				}
 
 # weapon
 var hitbox
@@ -128,6 +150,8 @@ func resetInteraction():
 	interactionGroup = "environmental"
 	specificInteraction = false
 	pickup = false
+	tryDoor = false
+	door = null
 	pickupItem = null
 
 # mini-functions to connect necessary signals
@@ -135,12 +159,26 @@ func connect_anim_finish(animPlayer):
 	animPlayer.animation_finished.connect(self._on_animation_player_animation_finished)
 func connect_player_hurt(healthbar):
 	self.playerDamaged.connect(healthbar._on_damage)
+func connect_player_pause():
+	self.pause.connect(scene._on_pause)
+
+# allows easy query to player inventory
+func checkInventory(type, item, consume=false):
+	if type in inventory.keys():
+		if item in inventory[type].keys():
+			if consume:
+				inventory[type][item] -= 1
+				if inventory[type][item] <= 0:
+					inventory[type].erase(item)
+			return true
+	return false
 
 # on object creation, get the starting position
 func _ready():
 	timer.stop()
 	oldpos = global_position
 	staminaMeter.connect_player_signals(self)
+	connect_player_pause()
 	# connect area entered to the damage func
 	for collider in combatCollisions:
 		collider.area_entered.connect(self._on_HurtboxArea_area_entered)
@@ -150,6 +188,9 @@ func _ready():
 	for brow in face["brows"]:
 		brow.play("default")
 	face["mouth"].play("default")
+	
+func emit_pause():
+	pause.emit()
 
 func _physics_process(delta):
 	# only need to process these if not in dialogue
@@ -171,6 +212,7 @@ func move_player(delta):
 	
 	# can only move if not attacking
 	if not inAnimation:
+		currentAction = ["N/A", "N/A"]
 		# check for each move input + update direction
 		# XZ plane = ground
 		
@@ -179,18 +221,21 @@ func move_player(delta):
 		# # movement inputs can be stacked
 		# # combat inputs break the loop for sole focus, cannot be stacked
 		# # if currently in an animation, no input can be read
-		for action in inputDict["dodging"]:
+		for action in inputDict["dodging"].keys():
 			if Input.is_action_just_pressed(action):
 				idling = false
 				walking = false
 				sprinting = false
 				var type = "dodging"
+				currentAction[0] = "dodging"
 				if action == "roll":
 					staminaUse.emit("roll")
 					if currentSpeed > speed:
 						type = type + "/sprintRoll"
+						currentAction[1] = "sprintRoll"
 					else:
 						type = type + "/fallRoll"
+						currentAction[1] = "fallRoll"
 				process_action(type, false)
 				break
 		# only check for attacks if player has a weapon
@@ -222,12 +267,19 @@ func move_player(delta):
 			if Input.is_action_just_pressed("interact"):
 				print("interacted")
 				print(textbox.get("showingText"))
+				emit_pause()
+				print(door)
 				# if there is an item to be picked up and it is active, process that
 				if pickupItem != null:
 					if pickupItem.return_active():
-						textbox.startInteraction(pickup, pickupItem.return_name())
+						textbox.startInteraction(pickup, pickupItem.get_parent())
 						pickupItem.pickedUp(self)
 						resetInteraction()
+				elif door != null:
+					door = door.get_parent()
+					print(door)
+					door.check_openable(self)
+					textbox.startInteraction(true,door)
 				else:
 					textbox.startInteraction()
 			# last thing to check for is movement
@@ -336,8 +388,13 @@ func process_action(type, isAttack):
 	# only perform action if we have enough stamina
 	if staminaMeter.checkStamina():
 		if "dodging" in type:
+			var tempKey = currentAction[1]
+			if "Roll" in tempKey:
+				speedModifier += inputDict["dodging"]["roll"][tempKey]["speedmod"]
 			print(type)
 			moveWithAnimation = true
+		elif "light" in type:
+			animationPlayer.speed_scale = 1.5
 		else:
 			velocity = Vector3.ZERO
 		inAnimation = true
@@ -355,7 +412,7 @@ func check_collisions(object=self):
 		var collider = collision.get_collider()
 		# If the collision is with ground
 		if collider == null or collider.get_collision_layer() == 4:
-			if not pickup and pickupItem == null:
+			if not pickup and not tryDoor and pickupItem == null:
 				resetInteraction()
 			continue
 		# If the collision is with an interactable object
@@ -387,6 +444,11 @@ func entered_interactable_area(object):
 			pickup = true
 			pickupItem = object
 			print(pickupItem)
+		elif object.is_in_group("doors"):
+			print("door")
+			tryDoor = true
+			door = object
+			print(door)
 func exited_interactable_area():
 	print("exited interactable range")
 	resetInteraction()
@@ -414,13 +476,27 @@ func checkNPCApproval()->String:
 
 # update position with moving animation
 func update_with_animation():
-	# ground velocity
-	direction.x += momentum.x
-	direction.z += momentum.z
-	target_velocity.x = -direction.x * 1
-	target_velocity.z = -direction.z * 1
-	# Moving the Character
-	velocity = target_velocity
+	if currentAction[0] == "dodging":
+		var currentSecond = animationPlayer.current_animation_position
+		# special case for some animations
+		if currentAction[1] == "fallRoll":
+			if currentSecond >= 1.1:
+				velocity = Vector3.ZERO
+		# check if we reached iframe
+		if not invulnerable:
+			if "Roll" in currentAction[1]:
+				var iframe = inputDict["dodging"]["roll"][currentAction[1]]["iframe"]
+				if currentSecond >= iframe and not invulnerable:
+					invulnerable = true
+					timer.start(dodgeTime)
+	else:
+		# ground velocity
+		direction.x += momentum.x
+		direction.z += momentum.z
+		target_velocity.x = -direction.x * (speedModifier + speed)
+		target_velocity.z = -direction.z * (speedModifier + speed)
+		# Moving the Character
+		velocity = target_velocity
 	move_and_slide()
 
 func _on_animation_player_animation_finished(anim_name):
@@ -433,6 +509,7 @@ func _on_animation_player_animation_finished(anim_name):
 	if inAnimation:
 		actionDone.emit()
 		inAnimation = false
+	speedModifier = 0
 	animationPlayer.speed_scale = 1
 	moveWithAnimation = false
 
@@ -451,8 +528,8 @@ func setInAnimation():
 	inAnimation = true
 func setNoAnimation():
 	inAnimation = false
-
-
+	
 func _on_timer_timeout():
 	timer.stop()
 	invulnerable = false
+	print("invulnerability timeout")
