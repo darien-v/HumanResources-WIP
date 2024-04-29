@@ -80,15 +80,15 @@ var hitTime = 1
 @onready var timer = $Timer
 
 # lets us know what interactable areas the player is in
-var interactables
-
-# lets us know if player is picking up an item
-var pickup = false
-var pickupItem = null
-
-# lets us know if the player is trying a door
-var tryDoor = false
-var door = null
+var interactables = {}
+var interactionCategories = {
+								"pickup": 0,
+								"door": 0,
+								"interactable": 0
+							}
+@onready var interactionPicker = $"../InteractionPicker"
+var item = null
+var interactionsAvailable = false
 
 # simplifies actions and animations
 var inputDict = {
@@ -149,10 +149,6 @@ func resetInteraction():
 	specificTree = ""
 	interactionGroup = "environmental"
 	specificInteraction = false
-	pickup = false
-	tryDoor = false
-	door = null
-	pickupItem = null
 
 # mini-functions to connect necessary signals
 func connect_anim_finish(animPlayer):
@@ -188,6 +184,7 @@ func _ready():
 	for brow in face["brows"]:
 		brow.play("default")
 	face["mouth"].play("default")
+	animationPlayer.play("idling/idling")
 	
 func emit_pause():
 	pause.emit()
@@ -263,25 +260,34 @@ func move_player(delta):
 		# if no combat animation started, check other inputs
 		if not inAnimation:
 			walkingInput = false
+			if Input.is_action_just_pressed("prev"):
+				interactionPicker.change_index(-1)
+			elif Input.is_action_just_pressed("next"):
+				interactionPicker.change_index(1)
 			# if the user prompted interaction, we show corresponding text
 			if Input.is_action_just_pressed("interact"):
-				print("interacted")
-				print(textbox.get("showingText"))
-				emit_pause()
-				print(door)
+				item = interactionPicker.get_current()
+				interactionPicker.hide_self(true)
 				# if there is an item to be picked up and it is active, process that
-				if pickupItem != null:
-					if pickupItem.return_active():
-						textbox.startInteraction(pickup, pickupItem.get_parent())
-						pickupItem.pickedUp(self)
-						resetInteraction()
-				elif door != null:
-					door = door.get_parent()
-					print(door)
-					door.check_openable(self)
-					textbox.startInteraction(true,door)
+				if item != null:
+					var itemName = item.return_name()
+					var type = interactables[itemName]["type"]
+					interactables.erase(itemName)
+					interactionPicker.update_objects(interactables)
+					if type == "pickup":
+						item.pickedUp(self)
+					elif type == "door":
+						var door = item.get_parent()
+						if not door.get("open"):
+							door.check_openable(self)
+						else:
+							door.close()
+							return
+					textbox.startInteraction(true, item.get_parent())
+					emit_pause()
 				else:
 					textbox.startInteraction()
+					emit_pause()
 			# last thing to check for is movement
 			else:
 				# our current speed is base + whatever modifiers there are
@@ -322,7 +328,10 @@ func move_player(delta):
 					walking = false
 					idling = false
 					walkingInput = false
-					animationPlayer.play("walkCycles/walkingTurnAround")
+					if not sprinting:
+						animationPlayer.play("walkCycles/walkingTurnAround")
+					else:
+						animationPlayer.play("running/runningTurnaround")
 					animationPlayer.speed_scale = currentSpeed/2
 				else:
 					direction += momentum
@@ -332,7 +341,9 @@ func move_player(delta):
 					if Input.is_action_pressed("sprint"):
 						staminaUse.emit("sprint")
 						if staminaMeter.checkStamina():
-							sprinting = true
+							if not sprinting:
+								sprinting = true
+								animationPlayer.play("running/runningBasic")
 							sprintStop = false
 							currentSpeed += sprintBonus
 				if sprintStop and sprinting:
@@ -343,10 +354,13 @@ func move_player(delta):
 			if not walkingInput and not inAnimation:
 				# input direction
 				direction = Vector3.ZERO
-				walking = false
 				if not idling:
 					idling = true
-					animationPlayer.play("walkCycles/walkingStop")
+					if walking:
+						animationPlayer.play("walkCycles/walkingStop")
+						walking = false
+					else:
+						animationPlayer.play("idling/idling")
 			# reset state variable
 			walkingInput = false
 		
@@ -412,8 +426,7 @@ func check_collisions(object=self):
 		var collider = collision.get_collider()
 		# If the collision is with ground
 		if collider == null or collider.get_collision_layer() == 4:
-			if not pickup and not tryDoor and pickupItem == null:
-				resetInteraction()
+			resetInteraction()
 			continue
 		# If the collision is with an interactable object
 		if collider.is_in_group("interactables"):
@@ -439,19 +452,33 @@ func _on_HurtboxArea_area_entered(area):
 func entered_interactable_area(object):
 	if object.is_in_group("interactables"):
 		print("interactable")
+		var objName = object.return_name()
+		var type
+		var text
+		interactables[objName] = {}
 		if object.is_in_group("collectibles"):
-			print("collectible")
-			pickup = true
-			pickupItem = object
-			print(pickupItem)
+			text = "Pick up %s" % objName
+			type = "pickup"
 		elif object.is_in_group("doors"):
-			print("door")
-			tryDoor = true
-			door = object
-			print(door)
-func exited_interactable_area():
+			text = "Use door"
+			type = "door"
+		else:
+			text = "Interact with %s" % objName
+			type = "interactable"
+		interactables[objName]["text"] = text
+		interactables[objName]["type"] = type
+		interactables[objName]["object"] = object
+		interactionCategories[type] += 1
+		interactionPicker.update_objects(interactables)
+		interactionsAvailable = true
+		print(interactables)
+			
+func exited_interactable_area(object):
 	print("exited interactable range")
-	resetInteraction()
+	# failsafe
+	if object in interactables.keys():
+		interactables.erase(object)
+	interactionPicker.update_objects(interactables)
 
 # the actual interaction processing for npcs
 func npcInteraction():
@@ -502,6 +529,8 @@ func update_with_animation():
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "walkCycles/walkingTurnAround":
 		direction = momentum
+	elif anim_name == "walkCycles/walkingStop":
+		animationPlayer.play("idling/idling")
 	elif attacking:
 		print("hitbox off")
 		hitbox.setInactive()

@@ -1,8 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://qen21520gaa6"]
+[gd_scene load_steps=35 format=3 uid="uid://qen21520gaa6"]
 
 [ext_resource type="Script" path="res://scenes/levels/tutorial/tutorial.gd" id="1_666go"]
+[ext_resource type="PackedScene" uid="uid://1o36k5fw3kk5" path="res://scenes/hud/loadingScreen/smokescreen.tscn" id="2_e8xpv"]
 [ext_resource type="PackedScene" uid="uid://dpf1g5g4jko6a" path="res://scenes/hud/stats/user_interface.tscn" id="2_l5trh"]
 [ext_resource type="PackedScene" uid="uid://bxhstmi30td3w" path="res://scenes/hud/dialog/text_interface.tscn" id="3_ms8la"]
+[ext_resource type="PackedScene" uid="uid://qworsijiq3xo" path="res://scenes/hud/interactions/interaction_picker.tscn" id="3_ryuta"]
 [ext_resource type="ArrayMesh" uid="uid://wn7eylewa5kg" path="res://models/WaterCooler.obj" id="5_rdm2s"]
 [ext_resource type="Script" path="res://scenes/characters/player/CameraPivot.gd" id="5_s18pw"]
 [ext_resource type="Texture2D" uid="uid://cnjheytr2kymj" path="res://Textures/HR_Textures/Environment/Decorative/Carpeting/Grey_Office.jpg" id="7_evjai"]
@@ -13,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dtjsjo3tfmn4i" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Normal.png" id="11_7syd6"]
 [ext_resource type="Texture2D" uid="uid://dtpgu3g81i3o8" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Roughness.png" id="12_ol5hq"]
 [ext_resource type="PackedScene" uid="uid://brqsfjd1vicxx" path="res://scenes/environmental/interactive/door.tscn" id="16_sdx1o"]
+[ext_resource type="PackedScene" uid="uid://b8r4ddrqnr357" path="res://scenes/characters/npcs/ronald/ronald.tscn" id="17_ar7md"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://scenes/characters/player/player.tscn" id="18_qiecw"]
 [ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://scenes/characters/enemies/testEnemy.tscn" id="19_wf7ol"]
 [ext_resource type="PackedScene" uid="uid://bnnidmcldne2j" path="res://desk.tscn" id="20_6xuv2"]
@@ -75,9 +78,15 @@ height = 1.77922
 radius = 0.168541
 
 [node name="Tutorial" type="Node"]
+process_priority = 1
+process_physics_priority = 1
 script = ExtResource("1_666go")
 
+[node name="smokecontrol" parent="." instance=ExtResource("2_e8xpv")]
+
 [node name="UserInterface" parent="." instance=ExtResource("2_l5trh")]
+
+[node name="InteractionPicker" parent="." instance=ExtResource("3_ryuta")]
 
 [node name="TextInterface" parent="." instance=ExtResource("3_ms8la")]
 
@@ -93,6 +102,9 @@ transform = Transform3D(3.21629, 0, 0, 0, 2.02172, 2.50144, 0, -2.50144, 2.02172
 near = 3.0
 
 [node name="CameraTimer" type="Timer" parent="Player/Marker3D/Camera3D"]
+
+[node name="Ronald" parent="." instance=ExtResource("17_ar7md")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -6.63786, 2.86011, 13)
 
 [node name="Lights" type="Node3D" parent="."]
 
@@ -627,14 +639,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.6707, 0, -101.596)
 
 [node name="Desk" parent="NavigationRegion3D/Rooms/Boss Room/DeskCombo" instance=ExtResource("20_6xuv2")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.558649, -0.0525074, 2.07343)
-gravity_scale = 20.0
+collision_layer = 32
 
 [node name="Cubicle_Divider" type="RigidBody3D" parent="NavigationRegion3D/Rooms/Boss Room/DeskCombo"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.86458, 1.08466, 2.18201)
-collision_layer = 4
+collision_layer = 32
 collision_mask = 7
-mass = 1000.0
-gravity_scale = 5.0
+collision_priority = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Rooms/Boss Room/DeskCombo/Cubicle_Divider"]
 transform = Transform3D(8.83537, 0, 0, 0, 7.04953, 0, 0, 0, 0.108007, 0, 3.22623, 0)

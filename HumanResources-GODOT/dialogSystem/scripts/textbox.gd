@@ -27,6 +27,7 @@ extends AnimatedSprite2D
 
 # get the player object so we can determine interaction params
 @onready var player = $"../../Player"
+@onready var interactionPicker = $"../../InteractionPicker"
 
 # signal to different objects that they need to reset
 signal resetTextboxes
@@ -67,10 +68,11 @@ var interactions = 0
 @onready var textboxAnim  = $"."
 @onready var textbox_speaker = $"../speaker"
 @onready var textbox_dialogue = $"../dialog"
+
 # defaults for picking up items
 # will be cleaned up later etc etc
 var itemIsDoor = false
-var doorDialog = {"unlocked":"Used keyring to unlock door!", "locked":"Looks like this needs a key...", "disabled":"Cannot be opened from this side."}
+var doorDialog = {"unlocked":"Looks like something on the keyring works here!", "locked":"Looks like this needs a key...", "disabled":"Can't be opened from this side, I guess?!"}
 var pickupDialog = "Picked up "
 var itemDialog = ""
 var pickup = false
@@ -170,6 +172,7 @@ func makeInvisible():
 		textbox_dialogue.text = ""
 		speakerPortrait.hideSelf()
 		playerPortrait.hideSelf()
+		interactionPicker.show_self()
 		#print("textbox hidden!")
 	
 # mark that player pressed button again

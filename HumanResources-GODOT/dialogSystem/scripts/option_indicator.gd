@@ -19,12 +19,14 @@ var timeInterval = .0001
 var active = false
 # lets the text controller know an option has been selected
 signal optionSelected(optionIndex)
+var useTextbox = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	origY = self.position.y
 	origX = self.position.x
-
+	if get_parent().get_parent().name == "Control":
+		useTextbox = false
 
 # use this to actually do the shit
 func initialize():
@@ -41,9 +43,16 @@ func _process(delta):
 		elif Input.is_action_just_pressed("move_back"):
 			checkOutOfBounds(false)
 		elif Input.is_action_just_pressed("interact"):
-			active = false
-			optionSelected.emit(selection)
-			reset()
+			if useTextbox:
+				active = false
+				optionSelected.emit(selection)
+				reset()
+			else:
+				var parent = get_parent().get_parent()
+				if selection == 1:
+					parent.new_game()
+				elif selection == 2:
+					parent.load_save()
 
 # check if movement is possible
 func checkOutOfBounds(up):

@@ -1,8 +1,10 @@
 extends Node3D
 
 @export var openable = true
+@export var open = false
 @export var unlockable = true
 var opening = false
+var closing = false
 var rotateAmount = 0
 @export var playerHasKey = false
 @onready var interactionBox = $InteractionArea
@@ -23,7 +25,16 @@ func _process(delta):
 		rotateAmount += 1
 		if rotateAmount > 60:
 			opening = false
+			open = true
+			rotateAmount = 0
 		self.rotation_degrees.y -= 2
+	elif closing:
+		rotateAmount += 1
+		if rotateAmount > 60:
+			closing = false
+			open = false
+			rotateAmount = 0
+		self.rotation_degrees.y += 2
 			
 func check_openable(player):
 	if self.get_meta("locked"):
@@ -31,3 +42,6 @@ func check_openable(player):
 			playerHasKey = player.checkInventory("keys", self.get_meta("key"))
 			if playerHasKey:
 				opening = true
+
+func close():
+	closing = true

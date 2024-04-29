@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8r4ddrqnr357"]
+
+[ext_resource type="Script" path="res://scenes/characters/npcs/npc_basic.gd" id="1_4hguk"]
+[ext_resource type="PackedScene" uid="uid://biyj2r3qf3r5i" path="res://models/humans/ronald/ronald.glb" id="1_cyaiw"]
+[ext_resource type="PackedScene" uid="uid://bjdxvkmmxs1j5" path="res://scenes/utilities/animation/animation_player.tscn" id="2_r44o8"]
+[ext_resource type="Script" path="res://scenes/utilities/interactionBox.gd" id="4_5ot3u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i221m"]
+size = Vector3(1.76913, 0.521973, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x0go2"]
+size = Vector3(5.76135, 8.83936, 6.06319)
+
+[node name="Ronald" type="CharacterBody3D"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+collision_layer = 2
+collision_mask = 253
+script = ExtResource("1_4hguk")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="ronald" parent="Pivot" instance=ExtResource("1_cyaiw")]
+
+[node name="Armature" parent="Pivot/ronald" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Pivot/ronald/Armature" index="0"]
+bones/0/position = Vector3(1.50238e-05, 0.0108046, -4.60436)
+bones/0/rotation = Quaternion(-0.707106, -3.04514e-05, -3.24254e-05, 0.707107)
+bones/1/rotation = Quaternion(-0.00713282, -1.71291e-06, 4.44495e-05, 0.999975)
+bones/2/rotation = Quaternion(4.65661e-09, 5.23581e-14, -6.81444e-13, 1)
+bones/3/rotation = Quaternion(1.86265e-09, -2.0117e-21, 2.20652e-19, 1)
+bones/4/rotation = Quaternion(0.00713222, -4.10102e-14, -2.27671e-13, 0.999975)
+bones/5/rotation = Quaternion(-3.55271e-15, 3.41171e-21, 1.91503e-19, 1)
+bones/7/rotation = Quaternion(-0.566689, -0.421634, 0.57065, -0.418863)
+bones/8/rotation = Quaternion(-0.148413, -0.00106937, 0.0036162, 0.988918)
+bones/9/rotation = Quaternion(-6.30725e-08, -0.00198285, 6.14612e-08, 0.999998)
+bones/10/rotation = Quaternion(-0.00768559, 0.0144459, -0.0646429, 0.997774)
+bones/11/rotation = Quaternion(0.216647, 0.0907181, 0.365695, 0.900612)
+bones/12/rotation = Quaternion(0.000641782, -0.00910866, -0.167442, 0.98584)
+bones/13/rotation = Quaternion(-4.85605e-05, 0.00122594, 0.197727, 0.980256)
+bones/15/rotation = Quaternion(0.00664895, 0.00147086, 0.0608422, 0.998124)
+bones/16/rotation = Quaternion(2.38096e-06, -0.000250755, 0.00229938, 0.999997)
+bones/17/rotation = Quaternion(7.18489e-06, 0.00123057, 0.0103129, 0.999946)
+bones/19/rotation = Quaternion(0.00659886, 0.00221229, 0.0613491, 0.998092)
+bones/20/rotation = Quaternion(2.94314e-06, -0.000361012, 0.00115147, 0.999999)
+bones/21/rotation = Quaternion(6.26122e-06, 0.00104873, 0.0103704, 0.999946)
+bones/23/rotation = Quaternion(0.00671238, 0.000564963, 0.063231, 0.997976)
+bones/24/rotation = Quaternion(4.50807e-07, -9.06753e-05, 0.0019121, 0.999998)
+bones/25/rotation = Quaternion(7.78568e-07, 0.000242794, 0.000803013, 1)
+bones/27/rotation = Quaternion(0.00663371, 0.00171627, 0.0620448, 0.99805)
+bones/28/rotation = Quaternion(5.49781e-07, -0.000200845, 0.00318639, 0.999995)
+bones/29/rotation = Quaternion(1.59464e-06, 0.00057332, 0.00397734, 0.999992)
+bones/31/rotation = Quaternion(0.568135, -0.420602, 0.569292, 0.419791)
+bones/32/rotation = Quaternion(-0.148471, 0.000254765, -0.00104803, 0.988916)
+bones/33/rotation = Quaternion(4.36869e-11, 0.00214521, 1.32996e-08, 0.999998)
+bones/34/rotation = Quaternion(-0.0190306, 0.00461353, 0.0702817, 0.997335)
+bones/35/rotation = Quaternion(0.225916, -0.117258, -0.31499, 0.914327)
+bones/36/rotation = Quaternion(0.000350157, 0.00543664, 0.045909, 0.998931)
+bones/37/rotation = Quaternion(-0.000241072, 0.00543203, -0.153935, 0.988066)
+bones/39/rotation = Quaternion(0.0191418, -0.00303559, -0.0702515, 0.997341)
+bones/40/rotation = Quaternion(-9.03362e-07, -1.18994e-05, 0.000742426, 1)
+bones/41/rotation = Quaternion(2.16047e-06, -2.67849e-05, -0.00196486, 0.999998)
+bones/43/rotation = Quaternion(0.019169, -0.00258766, -0.0672211, 0.997551)
+bones/44/rotation = Quaternion(1.51272e-06, 0.000254721, -0.0030283, 0.999995)
+bones/45/rotation = Quaternion(2.66908e-06, -0.000695196, -0.00518125, 0.999986)
+bones/47/rotation = Quaternion(0.0192168, -0.0019905, -0.0737491, 0.99709)
+bones/48/rotation = Quaternion(-4.31556e-08, 0.000284634, 0.00352609, 0.999994)
+bones/49/rotation = Quaternion(-5.35118e-06, -0.000912266, 0.00639349, 0.999979)
+bones/51/rotation = Quaternion(0.0192123, -0.00204591, -0.0722341, 0.997201)
+bones/52/rotation = Quaternion(7.49556e-08, 8.57046e-05, 0.00248428, 0.999997)
+bones/53/rotation = Quaternion(-1.44851e-06, -0.000294482, 0.00293501, 0.999996)
+bones/55/rotation = Quaternion(-0.00156109, -0.0109834, 0.999853, 0.0130922)
+bones/56/rotation = Quaternion(-0.010062, -0.000251778, 0.0257291, 0.999618)
+bones/57/rotation = Quaternion(0.449956, -0.0441614, 0.103071, 0.885983)
+bones/58/rotation = Quaternion(0.321441, -0.110483, 0.0377924, 0.939703)
+bones/60/rotation = Quaternion(0.00101124, -0.00982318, 0.999864, -0.0131763)
+bones/61/rotation = Quaternion(-0.00942098, 0.000300965, -0.0257464, 0.999624)
+bones/62/rotation = Quaternion(0.4457, 0.0449435, -0.103003, 0.8881)
+bones/63/rotation = Quaternion(0.324248, 0.108832, -0.0375833, 0.938939)
+
+[node name="AnimationPlayer" parent="Pivot/ronald" instance=ExtResource("2_r44o8")]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030014, 0.373033, 0)
+shape = SubResource("BoxShape3D_i221m")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030014, 3.978, 0)
+shape = SubResource("BoxShape3D_i221m")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030014, 7.19565, 0)
+shape = SubResource("BoxShape3D_i221m")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+script = ExtResource("4_5ot3u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0290581, 3.8606, -0.0609207)
+shape = SubResource("BoxShape3D_x0go2")
+
+[editable path="Pivot/ronald"]

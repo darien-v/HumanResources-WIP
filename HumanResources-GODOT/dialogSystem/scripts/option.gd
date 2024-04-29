@@ -19,6 +19,7 @@ var optionSelected = 0
 
 # the textbox itself
 @onready var textbox = $".."
+var useTextbox = true
 
 # player portrait will be controlled by signals
 
@@ -37,7 +38,10 @@ func reset_self():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# sets the option number assuming naming convention "optionx"
-	optionNumber = ((self.name).replace("option", "")).to_int()
+	optionNumber = self.get_meta("index")
+	if self.get_parent().name == "Control":
+		useTextbox = false
+		active = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,16 +53,17 @@ func _process(delta):
 		# once done printing, check if option being selected
 		if not currentlyPrinting:
 			optionSelected = textbox.get("optionSelected")
-			if optionSelected == self.get_meta("index"):
+			if optionSelected == optionNumber:
 				onSelection()
 			else:
-				self.uppercase = false
+				self.text = option
 		# check if a selection has been made
-		active = textbox.get("showChoices")
+		if useTextbox:
+			active = textbox.get("showChoices")
 	
 # sets option text and emotion
 func setOption(index, choice):
-	if index == self.get_meta("index"):
+	if index == optionNumber:
 		print("creating option")
 		# only create option if index matches
 		# make self visible
@@ -94,7 +99,7 @@ func printLetter():
 # option behavior when being selected
 func onSelection():
 	# go all caps bitch
-	self.uppercase = true
+	self.text = option.to_upper()
 	# change textbox color and player portrait based on option emotion
 	var emotionTemp = (self.emotion.split('//'))[0]
 
@@ -103,8 +108,8 @@ func onSelection():
 func checkMouseover():
 	pass
 
-
 func _on_option_indicator_option_selected(optionIndex):
-	if optionIndex == self.get_meta("index"):
-		selectionMade.emit(self)
-	reset_self()
+	if useTextbox:
+		if optionIndex == optionNumber:
+			selectionMade.emit(self)
+		reset_self()

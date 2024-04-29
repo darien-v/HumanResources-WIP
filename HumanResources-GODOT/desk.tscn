@@ -29,8 +29,7 @@ radius = 1.2694
 [node name="Desk" type="RigidBody3D"]
 collision_layer = 4
 collision_mask = 7
-mass = 2000.0
-gravity_scale = 100.0
+collision_priority = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-3.27835e-06, 0, 75, 0, 75, 0, -75, 0, -3.27835e-06, 0.0139852, -0.016113, 0.00682163)

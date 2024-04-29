@@ -63,7 +63,7 @@ func _on_area_exited(area):
 	# check that the area's parent is player
 	var temp = area.get_parent()
 	if temp.name == "Player":
-		temp.exited_interactable_area()
+		temp.exited_interactable_area(return_name())
 
 # special case for things that can be picked up and/or equipped
 # after being added to inventory, this area3d node DIES
