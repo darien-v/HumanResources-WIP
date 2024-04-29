@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://1o36k5fw3kk5"]
+
+[ext_resource type="Shader" path="res://scenes/hud/loadingScreen/smokescreen.gdshader" id="1_k4q7l"]
+[ext_resource type="Script" path="res://scenes/hud/loadingScreen/loadingScreen.gd" id="2_jsy08"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a7lvs"]
+shader = ExtResource("1_k4q7l")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eqtk5"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 11.95
+angle_min = -4.0
+angle_max = 20.0
+spread = 151.33
+initial_velocity_min = 500.75
+initial_velocity_max = 855.25
+gravity = Vector3(0, 98, 0)
+scale_max = 4.25
+turbulence_noise_scale = 6.67
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_as8xx"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tlxpc"]
+width = 100
+height = 100
+generate_mipmaps = false
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_as8xx")
+
+[node name="smokecontrol" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="loader" type="Node2D" parent="."]
+
+[node name="smoke" type="GPUParticles2D" parent="loader"]
+z_index = 100
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_a7lvs")
+position = Vector2(551, 316)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_eqtk5")
+texture = SubResource("NoiseTexture2D_tlxpc")
+lifetime = 10.0
+preprocess = 9.0
+draw_order = 0
+script = ExtResource("2_jsy08")
+
+[connection signal="finished" from="loader/smoke" to="loader/smoke" method="_on_finished"]
