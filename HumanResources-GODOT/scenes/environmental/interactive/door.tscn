@@ -26,6 +26,7 @@ shape = SubResource("BoxShape3D_remcj")
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 4
 collision_mask = 251
+collision_priority = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.509308, 0.743652, 0.00616455)
