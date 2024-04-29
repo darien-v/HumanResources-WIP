@@ -27,6 +27,7 @@ extends AnimatedSprite2D
 
 # get the player object so we can determine interaction params
 @onready var player = $"../../Player"
+@onready var interactionPicker = $"../../InteractionPicker"
 
 # signal to different objects that they need to reset
 signal resetTextboxes
@@ -67,9 +68,13 @@ var interactions = 0
 @onready var textboxAnim  = $"."
 @onready var textbox_speaker = $"../speaker"
 @onready var textbox_dialogue = $"../dialog"
+
 # defaults for picking up items
 # will be cleaned up later etc etc
-var itemDialog = "Picked up "
+var itemIsDoor = false
+var doorDialog = {"unlocked":"Looks like something on the keyring works here!", "locked":"Looks like this needs a key...", "disabled":"Can't be opened from this side, I guess?!"}
+var pickupDialog = "Picked up "
+var itemDialog = ""
 var pickup = false
 var item = null
 
@@ -98,6 +103,7 @@ func initVars():
 	printingText = true
 	showNextPage = true
 	changePages = true
+	itemIsDoor = false
 	showChoices = false
 	playerShowing = false
 	playerInteracted = false
@@ -155,6 +161,7 @@ func makeInvisible():
 	# conditional prevents reset from coinciding with new instance
 	if not (showingText or printingText):
 		#print("hiding textbox")
+		player.emit_pause()
 		textboxAnim.visible = false
 		textboxAnim.stop()
 		textbox_speaker.visible = false
@@ -165,6 +172,7 @@ func makeInvisible():
 		textbox_dialogue.text = ""
 		speakerPortrait.hideSelf()
 		playerPortrait.hideSelf()
+		interactionPicker.show_self()
 		#print("textbox hidden!")
 	
 # mark that player pressed button again
@@ -172,12 +180,10 @@ func player_interacted():
 	playerInteracted = true
 	
 # just putting this here to declutter process
-func startInteraction(pickupvar=false, itemvar=null):
+func startInteraction(pickupVar=false, itemvar=null):
 	if showingText == false and showDialog:
+		pickup = pickupVar
 		player.setInAnimation()
-		print(pickupvar)
-		pickup = pickupvar
-		item = itemvar
 		# initialize vars
 		initVars()
 		# textbox becomes visible
@@ -201,6 +207,23 @@ func startInteraction(pickupvar=false, itemvar=null):
 			currentDialogNode = dialog[dialogNode]
 			numPhrases = len(currentDialogNode)
 		else:
+			if itemvar.is_in_group("doors"):
+				textbox_speaker.text = ''.join(["[b][i]","YOU","[/i][/b]"])
+				# if door is just openable, we dont need dialog
+				if itemvar.get("openable"):
+					makeInvisible()
+					return
+				else:
+					if itemvar.get("unlockable"):
+						if itemvar.get("playerHasKey"):
+							itemDialog = doorDialog["unlocked"]
+						else:
+							itemDialog = doorDialog["locked"]
+					else:
+						itemDialog = doorDialog["disabled"]
+			else:
+				textbox_speaker.text = ""
+				itemDialog = pickupDialog + itemvar.name
 			numPhrases = 1
 		# start readin boah
 		nextPhrase()
@@ -373,7 +396,7 @@ func nextPhrase() -> void:
 				showChoices = false
 				choiceSetup = false
 		else:
-			visibleDialogText = itemDialog + item
+			visibleDialogText = itemDialog
 			
 		# get array of characters to iterate over
 		letters = visibleDialogText.split()

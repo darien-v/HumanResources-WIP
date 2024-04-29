@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://brqsfjd1vicxx"]
+
+[ext_resource type="Script" path="res://Door.gd" id="1_15aq0"]
+[ext_resource type="PackedScene" uid="uid://krtlpvi1sbdu" path="res://models/placeholders/low_poly_door_03.glb" id="2_jm7jt"]
+[ext_resource type="Script" path="res://scenes/utilities/interactionBox.gd" id="3_c304b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_remcj"]
+size = Vector3(1.35931, 2.74597, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3wv1b"]
+size = Vector3(1.23126, 2.4873, 0.098999)
+
+[node name="DoorPivot" type="Node3D" groups=["doors"]]
+script = ExtResource("1_15aq0")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("2_jm7jt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.483929, 0, 0.00361371)
+
+[node name="InteractionArea" type="Area3D" parent="."]
+script = ExtResource("3_c304b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.545807, 0.872986, 0)
+shape = SubResource("BoxShape3D_remcj")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 251
+collision_priority = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.509308, 0.743652, 0.00616455)
+shape = SubResource("BoxShape3D_3wv1b")
+
+[editable path="Sketchfab_Scene"]

@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://qworsijiq3xo"]
+
+[ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://scenes/hud/dialog/textbox_test.tres" id="1_lf17q"]
+[ext_resource type="Script" path="res://scenes/hud/interactions/interactionPicker.gd" id="2_ltw1v"]
+[ext_resource type="SpriteFrames" uid="uid://bygl77t1d27x8" path="res://scenes/hud/dialog/indicator.tres" id="3_wsm56"]
+[ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="4_ok1h4"]
+[ext_resource type="FontFile" uid="uid://c102fu0xf67kd" path="res://fonts/CourierPrime-Bold.ttf" id="5_mde2r"]
+[ext_resource type="FontFile" uid="uid://cj7c8xs0yi4mj" path="res://fonts/CourierPrime-Italic.ttf" id="6_mi4le"]
+[ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="7_68gr4"]
+
+[node name="InteractionPicker" type="Control"]
+layout_mode = 3
+anchor_left = 0.481
+anchor_top = 0.75
+anchor_right = 0.79
+anchor_bottom = 0.96
+offset_left = -155.112
+offset_top = -9.0
+offset_right = -155.112
+offset_bottom = -9.0
+script = ExtResource("2_ltw1v")
+
+[node name="textbox" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(8, 3)
+sprite_frames = ExtResource("1_lf17q")
+animation = &"textbox_test"
+centered = false
+
+[node name="Timer" type="Timer" parent="textbox"]
+
+[node name="Indicator" type="AnimatedSprite2D" parent="textbox"]
+visible = false
+position = Vector2(20.75, -10.3333)
+scale = Vector2(0.03, 0.114)
+sprite_frames = ExtResource("3_wsm56")
+
+[node name="dialog" type="RichTextLabel" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.955
+offset_left = 18.0
+offset_top = 6.0
+offset_right = 18.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("4_ok1h4")
+theme_override_fonts/bold_font = ExtResource("5_mde2r")
+theme_override_fonts/italics_font = ExtResource("6_mi4le")
+theme_override_fonts/bold_italics_font = ExtResource("7_68gr4")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "sdfsfdsfsdfsdsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+scroll_active = false

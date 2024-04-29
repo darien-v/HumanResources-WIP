@@ -9,7 +9,7 @@
 size = Vector3(0.464645, 0.129395, 0.277649)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4b8kw"]
-size = Vector3(2, 5, 7)
+size = Vector3(2, 5, 5.60754)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m13qo"]
 radius = 18.8842
@@ -22,16 +22,16 @@ size = Vector3(39.8593, 39.1221, 29.4852)
 size = Vector3(41.0231, 18.8262, 32.7073)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pmf8b"]
-size = Vector3(33.5546, 57.9716, 32.8069)
+size = Vector3(18.7744, 57.9716, 32.8069)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1majr"]
 size = Vector3(24.021, 29.6626, 0.001)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cc5l8"]
-size = Vector3(58, 76.8306, 44)
+size = Vector3(15.1548, 76.8306, 14.1197)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ivrrh"]
-size = Vector3(32.5256, 44.1349, 49)
+size = Vector3(32.5256, 44.1349, 10.836)
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 transform = Transform3D(0.504792, 0, 0, 0, 0.504792, 0, 0, 0, 0.504792, 0, 0, 0)
@@ -45,11 +45,18 @@ metadata/bodyPartGroup = "enemybody"
 avoidance_enabled = true
 neighbor_distance = 3.0
 avoidance_layers = 0
-avoidance_mask = 0
 debug_enabled = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0723648, -1.0346, -0.0596008)
+shape = SubResource("BoxShape3D_op5wt")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0723648, 0.856618, -0.0596008)
+shape = SubResource("BoxShape3D_op5wt")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0723648, 0.10493, -0.0596008)
 shape = SubResource("BoxShape3D_op5wt")
 
 [node name="VisionTimer" type="Timer" parent="."]
@@ -61,7 +68,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0484753, 0.007761, -0.0868
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/VisionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35791, 0.608064, 2.30596)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08373, 0.608064, 2.65621)
 shape = SubResource("BoxShape3D_4b8kw")
 
 [node name="Enemy" parent="Pivot" instance=ExtResource("2_5edb1")]
@@ -216,7 +223,7 @@ collision_layer = 18
 collision_mask = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftUpLegCollider/CharacterBody3D"]
-transform = Transform3D(1, -2.72121e-09, 0, -6.69388e-10, 1, 1.86265e-09, 2.32831e-10, -5.86733e-07, 1, -1.79911, 15.7812, 0.202606)
+transform = Transform3D(1, -1.07306e-07, -1.18744e-08, 8.97344e-08, 1, 8.3819e-08, 2.18861e-08, -5.60656e-07, 1, 5.59101, 15.7812, 0.202606)
 shape = SubResource("BoxShape3D_pmf8b")
 
 [node name="leftLegCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="5"]
@@ -271,7 +278,7 @@ collision_layer = 18
 collision_mask = 9
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightLegCollider/CharacterBody3D"]
-transform = Transform3D(1, -1.24681e-07, 3.52738e-07, 2.25264e-08, 0.963052, 0.269313, -3.77651e-07, -0.269314, 0.963052, -8.27767, 15.2237, -3.85142)
+transform = Transform3D(1, -1.25146e-07, 3.51341e-07, 2.30575e-08, 0.963052, 0.269313, -3.77651e-07, -0.269314, 0.963052, -1.39521, 15.2237, -3.85142)
 shape = SubResource("BoxShape3D_pmf8b")
 
 [node name="rightArmCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="9"]
@@ -286,7 +293,7 @@ script = ExtResource("3_rx8qw")
 metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightArmCollider/CharacterBody3D"]
-transform = Transform3D(1, 5.45697e-11, 0, 8.51514e-11, 1, -3.77775e-09, 0, 4.67451e-09, 1, 4.61104, 20.9941, -1.5103)
+transform = Transform3D(1, 5.69571e-11, -1.86265e-09, 9.41327e-11, 1, -3.29488e-09, 0, 5.17315e-09, 1, 1.25338, 20.9941, 1.42998)
 shape = SubResource("BoxShape3D_cc5l8")
 
 [node name="rightShoulderCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="10"]
@@ -301,7 +308,7 @@ script = ExtResource("3_rx8qw")
 metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/rightShoulderCollider/CharacterBody3D"]
-transform = Transform3D(0.999999, 3.06954e-12, 7.82311e-08, -2.84217e-12, 1, -1.23599e-11, -9.12696e-08, 1.15463e-13, 1, 10.5785, 18.3057, -6.83547)
+transform = Transform3D(0.999999, 3.18323e-12, 7.91624e-08, -2.6148e-12, 1, -1.33511e-11, -9.03383e-08, 3.59002e-12, 1, 10.5785, 18.3057, -1.00591)
 shape = SubResource("BoxShape3D_ivrrh")
 
 [node name="leftArmCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="11"]
@@ -316,7 +323,7 @@ script = ExtResource("3_rx8qw")
 metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftArmCollider/CharacterBody3D"]
-transform = Transform3D(1, 4.41567e-11, 0, 6.90079e-11, 1, -3.07121e-09, 0, 3.75345e-09, 1, -4.91289, 25.8802, -4.72591)
+transform = Transform3D(1, 4.41531e-11, 1.86265e-09, 6.89937e-11, 1, -3.0712e-09, 0, 3.75344e-09, 1, -4.91289, 25.8802, 1.163)
 shape = SubResource("BoxShape3D_cc5l8")
 
 [node name="leftShoulderCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="12"]
@@ -331,7 +338,7 @@ script = ExtResource("3_rx8qw")
 metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftShoulderCollider/CharacterBody3D"]
-transform = Transform3D(0.999999, 3.07665e-12, 8.00937e-08, -2.82796e-12, 1, -1.24367e-11, -9.49949e-08, -1.69309e-14, 1, -4.29635, 18.3057, 0.999981)
+transform = Transform3D(1.00001, 3.04112e-12, 8.00937e-08, -2.85638e-12, 1, -1.28471e-11, -1.32248e-07, 4.68736e-13, 1, -4.29635, 18.3057, 0.111393)
 shape = SubResource("BoxShape3D_ivrrh")
 
 [node name="rightFootCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="13"]
@@ -351,6 +358,7 @@ shape = SubResource("BoxShape3D_1majr")
 disabled = true
 
 [node name="AnimationPlayer" parent="Pivot/Enemy" instance=ExtResource("4_hbski")]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001]
 
 [node name="Eyes" type="BoneAttachment3D" parent="Pivot"]
 transform = Transform3D(1, 1.14356e-10, -3.96066e-11, 3.38787e-11, 2.00234e-07, 1, 1.34794e-10, -1, 2.07685e-07, 0.00101213, 2.27011, -76.5579)

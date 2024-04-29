@@ -1,17 +1,28 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjdxvkmmxs1j5"]
+[gd_scene load_steps=8 format=3 uid="uid://bjdxvkmmxs1j5"]
 
 [ext_resource type="AnimationLibrary" uid="uid://der082gmcapv4" path="res://models/animations/dodging.glb" id="1_uodds"]
 [ext_resource type="AnimationLibrary" uid="uid://dotn8x4j77od0" path="res://models/animations/meleeAttacks.glb" id="2_81qlg"]
 [ext_resource type="AnimationLibrary" uid="uid://ds2qbn54qylf8" path="res://models/animations/spear.glb" id="2_a8c4d"]
+[ext_resource type="AnimationLibrary" uid="uid://cfamvf3wcm3dv" path="res://models/animations/idling.glb" id="2_pqvp7"]
 [ext_resource type="AnimationLibrary" uid="uid://ceq4aq3d288j3" path="res://models/animations/walkCycles.glb" id="3_0odrt"]
+[ext_resource type="AnimationLibrary" uid="uid://dob743mmiisjy" path="res://models/animations/running.glb" id="4_jq0oo"]
 [ext_resource type="Script" path="res://scenes/utilities/animation/animationPlayer.gd" id="4_xr6r5"]
 
 [node name="AnimationPlayer" type="AnimationPlayer"]
 deterministic = true
 libraries = {
 "dodging": ExtResource("1_uodds"),
+"idling": ExtResource("2_pqvp7"),
 "meleeAttacks": ExtResource("2_81qlg"),
+"running": ExtResource("4_jq0oo"),
 "spear": ExtResource("2_a8c4d"),
 "walkCycles": ExtResource("3_0odrt")
 }
+playback_default_blend_time = 0.5
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001]
 script = ExtResource("4_xr6r5")
+
+[connection signal="animation_changed" from="." to="." method="_on_animation_changed"]
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
+[connection signal="animation_started" from="." to="." method="_on_animation_started"]
+[connection signal="current_animation_changed" from="." to="." method="_on_current_animation_changed"]
