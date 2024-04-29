@@ -1,0 +1,107 @@
+[gd_scene load_steps=11 format=3 uid="uid://eu0qxybbcute"]
+
+[ext_resource type="Script" path="res://scenes/hud/menus/startScreen.gd" id="1_phlqs"]
+[ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://scenes/hud/dialog/textbox_test.tres" id="2_0xs6t"]
+[ext_resource type="SpriteFrames" uid="uid://cgwrv62lxykmk" path="res://scenes/hud/dialog/option_indicator.tres" id="3_j245u"]
+[ext_resource type="Script" path="res://dialogSystem/scripts/option_indicator.gd" id="4_cvvn2"]
+[ext_resource type="FontFile" uid="uid://dfriddtlr78g1" path="res://fonts/CourierPrime-Regular.ttf" id="5_0b4he"]
+[ext_resource type="FontFile" uid="uid://c102fu0xf67kd" path="res://fonts/CourierPrime-Bold.ttf" id="6_hksvh"]
+[ext_resource type="FontFile" uid="uid://cj7c8xs0yi4mj" path="res://fonts/CourierPrime-Italic.ttf" id="7_hjmwt"]
+[ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="8_g08dp"]
+[ext_resource type="Script" path="res://dialogSystem/scripts/option.gd" id="9_mvxtm"]
+[ext_resource type="PackedScene" uid="uid://1o36k5fw3kk5" path="res://scenes/hud/loadingScreen/smokescreen.tscn" id="10_dsewn"]
+
+[node name="Control" type="Control"]
+process_priority = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_phlqs")
+
+[node name="textbox" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(570, 532.25)
+scale = Vector2(22.375, 4.09375)
+sprite_frames = ExtResource("2_0xs6t")
+animation = &"textbox_test"
+
+[node name="Timer" type="Timer" parent="textbox"]
+
+[node name="option_indicator" type="AnimatedSprite2D" parent="textbox"]
+top_level = true
+texture_filter = 1
+position = Vector2(565, 342)
+scale = Vector2(0.594792, 0.5)
+sprite_frames = ExtResource("3_j245u")
+script = ExtResource("4_cvvn2")
+
+[node name="indicator_timer" type="Timer" parent="textbox/option_indicator"]
+
+[node name="option1" type="RichTextLabel" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.048
+anchor_top = 0.706
+anchor_right = 0.947
+anchor_bottom = 0.754
+offset_left = 12.704
+offset_top = -6.48798
+offset_right = 12.704
+offset_bottom = -6.48798
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("5_0b4he")
+theme_override_fonts/bold_font = ExtResource("6_hksvh")
+theme_override_fonts/italics_font = ExtResource("7_hjmwt")
+theme_override_fonts/bold_italics_font = ExtResource("8_g08dp")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "Load Save"
+scroll_active = false
+scroll_following = true
+script = ExtResource("9_mvxtm")
+metadata/index = 1
+
+[node name="option2" type="RichTextLabel" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.048
+anchor_top = 0.706
+anchor_right = 0.947
+anchor_bottom = 0.754
+offset_left = 12.704
+offset_top = 44.512
+offset_right = 12.704
+offset_bottom = 44.512
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("5_0b4he")
+theme_override_fonts/bold_font = ExtResource("6_hksvh")
+theme_override_fonts/italics_font = ExtResource("7_hjmwt")
+theme_override_fonts/bold_italics_font = ExtResource("8_g08dp")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+text = "New Game"
+scroll_active = false
+scroll_following = true
+script = ExtResource("9_mvxtm")
+metadata/index = 2
+
+[node name="smokecontrol" parent="." instance=ExtResource("10_dsewn")]
+layout_mode = 1
+
+[editable path="smokecontrol"]
