@@ -84,6 +84,7 @@ var interactables = {}
 var interactionCategories = {
 								"pickup": 0,
 								"door": 0,
+								"watercooler": 0,
 								"interactable": 0
 							}
 @onready var interactionPicker = $"../InteractionPicker"
@@ -283,6 +284,10 @@ func move_player(delta):
 						else:
 							door.close()
 							return
+					elif type == "watercooler":
+						# TODO make this do teleport stuff
+						var cooler = item.get_parent()
+						cooler.demo_func()
 					textbox.startInteraction(true, item.get_parent())
 					emit_pause()
 				else:
@@ -470,6 +475,9 @@ func entered_interactable_area(object):
 		elif object.is_in_group("doors"):
 			text = "Use door"
 			type = "door"
+		elif object.is_in_group("watercoolers"):
+			text = "Rest at water cooler"
+			type = "watercooler"
 		else:
 			text = "Interact with %s" % objName
 			type = "interactable"

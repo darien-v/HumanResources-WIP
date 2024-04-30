@@ -21,7 +21,7 @@ func _on_damage(damageAmt):
 	health -= damageAmt;
 	# death condition
 	if health < 0:
-		pass # havent programmed death yet
+		$"../death".show()
 	else:
 		value = health
 		

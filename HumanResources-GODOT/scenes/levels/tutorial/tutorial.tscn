@@ -1,19 +1,15 @@
-[gd_scene load_steps=36 format=3 uid="uid://qen21520gaa6"]
+[gd_scene load_steps=30 format=3 uid="uid://qen21520gaa6"]
 
 [ext_resource type="Script" path="res://scenes/levels/tutorial/tutorial.gd" id="1_666go"]
 [ext_resource type="PackedScene" uid="uid://1o36k5fw3kk5" path="res://scenes/hud/loadingScreen/smokescreen.tscn" id="2_e8xpv"]
 [ext_resource type="PackedScene" uid="uid://dpf1g5g4jko6a" path="res://scenes/hud/stats/user_interface.tscn" id="2_l5trh"]
 [ext_resource type="PackedScene" uid="uid://bxhstmi30td3w" path="res://scenes/hud/dialog/text_interface.tscn" id="3_ms8la"]
 [ext_resource type="PackedScene" uid="uid://qworsijiq3xo" path="res://scenes/hud/interactions/interaction_picker.tscn" id="3_ryuta"]
-[ext_resource type="ArrayMesh" uid="uid://wn7eylewa5kg" path="res://models/WaterCooler.obj" id="5_rdm2s"]
 [ext_resource type="Script" path="res://scenes/characters/player/CameraPivot.gd" id="5_s18pw"]
 [ext_resource type="Texture2D" uid="uid://cnjheytr2kymj" path="res://Textures/HR_Textures/Environment/Decorative/Carpeting/Grey_Office.jpg" id="7_evjai"]
 [ext_resource type="PackedScene" uid="uid://bl7eokvd2eeuc" path="res://dummy_1.tscn" id="8_lxvkq"]
 [ext_resource type="PackedScene" uid="uid://mn4dxvx1s03o" path="res://scenes/items/weapons/amoray_note.tscn" id="9_3qp5u"]
-[ext_resource type="Texture2D" uid="uid://bjaelfal7virn" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_BaseColor.png" id="9_hatk3"]
-[ext_resource type="Texture2D" uid="uid://432ogoddbl4c" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Metalness.png" id="10_gbtjx"]
-[ext_resource type="Texture2D" uid="uid://dtjsjo3tfmn4i" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Normal.png" id="11_7syd6"]
-[ext_resource type="Texture2D" uid="uid://dtpgu3g81i3o8" path="res://Textures/HR_Textures/Environment/Interactive/Watercooler/WaterCoolerUV2_WaterCooler_Roughness.png" id="12_ol5hq"]
+[ext_resource type="PackedScene" uid="uid://3dcjy56yqul" path="res://water_cooler.tscn" id="15_umw1m"]
 [ext_resource type="PackedScene" uid="uid://brqsfjd1vicxx" path="res://scenes/environmental/interactive/door.tscn" id="16_sdx1o"]
 [ext_resource type="PackedScene" uid="uid://b8r4ddrqnr357" path="res://scenes/characters/npcs/ronald/ronald.tscn" id="17_ar7md"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://scenes/characters/player/player.tscn" id="18_qiecw"]
@@ -66,18 +62,6 @@ albedo_color = Color(0.0666667, 0, 0.0784314, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_h6wo6"]
 size = Vector3(9.05103, 8.29352, 0.456512)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwcjb"]
-albedo_texture = ExtResource("9_hatk3")
-metallic = 1.0
-metallic_texture = ExtResource("10_gbtjx")
-roughness_texture = ExtResource("12_ol5hq")
-normal_enabled = true
-normal_texture = ExtResource("11_7syd6")
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_pnrff"]
-height = 1.77922
-radius = 0.168541
-
 [node name="Tutorial" type="Node"]
 process_priority = 1
 process_physics_priority = 1
@@ -86,6 +70,104 @@ script = ExtResource("1_666go")
 [node name="smokecontrol" parent="." instance=ExtResource("2_e8xpv")]
 
 [node name="UserInterface" parent="." instance=ExtResource("2_l5trh")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="death" type="ColorRect" parent="UserInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.666667, 0, 0, 0.376471)
+
+[node name="Label" type="Label" parent="UserInterface/death"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -228.5
+offset_top = -68.5
+offset_right = 228.5
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 100
+text = "You Died."
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="UserInterface/death"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -423.0
+offset_top = 126.0
+offset_right = 1566.0
+offset_bottom = 303.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "but the devs didn't have time to program
+that so now you just have to deal with this
+annoying overlay while you play the rest
+of the demo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="completion" type="ColorRect" parent="UserInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.444835, 0, 0.376471)
+
+[node name="Label" type="Label" parent="UserInterface/completion"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -540.0
+offset_top = -166.0
+offset_right = 551.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 100
+text = "Congratulations!"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="UserInterface/completion"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -511.0
+offset_top = 351.0
+offset_right = 513.0
+offset_bottom = -218.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "Thank you for playing the demo of Human Resources."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="InteractionPicker" parent="." instance=ExtResource("3_ryuta")]
 
@@ -704,21 +786,12 @@ transform = Transform3D(0.505225, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e
 mesh = SubResource("BoxMesh_secun")
 skeleton = NodePath("../../../Boss Room/Wall7")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Rooms/Exit"]
-collision_layer = 4
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Rooms/Exit/StaticBody3D"]
-transform = Transform3D(80, 0, 0, 0, 80, 0, 0, 0, 80, -44.5, 0, -75)
-material_override = SubResource("StandardMaterial3D_dwcjb")
-mesh = ExtResource("5_rdm2s")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Rooms/Exit/StaticBody3D"]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -44.5, 0, -75)
-shape = SubResource("CylinderShape3D_pnrff")
-
 [node name="DoorPivot" parent="NavigationRegion3D/Rooms/Exit" instance=ExtResource("16_sdx1o")]
 transform = Transform3D(-1.6478e-07, 0, 3.76973, 0, 3.76973, 0, -3.76973, 0, -1.6478e-07, -29.5154, -0.606204, -85.7706)
 metadata/locked = true
 metadata/key = "tutorialKey"
+
+[node name="WaterCooler" parent="NavigationRegion3D/Rooms/Exit" instance=ExtResource("15_umw1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 0, -75)
 
 [node name="SoulOrb" parent="." instance=ExtResource("20_bq5ii")]

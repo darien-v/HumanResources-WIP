@@ -12,6 +12,8 @@ func connect_enemy_death(enemy):
 func _ready():
 	get_tree().call_group("enemies", "_connect_death", self)
 	$smokecontrol/loader/smoke.load_complete()
+	$UserInterface/death.hide()
+	$UserInterface/completion.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
