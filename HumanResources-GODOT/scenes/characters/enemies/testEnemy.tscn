@@ -358,7 +358,7 @@ shape = SubResource("BoxShape3D_1majr")
 disabled = true
 
 [node name="AnimationPlayer" parent="Pivot/Enemy" instance=ExtResource("4_hbski")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001]
 
 [node name="Eyes" type="BoneAttachment3D" parent="Pivot"]
 transform = Transform3D(1, 1.14356e-10, -3.96066e-11, 3.38787e-11, 2.00234e-07, 1, 1.34794e-10, -1, 2.07685e-07, 0.00101213, 2.27011, -76.5579)

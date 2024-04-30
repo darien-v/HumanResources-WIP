@@ -45,7 +45,7 @@ func _process(delta):
 		var currentPos = get_current_animation_position()
 		if anim in blendOverrides and currentPos >= get_current_animation_length() -.5:
 			print("blendOverrides %s" % anim)
-			playback_default_blend_time = 0
+			#playback_default_blend_time = 0
 			pause()
 			seek(get_current_animation_length(), true)
 			reset_rest(anim, currentPos)
@@ -58,7 +58,7 @@ func _on_animation_started(anim_name):
 	print("STARTED %s" % anim_name)
 	print("PREV %s" % anim)
 	if anim != anim_name:
-		playback_default_blend_time = defaultBlend
+		#playback_default_blend_time = defaultBlend
 		reset = true
 	anim = anim_name
 	stopped = false

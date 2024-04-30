@@ -20,6 +20,7 @@ func _process(delta):
 		
 func load_complete():
 	stop = true
+	lifetime = 1
 
 func fade_overlay():
 	overlay.color.a = 0

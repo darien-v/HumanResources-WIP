@@ -4,7 +4,7 @@ extends CharacterBody3D
 # enemy ai partially referenced from here: https://gist.github.com/AJ08Coder/d464dc6a6e99b028b51c1663ad1a904d
 
 @export var humanResources = 10
-signal death(humanResources)
+signal death(humanResources, pos)
 
 # player speed in m/s
 @export var speed = 3
@@ -18,7 +18,7 @@ var attackCooldown = 3
 var target_velocity = Vector3.ZERO
 
 @onready var navAgent = $NavigationAgent3D
-@onready var resources = $"../UserInterface/Resources"
+@onready var resources = $".."
 
 @onready var pivot = $Pivot
 
@@ -78,6 +78,8 @@ var circlePos = 0
 # mini-functions to connect necessary signals
 func connect_anim_finish(animPlayer):
 	animPlayer.animation_finished.connect(self._on_animation_player_animation_finished)
+func _connect_death(node):
+	node.connect_enemy_death(self)
 	
 # when enemy spawns, connect necessary signals, add to necessary group(s)
 func _ready():
@@ -87,8 +89,6 @@ func _ready():
 	VisionRaycast.add_exception($"../Player/interactionRadius")
 	# marking spawn location
 	spawnLocation = global_position
-	# signal emitted upon death
-	resources.connect_enemy_death(self)
 	velocity = Vector3.ZERO
 	navAgent.target_desired_distance = actionDistance
 	# get all hitboxes connected
@@ -304,7 +304,7 @@ func _on_HurtboxArea_area_entered(area):
 			health-=area.get_meta("baseDamage")
 			print("enemy damaged, health is %d" % health)
 			if health <= 0:
-				death.emit(humanResources)
+				death.emit(humanResources, global_position)
 				queue_free()
 			else:
 				self.set_meta("health", health)

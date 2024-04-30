@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://de55b4bgiu84n"]
+
+[ext_resource type="PackedScene" uid="uid://cg2vqmul1oo0c" path="res://models/objects/rubberBand.glb" id="1_yoboe"]
+
+[sub_resource type="Animation" id="Animation_nciso"]
+resource_name = "stretch_z"
+length = 1.5
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.4, 1, 1, 1, 10, 0.6, 1, 1, 1, 7, 0.8, 1, 1, 1, 11, 1.1, 1, 1, 1, 0.5, 1.3, 1, 1, 1, 1.3, 1.5, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_cieqv"]
+resource_name = "bounce"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.2, 1, 1, 1, 0.5, 0.4, 1, 1, 1, 1.3, 0.6, 1, 1, 1, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wlni5"]
+_data = {
+"bounce": SubResource("Animation_cieqv"),
+"stretch_z": SubResource("Animation_nciso")
+}
+
+[node name="rubberBand" instance=ExtResource("1_yoboe")]
+
+[node name="rubberBand" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.943192)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_wlni5")
+}
+speed_scale = 2.0

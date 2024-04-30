@@ -30,6 +30,7 @@ normalize = false
 noise = SubResource("FastNoiseLite_as8xx")
 
 [node name="smokecontrol" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -610,7 +610,7 @@ surface_material_override/3 = SubResource("StandardMaterial3D_4hp7s")
 surface_material_override/4 = SubResource("StandardMaterial3D_cykvp")
 
 [node name="headCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.999768, 0.0184219, -0.0111643, 0.00975803, -0.0747372, -0.997155, -0.0192039, -0.997033, 0.0745401, -0.0136954, -0.391068, -6.10618)
+transform = Transform3D(-0.999768, 0.0184218, -0.0111641, 0.00975785, -0.0747383, -0.997155, -0.0192037, -0.997033, 0.0745414, -0.0136956, -0.39107, -6.10617)
 bone_name = "Head"
 bone_idx = 5
 
@@ -622,7 +622,7 @@ transform = Transform3D(0.704182, 0.000448294, -0.000528008, -0.000476889, 0.703
 shape = SubResource("CapsuleShape3D_7cbpc")
 
 [node name="torsoCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="2"]
-transform = Transform3D(-0.993396, -0.0113296, -0.11418, 0.11437, -0.0177925, -0.993279, 0.00922186, -0.999777, 0.0189708, -0.00333793, -0.325013, -5.15724)
+transform = Transform3D(-0.993395, -0.0113297, -0.11418, 0.11437, -0.0177937, -0.993279, 0.00922188, -0.999777, 0.0189721, -0.00333805, -0.325014, -5.15723)
 bone_name = "Spine1"
 bone_idx = 2
 
@@ -638,7 +638,7 @@ transform = Transform3D(-4.37114e-08, -1, 4.33681e-19, 1, -4.37114e-08, 0, 0, -1
 shape = SubResource("CapsuleShape3D_qh0pi")
 
 [node name="pelvisCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="3"]
-transform = Transform3D(-0.991914, -0.0274237, -0.123912, 0.124419, -0.0176365, -0.992073, 0.0250209, -0.999468, 0.020906, 0.012387, -0.322173, -4.50624)
+transform = Transform3D(-0.991914, -0.0274239, -0.123912, 0.124419, -0.0176377, -0.992073, 0.0250209, -0.999468, 0.0209073, 0.012387, -0.322173, -4.50624)
 bone_name = "Hips"
 bone_idx = 0
 
@@ -650,7 +650,7 @@ transform = Transform3D(0.989625, 0, 0, -4.54748e-13, 0.989625, -2.1684e-19, 0, 
 shape = SubResource("CylinderShape3D_nf1ai")
 
 [node name="leftUpLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="4"]
-transform = Transform3D(0.958167, -0.119959, -0.259842, -0.285315, -0.32925, -0.900105, 0.0224229, 0.936592, -0.349704, -0.414315, -0.252419, -4.32817)
+transform = Transform3D(0.958167, -0.119959, -0.259842, -0.285315, -0.329249, -0.900105, 0.0224231, 0.936592, -0.349703, -0.414315, -0.252419, -4.32816)
 bone_name = "LeftUpLeg"
 bone_idx = 55
 
@@ -662,7 +662,7 @@ transform = Transform3D(0.989624, 1.68979e-05, 1.2815e-05, -1.71363e-05, 0.98923
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="leftLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="5"]
-transform = Transform3D(0.963688, 0.157456, -0.215654, -0.261024, 0.725675, -0.636602, 0.0562576, 0.669779, 0.740427, -0.640952, -0.874466, -2.55868)
+transform = Transform3D(0.963688, 0.157456, -0.215653, -0.261024, 0.725676, -0.6366, 0.0562577, 0.669777, 0.740428, -0.640952, -0.874465, -2.55867)
 bone_name = "LeftLeg"
 bone_idx = 56
 
@@ -674,7 +674,7 @@ transform = Transform3D(0.989624, 1.68085e-05, 1.2964e-05, -1.73151e-05, 0.98923
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="rightUpLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="6"]
-transform = Transform3D(0.997385, -0.0662911, 0.0291286, 0.0136447, -0.223008, -0.974721, 0.071112, 0.97256, -0.221518, 0.452788, -0.349896, -4.35024)
+transform = Transform3D(0.997385, -0.0662911, 0.0291285, 0.0136448, -0.223007, -0.974721, 0.0711119, 0.97256, -0.221517, 0.452788, -0.349896, -4.35024)
 bone_name = "RightUpLeg"
 bone_idx = 60
 
@@ -686,7 +686,7 @@ transform = Transform3D(0.989624, 1.68532e-05, 1.29342e-05, -1.71363e-05, 0.9892
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="rightLegCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="7"]
-transform = Transform3D(0.998003, -0.0286832, -0.0564482, -0.0504456, 0.178589, -0.98263, 0.038267, 0.983506, 0.176783, 0.327554, -0.771191, -2.51293)
+transform = Transform3D(0.998003, -0.0286831, -0.0564482, -0.0504456, 0.17859, -0.982629, 0.038267, 0.983505, 0.176785, 0.327554, -0.771189, -2.51293)
 bone_name = "RightLeg"
 bone_idx = 61
 
@@ -698,7 +698,7 @@ transform = Transform3D(0.989625, 1.70171e-05, 1.29836e-05, -1.70469e-05, 0.9892
 shape = SubResource("CylinderShape3D_agx67")
 
 [node name="rightShoulderCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="8"]
-transform = Transform3D(0.155523, 0.329142, -0.931385, -0.961878, 0.265168, -0.0669064, 0.224952, 0.906284, 0.357834, 0.581665, -0.434353, -5.67043)
+transform = Transform3D(0.155522, 0.329142, -0.931385, -0.961878, 0.26517, -0.0669051, 0.224954, 0.906284, 0.357834, 0.581665, -0.434355, -5.67043)
 bone_name = "RightArm"
 bone_idx = 32
 
@@ -710,7 +710,7 @@ transform = Transform3D(1, 2.98023e-08, 1.19209e-07, 5.96046e-08, 1, 2.98023e-08
 shape = SubResource("CylinderShape3D_4lib5")
 
 [node name="LeftArmCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="9"]
-transform = Transform3D(-0.455022, -0.0667919, 0.887972, 0.769882, -0.530605, 0.354598, 0.447478, 0.844983, 0.292859, -1.00029, -0.437544, -4.70669)
+transform = Transform3D(-0.455022, -0.066793, 0.887972, 0.769883, -0.530604, 0.354598, 0.447476, 0.844985, 0.292859, -1.00029, -0.437544, -4.70669)
 bone_name = "LeftForeArm"
 bone_idx = 9
 
@@ -722,7 +722,7 @@ transform = Transform3D(1, 5.66244e-07, -8.9407e-08, -3.8743e-07, 1, 9.68575e-08
 shape = SubResource("CylinderShape3D_4xspl")
 
 [node name="LeftShoulderCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="10"]
-transform = Transform3D(-0.0275461, -0.376495, 0.926009, 0.997603, -0.0691708, 0.00155234, 0.0634683, 0.923833, 0.377498, -0.604405, -0.364811, -5.67811)
+transform = Transform3D(-0.0275453, -0.376495, 0.926009, 0.997604, -0.0691692, 0.00155239, 0.0634667, 0.923833, 0.377498, -0.604405, -0.364812, -5.6781)
 bone_name = "LeftArm"
 bone_idx = 8
 
@@ -735,7 +735,7 @@ transform = Transform3D(0.531067, -0.056543, -2.39388, -2.07698, -1.23114, -0.43
 shape = SubResource("CylinderShape3D_4lib5")
 
 [node name="RightArmCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="11"]
-transform = Transform3D(-0.162814, 0.103223, -0.981243, -0.981363, -0.119827, 0.150229, -0.102073, 0.987414, 0.120809, 0.927758, -0.155529, -4.71747)
+transform = Transform3D(-0.162814, 0.103223, -0.981242, -0.981363, -0.119825, 0.150229, -0.10207, 0.987414, 0.120808, 0.927758, -0.155529, -4.71747)
 bone_name = "RightForeArm"
 bone_idx = 33
 
@@ -747,7 +747,7 @@ transform = Transform3D(1, 8.9407e-08, -5.96046e-08, 8.9407e-08, 1, 2.98023e-08,
 shape = SubResource("CylinderShape3D_4xspl")
 
 [node name="rightFootCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="12"]
-transform = Transform3D(0.976967, 0.201095, -0.0715274, 0.112973, -0.771535, -0.626076, -0.181084, 0.603569, -0.776475, 0.267031, -0.39436, -0.437685)
+transform = Transform3D(0.976967, 0.201096, -0.0715276, 0.112973, -0.771534, -0.626077, -0.181084, 0.603571, -0.776473, 0.267032, -0.394354, -0.437682)
 bone_name = "RightFoot"
 bone_idx = 62
 
@@ -759,7 +759,7 @@ transform = Transform3D(0.0208717, 0.258587, 0.955037, 0.466019, 0.840088, -0.23
 shape = SubResource("BoxShape3D_ek3np")
 
 [node name="leftFootCollider" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="13"]
-transform = Transform3D(0.922311, -0.282939, -0.263213, -0.278586, -0.0147811, -0.960297, 0.267816, 0.959024, -0.0924559, -0.308673, 0.656921, -1.14525)
+transform = Transform3D(0.922311, -0.282938, -0.263213, -0.278586, -0.0147798, -0.960297, 0.267816, 0.959024, -0.0924544, -0.308672, 0.656925, -1.14525)
 bone_name = "LeftFoot"
 bone_idx = 57
 
@@ -771,13 +771,13 @@ transform = Transform3D(0.0211043, -0.258532, -0.955043, -0.465734, 0.840209, -0
 shape = SubResource("BoxShape3D_ek3np")
 
 [node name="LeftHand" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="14"]
-transform = Transform3D(-0.718994, -0.225866, 0.657292, 0.59944, -0.680142, 0.421993, 0.351738, 0.697417, 0.624411, -1.08269, -1.09211, -3.6643)
+transform = Transform3D(-0.718993, -0.225866, 0.657292, 0.599441, -0.68014, 0.421994, 0.351736, 0.697419, 0.62441, -1.08269, -1.09211, -3.66429)
 bone_name = "LeftHand"
 bone_idx = 10
 script = ExtResource("4_0io30")
 
 [node name="Hair" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="15"]
-transform = Transform3D(-0.999768, 0.0184219, -0.0111643, 0.00975803, -0.0747372, -0.997155, -0.0192039, -0.997033, 0.0745401, 0.0028903, -1.0211, -7.28977)
+transform = Transform3D(-0.999768, 0.0184218, -0.0111641, 0.00975785, -0.0747383, -0.997155, -0.0192037, -0.997033, 0.0745414, 0.00288996, -1.0211, -7.28977)
 bone_name = "HeadTop_End"
 bone_idx = 6
 
@@ -788,7 +788,7 @@ skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_jeh51")
 
 [node name="LeftEye" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="16"]
-transform = Transform3D(-0.999768, 0.0184219, -0.0111643, 0.00975803, -0.0747372, -0.997155, -0.0192039, -0.997033, 0.0745401, -0.0136954, -0.391068, -6.10618)
+transform = Transform3D(-0.999768, 0.0184218, -0.0111641, 0.00975785, -0.0747383, -0.997155, -0.0192037, -0.997033, 0.0745414, -0.0136956, -0.39107, -6.10617)
 bone_name = "Head"
 bone_idx = 5
 
@@ -804,7 +804,7 @@ sprite_frames = SubResource("SpriteFrames_k8352")
 animation = &"worry"
 
 [node name="RightEye" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="17"]
-transform = Transform3D(-0.999768, 0.0184219, -0.0111643, 0.00975803, -0.0747372, -0.997155, -0.0192039, -0.997033, 0.0745401, -0.0136954, -0.391068, -6.10618)
+transform = Transform3D(-0.999768, 0.0184218, -0.0111641, 0.00975785, -0.0747383, -0.997155, -0.0192037, -0.997033, 0.0745414, -0.0136956, -0.39107, -6.10617)
 bone_name = "Head"
 bone_idx = 5
 
@@ -819,7 +819,7 @@ sprite_frames = SubResource("SpriteFrames_k8352")
 animation = &"worry"
 
 [node name="Mouth" type="BoneAttachment3D" parent="Pivot/protagImportable/Armature/Skeleton3D" index="18"]
-transform = Transform3D(-0.999768, 0.0184219, -0.0111643, 0.00975803, -0.0747372, -0.997155, -0.0192039, -0.997033, 0.0745401, -0.0136954, -0.391068, -6.10618)
+transform = Transform3D(-0.999768, 0.0184218, -0.0111641, 0.00975785, -0.0747383, -0.997155, -0.0192037, -0.997033, 0.0745414, -0.0136956, -0.39107, -6.10617)
 bone_name = "Head"
 bone_idx = 5
 
@@ -828,6 +828,7 @@ transform = Transform3D(0.010806, -3.38813e-21, -1.69407e-21, 3.06245e-21, 0.009
 sprite_frames = SubResource("SpriteFrames_fjpx6")
 
 [node name="AnimationPlayer" parent="Pivot/protagImportable" instance=ExtResource("5_ju76l")]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001]
 
 [node name="interactionRadius" type="Area3D" parent="." groups=["playerInteraction"]]
 collision_mask = 7

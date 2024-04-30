@@ -346,6 +346,14 @@ func move_player(delta):
 								animationPlayer.play("running/runningBasic")
 							sprintStop = false
 							currentSpeed += sprintBonus
+						elif sprinting:
+							print("no stamina")
+							sprintStop = true
+							animationPlayer.stop()
+							animationPlayer.play("walkCycles/walkingBasic")
+					elif sprinting:
+						animationPlayer.stop()
+						animationPlayer.play("walkCycles/walkingBasic")
 				if sprintStop and sprinting:
 					sprinting = false
 					actionDone.emit()

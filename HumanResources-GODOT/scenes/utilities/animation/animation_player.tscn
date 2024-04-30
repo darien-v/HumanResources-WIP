@@ -18,8 +18,7 @@ libraries = {
 "spear": ExtResource("2_a8c4d"),
 "walkCycles": ExtResource("3_0odrt")
 }
-playback_default_blend_time = 0.5
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
 script = ExtResource("4_xr6r5")
 
 [connection signal="animation_changed" from="." to="." method="_on_animation_changed"]
