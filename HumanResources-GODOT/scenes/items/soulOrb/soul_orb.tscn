@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cpg375getsw01"]
+
+[ext_resource type="Script" path="res://scenes/items/soulOrb/SoulOrb.gd" id="1_p3lku"]
+[ext_resource type="Shader" path="res://scenes/hud/loadingScreen/smokescreen.gdshader" id="2_rrwll"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0i53e"]
+shader = ExtResource("2_rrwll")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yyutf"]
+emission_shape = 1
+emission_sphere_radius = 2.0
+initial_velocity_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3nwiv"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+depth_draw_mode = 1
+shading_mode = 2
+albedo_color = Color(1, 1, 1, 0.235294)
+
+[sub_resource type="SphereMesh" id="SphereMesh_juhbu"]
+material = SubResource("StandardMaterial3D_3nwiv")
+radius = 0.7
+height = 1.42
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ct3j4"]
+
+[node name="SoulOrb" type="RigidBody3D" groups=["hr"]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_p3lku")
+metadata/value = 0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_overlay = SubResource("ShaderMaterial_0i53e")
+amount = 100
+lifetime = 0.2
+visibility_aabb = AABB(-1.42001, -1.42001, -1.42001, 2.84002, 2.84002, 2.84002)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_yyutf")
+draw_pass_1 = SubResource("SphereMesh_juhbu")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ct3j4")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="finished" from="GPUParticles3D" to="." method="_on_gpu_particles_3d_finished"]
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
