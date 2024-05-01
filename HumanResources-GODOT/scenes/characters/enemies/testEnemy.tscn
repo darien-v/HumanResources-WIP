@@ -359,10 +359,10 @@ shape = SubResource("BoxShape3D_1majr")
 disabled = true
 
 [node name="AnimationPlayer" parent="Pivot/Enemy" instance=ExtResource("4_hbski")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
 
 [node name="Eyes" type="BoneAttachment3D" parent="Pivot"]
-transform = Transform3D(0.01, 1.14356e-12, -3.96066e-13, -1.34794e-12, 0.01, -2.07685e-09, 3.38787e-13, 2.00234e-09, 0.01, -0.0484652, 0.77334, -0.064109)
+transform = Transform3D(1, 1.14356e-10, -3.96066e-11, 3.38787e-11, 2.00234e-07, 1, 1.34794e-10, -1, 2.07685e-07, 0.00101213, 2.27011, -76.5579)
 bone_name = "Head"
 bone_idx = 5
 use_external_skeleton = true
@@ -379,8 +379,8 @@ debug_shape_custom_color = Color(0.972549, 0, 0, 1)
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
 [connection signal="area_entered" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_entered"]
-[connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_vision_area_area_exited"]
 [connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_exited"]
+[connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_vision_area_area_exited"]
 [connection signal="body_entered" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 

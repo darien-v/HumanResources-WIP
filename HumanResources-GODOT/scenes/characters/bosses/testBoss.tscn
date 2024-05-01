@@ -12,4 +12,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0188929, 0, 1.28528)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.835234, 0)
 
 [node name="AnimationPlayer" parent="Pivot/Boss" instance=ExtResource("2_wojqj")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
