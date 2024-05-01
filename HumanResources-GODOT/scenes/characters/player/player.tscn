@@ -828,7 +828,7 @@ transform = Transform3D(0.010806, -3.38813e-21, -1.69407e-21, 3.06245e-21, 0.009
 sprite_frames = SubResource("SpriteFrames_fjpx6")
 
 [node name="AnimationPlayer" parent="Pivot/protagImportable" instance=ExtResource("5_ju76l")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
 
 [node name="interactionRadius" type="Area3D" parent="." groups=["playerInteraction"]]
 collision_mask = 7

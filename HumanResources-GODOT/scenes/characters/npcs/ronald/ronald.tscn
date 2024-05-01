@@ -80,7 +80,7 @@ bones/62/rotation = Quaternion(0.4457, 0.0449435, -0.103003, 0.8881)
 bones/63/rotation = Quaternion(0.324248, 0.108832, -0.0375833, 0.938939)
 
 [node name="AnimationPlayer" parent="Pivot/ronald" instance=ExtResource("2_r44o8")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030014, 0.373033, 0)
