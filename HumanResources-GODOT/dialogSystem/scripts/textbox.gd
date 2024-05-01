@@ -183,8 +183,6 @@ func player_interacted():
 	
 # just putting this here to declutter process
 func startInteraction(pickupVar=false, itemvar=null):
-	if itemvar.is_in_group("watercoolers"):
-		return
 	if showingText == false and showDialog:
 		pickup = pickupVar
 		player.setInAnimation()

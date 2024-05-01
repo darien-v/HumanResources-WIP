@@ -22,8 +22,8 @@ var staminaDiff = 0;
 
 # lets us easily access staminaDiffs
 var diffByType = 	{
-						"lightAttack":10,
-						"heavyAttack":20,
+						"light_attack":10,
+						"heavy_attack":20,
 						"roll":5,
 						"sprint":.25
 					}

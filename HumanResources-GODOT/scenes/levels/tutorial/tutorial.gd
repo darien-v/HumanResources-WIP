@@ -11,9 +11,8 @@ func connect_enemy_death(enemy):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().call_group("enemies", "_connect_death", self)
+	get_tree().call_group("watercoolers", "set_on_interact", $UserInterface/completion)
 	$smokecontrol/loader/smoke.load_complete()
-	$UserInterface/death.hide()
-	$UserInterface/completion.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):

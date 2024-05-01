@@ -96,6 +96,7 @@ func _ready():
 		VisionRaycast.add_exception(collider) # making sure vision doesnt collide with self
 		if collider.is_in_group("weapons"):
 			hitboxes.append(collider)
+			collider.set_meta("damage",self.get_meta("damage"))
 		# connect area entered to the damage func
 		collider.area_entered.connect(self._on_HurtboxArea_area_entered)
 

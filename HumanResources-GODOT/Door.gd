@@ -27,14 +27,14 @@ func _process(delta):
 			opening = false
 			open = true
 			rotateAmount = 0
-		self.rotation_degrees.y -= 2
+		self.rotation_degrees.y += 2
 	elif closing:
 		rotateAmount += 1
 		if rotateAmount > 60:
 			closing = false
 			open = false
 			rotateAmount = 0
-		self.rotation_degrees.y += 2
+		self.rotation_degrees.y -= 2
 			
 func check_openable(player):
 	if self.get_meta("locked"):
