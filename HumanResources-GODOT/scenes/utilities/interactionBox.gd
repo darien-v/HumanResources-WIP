@@ -33,6 +33,8 @@ func _ready():
 		equipable = true
 	if parent.is_in_group("doors"):
 		self.add_to_group("doors", true)
+	if parent.is_in_group("watercoolers"):
+		self.add_to_group("watercoolers", true)
 	# default to monitoring
 	monitoring = true
 	# mark this as an interactable

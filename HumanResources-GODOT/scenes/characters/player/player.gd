@@ -84,6 +84,7 @@ var interactables = {}
 var interactionCategories = {
 								"pickup": 0,
 								"door": 0,
+								"watercooler": 0,
 								"interactable": 0
 							}
 @onready var interactionPicker = $"../InteractionPicker"
@@ -100,20 +101,28 @@ var inputDict = {
 							"move_back":{"dir":"z", "val":-turnRate}
 						},
 					"combat":
-						[
-							"light_attack",
-							"heavy_attack"
-						],
+						{
+							"light_attack":
+							{
+								"spear":1.3
+							},
+							"heavy_attack":
+							{
+								"spear":1.3
+							}
+						},
 					"dodging":
 						{
 							"roll":
 							{
-								"fallRoll":{"iframe":.35, "speedmod":5},
-								"sprintRoll":{"iframe":.45, "speedmod":3}
+								"fallRoll":{"iframe":.35, "speedmod":5, "done":1},
+								"sprintRoll":{"iframe":.45, "speedmod":3, "done":1}
 							}
 						}
 				}
 var inAnimation = false
+var finishingAnimation = false
+var doneFrame = 0
 var moveWithAnimation = false
 var currentAction = ["N/A","N/A"]
 
@@ -169,6 +178,10 @@ func checkInventory(type, item, consume=false):
 			return true
 	return false
 
+# pause game
+func emit_pause():
+	pause.emit()
+	
 # on object creation, get the starting position
 func _ready():
 	timer.stop()
@@ -186,12 +199,16 @@ func _ready():
 	face["mouth"].play("default")
 	animationPlayer.play("idling/idling")
 	
-func emit_pause():
-	pause.emit()
-
 func _physics_process(delta):
 	# only need to process these if not in dialogue
 	if not textbox.visible:
+		if inAnimation:
+			if doneFrame != -1:
+				if animationPlayer.get_current_animation_position() >= doneFrame:
+					_on_animation_player_animation_finished("N/A")
+					inAnimation = false
+					finishingAnimation = true
+					doneFrame = -1
 		# process player movement
 		move_player(delta)
 		if moveWithAnimation:
@@ -210,6 +227,7 @@ func move_player(delta):
 	# can only move if not attacking
 	if not inAnimation:
 		currentAction = ["N/A", "N/A"]
+		doneFrame = -1
 		# check for each move input + update direction
 		# XZ plane = ground
 		
@@ -222,6 +240,7 @@ func move_player(delta):
 			if Input.is_action_just_pressed(action):
 				idling = false
 				walking = false
+				finishingAnimation = false
 				sprinting = false
 				var type = "dodging"
 				currentAction[0] = "dodging"
@@ -233,27 +252,22 @@ func move_player(delta):
 					else:
 						type = type + "/fallRoll"
 						currentAction[1] = "fallRoll"
+					doneFrame = 1
 				process_action(type, false)
 				break
 		# only check for attacks if player has a weapon
 		if weapon != null and not inAnimation:
-			for action in inputDict["combat"]:
+			for action in inputDict["combat"].keys():
 				# first check if a valid combat action was passed
 				# cleaning this up later of course
 				if Input.is_action_just_pressed(action):
-					idling = false;
-					walking = false;
+					idling = false
+					finishingAnimation = false
+					walking = false
 					sprinting = false
-					var type = weaponType
-					var isAttack = false
-					if action == "light_attack":
-						staminaUse.emit("lightAttack")
-						type = type + "/light"
-						isAttack = true
-					elif action == "heavy_attack":
-						staminaUse.emit("heavyAttack")
-						type = type + "/heavy"
-						isAttack = true
+					var type = weaponType + '/' + action.split("_")[0]
+					staminaUse.emit(action)
+					doneFrame = inputDict["combat"][action][weaponType]
 					process_action(type, true)
 					break
 		
@@ -266,16 +280,18 @@ func move_player(delta):
 				interactionPicker.change_index(1)
 			# if the user prompted interaction, we show corresponding text
 			if Input.is_action_just_pressed("interact"):
+				finishingAnimation = false
+				animationPlayer.stop()
 				item = interactionPicker.get_current()
 				interactionPicker.hide_self(true)
 				# if there is an item to be picked up and it is active, process that
 				if item != null:
 					var itemName = item.return_name()
 					var type = interactables[itemName]["type"]
-					interactables.erase(itemName)
-					interactionPicker.update_objects(interactables)
 					if type == "pickup":
 						item.pickedUp(self)
+						interactables.erase(itemName)
+						interactionPicker.update_objects(interactables)
 					elif type == "door":
 						var door = item.get_parent()
 						if not door.get("open"):
@@ -283,6 +299,11 @@ func move_player(delta):
 						else:
 							door.close()
 							return
+					elif type == "watercooler":
+						# TODO make this do teleport stuff
+						var cooler = item.get_parent()
+						cooler.demo_func()
+						return
 					textbox.startInteraction(true, item.get_parent())
 					emit_pause()
 				else:
@@ -296,6 +317,7 @@ func move_player(delta):
 				var turnaround = false
 				for action in inputDict["movement"].keys():
 					if Input.is_action_pressed(action):
+						finishingAnimation = false
 						if not walkingInput:
 							walkingInput = true
 							if not walking:
@@ -359,7 +381,7 @@ func move_player(delta):
 					actionDone.emit()
 			
 			# if we didnt get any valid inputs, we are idling again
-			if not walkingInput and not inAnimation:
+			if not walkingInput and not inAnimation and not finishingAnimation:
 				# input direction
 				direction = Vector3.ZERO
 				if not idling:
@@ -427,6 +449,7 @@ func process_action(type, isAttack):
 			print("hitbox on")
 			hitbox.setActive();
 
+# probably dont need this function anymore, keeping just in case
 func check_collisions(object=self):
 	for index in range(object.get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -435,17 +458,6 @@ func check_collisions(object=self):
 		# If the collision is with ground
 		if collider == null or collider.get_collision_layer() == 4:
 			resetInteraction()
-			continue
-		# If the collision is with an interactable object
-		if collider.is_in_group("interactables"):
-					# if interacting with an npc, enter appropriate filetree
-			if collider.is_in_group("NPCs"):
-				interactionGroup = "NPC"
-				npc = collider
-				npcInteraction()
-			interactable = collider.name
-			# here is where youd do whatever to get the name of the script you want
-			interactionName = interactable # placeholder
 			continue
 
 func _on_HurtboxArea_area_entered(area):
@@ -470,6 +482,9 @@ func entered_interactable_area(object):
 		elif object.is_in_group("doors"):
 			text = "Use door"
 			type = "door"
+		elif object.is_in_group("watercoolers"):
+			text = "Rest at water cooler"
+			type = "watercooler"
 		else:
 			text = "Interact with %s" % objName
 			type = "interactable"
@@ -515,7 +530,7 @@ func update_with_animation():
 		var currentSecond = animationPlayer.current_animation_position
 		# special case for some animations
 		if currentAction[1] == "fallRoll":
-			if currentSecond >= 1.1:
+			if currentSecond >= 1:
 				velocity = Vector3.ZERO
 		# check if we reached iframe
 		if not invulnerable:
@@ -549,6 +564,7 @@ func _on_animation_player_animation_finished(anim_name):
 	speedModifier = 0
 	animationPlayer.speed_scale = 1
 	moveWithAnimation = false
+	finishingAnimation = false
 
 func equipWeapon(weaponIn, typeIn):
 	# setting our weapon variables

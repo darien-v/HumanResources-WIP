@@ -40,6 +40,7 @@ collision_mask = 13
 script = ExtResource("1_lkfgh")
 metadata/health = 30
 metadata/bodyPartGroup = "enemybody"
+metadata/damage = 30
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
@@ -338,7 +339,7 @@ script = ExtResource("3_rx8qw")
 metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftShoulderCollider/CharacterBody3D"]
-transform = Transform3D(1.00001, 3.04112e-12, 8.00937e-08, -2.85638e-12, 1, -1.28471e-11, -1.32248e-07, 4.68736e-13, 1, -4.29635, 18.3057, 0.111393)
+transform = Transform3D(1, 2.85635e-12, 1.32247e-07, -2.85635e-12, 1, -4.68736e-13, -1.32247e-07, 4.68736e-13, 1, -4.29635, 18.3057, 0.111393)
 shape = SubResource("BoxShape3D_ivrrh")
 
 [node name="rightFootCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="13"]
@@ -358,10 +359,10 @@ shape = SubResource("BoxShape3D_1majr")
 disabled = true
 
 [node name="AnimationPlayer" parent="Pivot/Enemy" instance=ExtResource("4_hbski")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
 
 [node name="Eyes" type="BoneAttachment3D" parent="Pivot"]
-transform = Transform3D(1, 1.14356e-10, -3.96066e-11, 3.38787e-11, 2.00234e-07, 1, 1.34794e-10, -1, 2.07685e-07, 0.00101213, 2.27011, -76.5579)
+transform = Transform3D(0.01, 1.14356e-12, -3.96066e-13, -1.34794e-12, 0.01, -2.07685e-09, 3.38787e-13, 2.00234e-09, 0.01, -0.0484652, 0.77334, -0.064109)
 bone_name = "Head"
 bone_idx = 5
 use_external_skeleton = true
@@ -378,8 +379,8 @@ debug_shape_custom_color = Color(0.972549, 0, 0, 1)
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
 [connection signal="area_entered" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_entered"]
-[connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_exited"]
 [connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_vision_area_area_exited"]
+[connection signal="area_exited" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_exited"]
 [connection signal="body_entered" from="Pivot/VisionArea" to="." method="_on_VisionArea_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
