@@ -1,0 +1,106 @@
+[{
+	"Example": 
+	{
+		"FirstMeet":
+		{
+			"Start":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Happy", 
+					"Text":"Hi there!",
+					"Choices": 	{
+									"Nervous//":"...",
+									"Happy//":"Nice to meet you!",
+									"Surprised//":"[Screams]"
+								}
+				}
+			],
+			"Nervous1":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Sad", 
+					"Text":"It's ok, I'm not gonna hurt you!",
+					"Choices": 	{
+									"Nervous//":"I don't trust you",
+									"Neutral//Happy1":"...I guess you seem ok"
+								}
+				}
+			],
+			"Happy1":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Happy", 
+					"Text":"We'll get along just fine!"
+				}
+			],
+			"Surprised1":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Happy", 
+					"Text":"Haha, did I spook ya?",
+					"Choices": 	{
+									"Nervous//Nervous1":"Yeah...",
+									"Angry//":"Yeah, what the hell?!"
+								}
+				}
+			],
+			"Nervous2":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Sad", 
+					"Text":"Ah, fair"
+				}
+			],
+			"Angry":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Nervous", 
+					"Text":"Oh s-sorry!"
+				}
+			]
+		},
+		"Default//Approving//Neutral":
+		{
+			"Start":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Happy", 
+					"Text":"We'll get out of here alive, I just know it!"
+				},
+				{
+					"Name":"Example", 
+					"Emotion":"Nervous", 
+					"Text":"Ah..."
+				},
+				{
+					"Name":"Example", 
+					"Emotion":"Neutral", 
+					"Text":"Don't let my optimism be too offputting. Just know I believe in you, ok?"
+				}
+			]
+		},
+		"Default//Disapproving":
+		{
+			"Start":
+			[
+				{
+					"Name":"Example", 
+					"Emotion":"Sad", 
+					"Text":"Ah, it's you."
+				},
+				{
+					"Name":"Example", 
+					"Emotion":"Sad", 
+					"Text":"Guess we'll be stuck here awhile..."
+				}
+			]
+		}
+	}
+}]

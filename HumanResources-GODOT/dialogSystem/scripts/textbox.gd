@@ -72,6 +72,7 @@ var interactions = 0
 # defaults for picking up items
 # will be cleaned up later etc etc
 var itemIsDoor = false
+var itemIsCooler = false
 var doorDialog = {"unlocked":"Looks like something on the keyring works here!", "locked":"Looks like this needs a key...", "disabled":"Can't be opened from this side, I guess?!"}
 var pickupDialog = "Picked up "
 var itemDialog = ""
@@ -104,6 +105,7 @@ func initVars():
 	showNextPage = true
 	changePages = true
 	itemIsDoor = false
+	itemIsCooler = false
 	showChoices = false
 	playerShowing = false
 	playerInteracted = false

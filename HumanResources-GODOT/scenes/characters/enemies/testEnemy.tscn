@@ -40,6 +40,7 @@ collision_mask = 13
 script = ExtResource("1_lkfgh")
 metadata/health = 30
 metadata/bodyPartGroup = "enemybody"
+metadata/damage = 30
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
@@ -338,7 +339,7 @@ script = ExtResource("3_rx8qw")
 metadata/damage = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Enemy/Armature/Skeleton3D/leftShoulderCollider/CharacterBody3D"]
-transform = Transform3D(1.00001, 3.04112e-12, 8.00937e-08, -2.85638e-12, 1, -1.28471e-11, -1.32248e-07, 4.68736e-13, 1, -4.29635, 18.3057, 0.111393)
+transform = Transform3D(1, 2.85635e-12, 1.32247e-07, -2.85635e-12, 1, -4.68736e-13, -1.32247e-07, 4.68736e-13, 1, -4.29635, 18.3057, 0.111393)
 shape = SubResource("BoxShape3D_ivrrh")
 
 [node name="rightFootCollider" type="BoneAttachment3D" parent="Pivot/Enemy/Armature/Skeleton3D" index="13"]
@@ -358,7 +359,7 @@ shape = SubResource("BoxShape3D_1majr")
 disabled = true
 
 [node name="AnimationPlayer" parent="Pivot/Enemy" instance=ExtResource("4_hbski")]
-blend_times = [&"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
+blend_times = [&"dodging/T-Pose", &"walkCycles/walkingBasic", 0.001, &"dodging/T-Pose", &"walkCycles/walkingStop", 0.001, &"dodging/T-Pose", &"running/runningTurnaround", 0.001, &"dodging/T-Pose", &"walkCycles/walkingTurnAround", 0.001]
 
 [node name="Eyes" type="BoneAttachment3D" parent="Pivot"]
 transform = Transform3D(1, 1.14356e-10, -3.96066e-11, 3.38787e-11, 2.00234e-07, 1, 1.34794e-10, -1, 2.07685e-07, 0.00101213, 2.27011, -76.5579)

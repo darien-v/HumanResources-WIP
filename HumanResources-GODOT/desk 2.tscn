@@ -1,0 +1,37 @@
+[gd_scene load_steps=9 format=3 uid="uid://bnnidmcldne2j"]
+
+[ext_resource type="ArrayMesh" uid="uid://0246fhjud8gu" path="res://models/Desk-WithStuff.obj" id="1_1ke0o"]
+[ext_resource type="Texture2D" uid="uid://dg7rqmf0xehc0" path="res://Textures/HR_Textures/Environment/Decorative/L-Desk/Decorated/DeskWithStuffUV_Desk_BaseColor.png" id="1_v36b7"]
+[ext_resource type="Texture2D" uid="uid://clt3pgj6f45h2" path="res://Textures/HR_Textures/Environment/Decorative/L-Desk/Decorated/DeskWithStuffUV_Desk_Height.png" id="2_t2yn8"]
+[ext_resource type="Texture2D" uid="uid://cb1ft4asmctfu" path="res://Textures/HR_Textures/Environment/Decorative/L-Desk/Decorated/DeskWithStuffUV_Desk_Metalness.png" id="3_acdlu"]
+[ext_resource type="Texture2D" uid="uid://benvt8xcrp7da" path="res://Textures/HR_Textures/Environment/Decorative/L-Desk/Decorated/DeskWithStuffUV_Desk_Roughness.png" id="4_4mdsa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bq20j"]
+albedo_texture = ExtResource("1_v36b7")
+metallic = 1.0
+metallic_texture = ExtResource("3_acdlu")
+roughness_texture = ExtResource("4_4mdsa")
+heightmap_texture = ExtResource("2_t2yn8")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oyt1t"]
+size = Vector3(2.49487, 4, 4.83859)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yop42"]
+size = Vector3(3.91968, 4, 2.48608)
+
+[node name="Desk" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-3.27835e-06, 0, 75, 0, 75, 0, -75, 0, -3.27835e-06, 0.0139852, -0.016113, 0.00682163)
+material_override = SubResource("StandardMaterial3D_bq20j")
+mesh = ExtResource("1_1ke0o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0294189, 0.799968, 1.56789)
+shape = SubResource("BoxShape3D_oyt1t")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.795288, 0.800044, -2.0048)
+shape = SubResource("BoxShape3D_yop42")
