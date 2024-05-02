@@ -1,0 +1,20 @@
+{
+	"dialog+": 
+	{
+
+			"Start": 
+			[
+				{
+					"speaker":"Ronald",
+					"emotion":"nervous",
+					"text":"The devs meant to have a cutscene here, but they ran out of time."
+				},
+				{
+					"speaker":"Ronald",
+					"emotion":"nervous",
+					"text":"So anyways, here's a key. You'll need it. Oh, and go kill that monster in the other room."
+				}
+			]
+
+	}
+}

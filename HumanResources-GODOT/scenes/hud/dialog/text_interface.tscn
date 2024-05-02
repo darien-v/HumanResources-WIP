@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxhstmi30td3w"]
+[gd_scene load_steps=14 format=3 uid="uid://bxhstmi30td3w"]
 
 [ext_resource type="SpriteFrames" uid="uid://c0nhljs2uubuc" path="res://scenes/hud/dialog/textbox_test.tres" id="1_554h2"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/textbox.gd" id="2_wo83u"]
@@ -12,6 +12,8 @@
 [ext_resource type="FontFile" uid="uid://cj7c8xs0yi4mj" path="res://fonts/CourierPrime-Italic.ttf" id="10_co6wd"]
 [ext_resource type="FontFile" uid="uid://hyle3ada7prk" path="res://fonts/CourierPrime-BoldItalic.ttf" id="11_8n40u"]
 [ext_resource type="Script" path="res://dialogSystem/scripts/option.gd" id="12_3t8ww"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jvron"]
 
 [node name="TextInterface" type="Control"]
 process_mode = 3
@@ -64,8 +66,7 @@ grow_vertical = 2
 [node name="speaker_portrait" type="AnimatedSprite2D" parent="SpeakerSprite"]
 visible = false
 z_index = -3
-sprite_frames = ExtResource("6_47pyx")
-animation = &"angry"
+sprite_frames = SubResource("SpriteFrames_jvron")
 centered = false
 script = ExtResource("7_b0oc3")
 

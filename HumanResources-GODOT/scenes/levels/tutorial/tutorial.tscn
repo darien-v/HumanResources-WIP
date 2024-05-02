@@ -9,11 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://cnjheytr2kymj" path="res://Textures/HR_Textures/Environment/Decorative/Carpeting/Grey_Office.jpg" id="7_evjai"]
 [ext_resource type="PackedScene" uid="uid://bl7eokvd2eeuc" path="res://dummy_1.tscn" id="8_lxvkq"]
 [ext_resource type="PackedScene" uid="uid://mn4dxvx1s03o" path="res://scenes/items/weapons/amoray_note.tscn" id="9_3qp5u"]
+[ext_resource type="PackedScene" uid="uid://c8exsnxrvlqta" path="res://scenes/characters/enemies/rubber_band_monsters/contortionist.tscn" id="15_rl0d6"]
 [ext_resource type="PackedScene" uid="uid://3dcjy56yqul" path="res://water_cooler.tscn" id="15_umw1m"]
 [ext_resource type="PackedScene" uid="uid://brqsfjd1vicxx" path="res://scenes/environmental/interactive/door.tscn" id="16_sdx1o"]
 [ext_resource type="PackedScene" uid="uid://b8r4ddrqnr357" path="res://scenes/characters/npcs/ronald/ronald.tscn" id="17_ar7md"]
 [ext_resource type="PackedScene" uid="uid://dnude20kkwqbr" path="res://scenes/characters/player/player.tscn" id="18_qiecw"]
-[ext_resource type="PackedScene" uid="uid://c5i06ymiownw3" path="res://scenes/characters/enemies/testEnemy.tscn" id="19_wf7ol"]
 [ext_resource type="PackedScene" uid="uid://bnnidmcldne2j" path="res://desk.tscn" id="20_6xuv2"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_wudn3"]
@@ -384,9 +384,6 @@ light_size = 0.514
 spot_range = 32.8216
 spot_angle = 89.99
 
-[node name="Enemy" parent="." instance=ExtResource("19_wf7ol")]
-transform = Transform3D(4.33534, 0, 0, 0, 4.33534, 0, 0, 0, 4.33534, -1.36919, 4.31596, -70.1012)
-
 [node name="Amoray Note" parent="." instance=ExtResource("9_3qp5u")]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -9.88824, 0.566196, 11.2601)
 
@@ -395,7 +392,7 @@ navigation_mesh = SubResource("NavigationMesh_wudn3")
 
 [node name="Rooms" type="Node3D" parent="NavigationRegion3D"]
 
-[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D/Rooms"]
+[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D/Rooms" groups=["floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_layer = 4
 collision_mask = 39
@@ -701,3 +698,8 @@ metadata/key = "tutorialKey"
 
 [node name="WaterCooler" parent="NavigationRegion3D/Rooms/Exit" instance=ExtResource("15_umw1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 0, -75)
+
+[node name="Enemy" parent="." instance=ExtResource("15_rl0d6")]
+process_priority = 1
+process_physics_priority = 1
+transform = Transform3D(1.72836, 0, 0, 0, 1.72836, 0, 0, 0, 1.72836, -5.94866, 1.20078, -57.5146)

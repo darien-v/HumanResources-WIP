@@ -17,6 +17,7 @@ var currentSpeed = 5
 # interaction tracker! woo
 # attitude towards player
 @export var attitude = 0
+@export var currentDialog = "Ronald_Test"
 # number of meaningful interactions with player
 # meaningful = player made choice of some kind
 @export var interactions = 0

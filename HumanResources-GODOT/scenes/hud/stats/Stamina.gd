@@ -58,7 +58,7 @@ func _on_stamina_use(type):
 	calcStamina();
 	
 func _on_action_done():
-	timer.start()
+	timer.start(.5)
 
 func manualChange(amt):
 	staminaDiff = amt

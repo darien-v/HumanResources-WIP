@@ -81,12 +81,6 @@ var hitTime = 1
 
 # lets us know what interactable areas the player is in
 var interactables = {}
-var interactionCategories = {
-								"pickup": 0,
-								"door": 0,
-								"watercooler": 0,
-								"interactable": 0
-							}
 @onready var interactionPicker = $"../InteractionPicker"
 var item = null
 var interactionsAvailable = false
@@ -128,7 +122,7 @@ var currentAction = ["N/A","N/A"]
 
 # inventory
 var inventory = {
-					"keys":{"tutorialKey":1},
+					"keys":{},
 					"weapons":{},
 					"consumables":{}
 				}
@@ -139,6 +133,7 @@ var weapon = null
 var weaponType
 
 @onready var staminaMeter = $"../UserInterface/Stamina";
+@onready var interactionRadius = $interactionRadius
 
 # allows us to play animations
 @onready var animationPlayer = $Pivot/protagImportable/AnimationPlayer;
@@ -158,6 +153,9 @@ func resetInteraction():
 	specificTree = ""
 	interactionGroup = "environmental"
 	specificInteraction = false
+	
+func return_int_radius():
+	return interactionRadius
 
 # mini-functions to connect necessary signals
 func connect_anim_finish(animPlayer):
@@ -177,6 +175,14 @@ func checkInventory(type, item, consume=false):
 					inventory[type].erase(item)
 			return true
 	return false
+func add_to_inventory(type, item):
+	if type in inventory.keys():
+		if item in inventory[type]:
+			inventory[type][item] += 1
+		else:
+			inventory[type][item] = 1
+	else:
+		inventory[type][item] = 0
 
 # pause game
 func emit_pause():
@@ -304,6 +310,15 @@ func move_player(delta):
 						var cooler = item.get_parent()
 						cooler.demo_func()
 						return
+					elif type == "NPC":
+						print("npc interaction")
+						interactionGroup = "NPC"
+						interactable = interactables[itemName]["object"].get_parent()
+						interactionName = interactable.name
+						add_to_inventory("keys","tutorialKey")
+						textbox.startInteraction()
+						emit_pause()
+						return
 					textbox.startInteraction(true, item.get_parent())
 					emit_pause()
 				else:
@@ -424,9 +439,6 @@ func move_player(delta):
 	if oldpos != global_position:
 		check_collisions()
 		oldpos = global_position
-	# else, if we're interacting w npc, continue
-	elif interactionGroup == "NPC":
-		npcInteraction()
 
 func process_action(type, isAttack):
 	# only perform action if we have enough stamina
@@ -471,14 +483,19 @@ func _on_HurtboxArea_area_entered(area):
 
 func entered_interactable_area(object):
 	if object.is_in_group("interactables"):
-		print("interactable")
 		var objName = object.return_name()
-		var type
-		var text
+		print("interactable %s" % objName)
+		var type = null
+		var text = null
 		interactables[objName] = {}
 		if object.is_in_group("collectibles"):
 			text = "Pick up %s" % objName
 			type = "pickup"
+		elif object.is_in_group("NPC"):
+			interactable = object
+			npc = interactable.get_parent()
+			text = "Talk to Ronald"
+			type = "NPC"
 		elif object.is_in_group("doors"):
 			text = "Use door"
 			type = "door"
@@ -488,13 +505,13 @@ func entered_interactable_area(object):
 		else:
 			text = "Interact with %s" % objName
 			type = "interactable"
-		interactables[objName]["text"] = text
-		interactables[objName]["type"] = type
-		interactables[objName]["object"] = object
-		interactionCategories[type] += 1
-		interactionPicker.update_objects(interactables)
-		interactionsAvailable = true
-		print(interactables)
+		if type != null:
+			interactables[objName]["text"] = text
+			interactables[objName]["type"] = type
+			interactables[objName]["object"] = object
+			interactionPicker.update_objects(interactables)
+			interactionsAvailable = true
+			interactionPicker.show_self()
 			
 func exited_interactable_area(object):
 	print("exited interactable range")
@@ -503,23 +520,12 @@ func exited_interactable_area(object):
 		interactables.erase(object)
 	interactionPicker.update_objects(interactables)
 
-# the actual interaction processing for npcs
-func npcInteraction():
-	specificInteraction = true
-	interactionObjectPath = npc.get_path()
-	attitude = npc.get("attitude")
-	# check if this is your first interaction with npc
-	if npc.get("interactions") == 0:
-		specificTree = "FirstMeet"
-	else:
-		specificTree = ""
-
 # processes the result of an npc interaction
 # eventually we'll have some variable to determine interaction strength. later
 func processReaction(consequence, increment=false):
 	if increment:
 		npc.incrementInteraction()
-	npc.changeAttitude(consequence)
+	npc.changeAttitude(int(consequence))
 		
 func checkNPCApproval()->String:
 	return npc.approval()

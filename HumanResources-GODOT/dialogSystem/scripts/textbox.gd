@@ -22,7 +22,7 @@ extends AnimatedSprite2D
 # # make use of signals to other nodes rather than state vars?
 
 # things we can adjust later
-@export var textSpeed = 0.005
+@export var textSpeed = 0.0005
 @export var showDialog = true
 
 # get the player object so we can determine interaction params
@@ -99,6 +99,7 @@ func initVars():
 	numPhrases = 0
 	interactions = 0
 	optionSelected = 1
+	currentDialogNode = null
 	finished = false
 	showingText = true
 	printingText = true
@@ -109,15 +110,21 @@ func initVars():
 	showChoices = false
 	playerShowing = false
 	playerInteracted = false
+func endVars():
+	initVars()
+	showingText = false
+	printingText = false
+	showNextPage = false
+	changePages = false
+	player.setNoAnimation()
 
 # this is clunky, but allows us to have a variable dialog path so yay
-func getDialogPath(interactionGroup, specificInteraction, interactionName, interactable) -> String:
+func getDialogPath(interactionGroup, specificInteraction, interactionName) -> String:
 	var dialogPath = ["res://dialogSystem/dialogue",get_tree().get_current_scene().get_name(), interactionGroup]
 	# in theory, objects with specific dialog trees have their own files
-	if specificInteraction:
-		dialogPath.append(interactable)
-		if interactionName != "":
-			dialogPath.append(interactionName)
+	if specificInteraction != null:
+		dialogPath.append(interactionName)
+		dialogPath.append(specificInteraction)
 	else:
 		dialogPath.append("default")
 	# every file is a json always
@@ -125,26 +132,6 @@ func getDialogPath(interactionGroup, specificInteraction, interactionName, inter
 	dialogPath = ''.join(dialogPath)
 	print(dialogPath)
 	return dialogPath
-	
-# get our dialog tree name
-func getDialogTreeName(specificInteraction, specificTree, interactionGroup, interactable, keys):
-	# blank variable to hold our result
-	var dialogTree = ""
-	# use this information to determine possible tree name
-	if specificInteraction:
-		if specificTree == "":
-			if interactionGroup == "NPC":
-				dialogTree = player.checkNPCApproval()
-		else:
-			dialogTree = specificTree
-	# then use the keys from the dialog dict to find actual tree name
-	# first check if we have an exact match
-	if dialogTree in keys:
-		return dialogTree
-	# if not, we gotta go through the keys individually
-	# partial matches can happen in the case of keys like Approving//Neutral
-	# if no match, just use default
-	return "Default"
 
 # shows textbox and starts animation
 func makeVisible():
@@ -162,6 +149,9 @@ func makeVisible():
 func makeInvisible():
 	# conditional prevents reset from coinciding with new instance
 	if not (showingText or printingText):
+		player.set("interactionName", null)
+		player.set("interactionGroup", null)
+		player.set("interactable", null)
 		#print("hiding textbox")
 		player.emit_pause()
 		textboxAnim.visible = false
@@ -175,12 +165,31 @@ func makeInvisible():
 		speakerPortrait.hideSelf()
 		playerPortrait.hideSelf()
 		interactionPicker.show_self()
+		endVars()
 		#print("textbox hidden!")
 	
 # mark that player pressed button again
 func player_interacted():
 	playerInteracted = true
 	
+func cutsceneDialog(dialogPath):
+	player.setInAnimation()
+	# initialize vars
+	initVars()
+	# textbox becomes visible
+	makeVisible()
+	# timer controls how fast text scrolls
+	$Timer.wait_time = textSpeed
+	# parse the dialog into something usable
+	dialog = getDialog(null, null, null, dialogPath)
+	assert(dialog, "Dialog not found")
+	# get our current node of dialog
+	currentDialogNode = dialog[dialogNode]
+	numPhrases = len(currentDialogNode)
+	# start readin boah
+	nextPhrase()
+		
+
 # just putting this here to declutter process
 func startInteraction(pickupVar=false, itemvar=null):
 	if showingText == false and showDialog:
@@ -198,12 +207,10 @@ func startInteraction(pickupVar=false, itemvar=null):
 		# maybe make interaction into its own object later? idk
 		if not pickup:
 			var interactionName = player.get("interactionName")
-			var specificInteraction = player.get("specificInteraction")
-			var specificTree = player.get("specificTree")
 			var interactionGroup = player.get("interactionGroup")
 			var interactable = player.get("interactable")
 			# parse the dialog into something usable
-			dialog = getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable)
+			dialog = getDialog(interactionName, interactionGroup, interactable)
 			assert(dialog, "Dialog not found")
 			# get our current node of dialog
 			currentDialogNode = dialog[dialogNode]
@@ -231,8 +238,17 @@ func startInteraction(pickupVar=false, itemvar=null):
 		nextPhrase()
 		
 # get the dialog tree from specified file
-func getDialog(interactionName, specificInteraction, specificTree, interactionGroup, interactable) -> Dictionary:
-	var dialogPath = getDialogPath(interactionGroup, specificInteraction, interactionName, interactable)
+func getDialog(interactionName, interactionGroup, interactable, dialogPathIn=null) -> Dictionary:
+	var specificInteraction = null
+	print(interactionGroup)
+	if interactionGroup == "NPC":
+		print("npc interactable")
+		specificInteraction = interactable.get("currentDialog")
+	var dialogPath
+	if dialogPathIn != null:
+		dialogPath = dialogPathIn
+	else:
+		dialogPath = getDialogPath(interactionGroup, specificInteraction, interactionName)
 	# if file doesnt exist, we have an error
 	assert(FileAccess.file_exists(dialogPath), "File path does not exist")
 	# otherwise, get the json data from the file and store as list of dict
@@ -242,8 +258,13 @@ func getDialog(interactionName, specificInteraction, specificTree, interactionGr
 	# it goes [interactable][dialogTree][dialogNode] 
 	# and the name, emotion, text, choices are in there
 	if typeof(output) == TYPE_DICTIONARY:
+		# check if we're incrementing an npc interaction
+		var tempkeys = output.keys()
+		if interactionGroup == "NPC":
+			if "+" in tempkeys[0]:
+				interactable.incrementInteraction()
 		# specifically get the dialog for the thing we are interacting with
-		return output[interactable]
+		return output[tempkeys[0]]
 	else:
 		return {}
 
@@ -347,9 +368,18 @@ func nextPhrase() -> void:
 	if phraseNum >= numPhrases:
 		#print("phraseNum exceeding")
 		#print("dialog end")
-		showingText = false
-		printingText = false
-		player.setNoAnimation()
+		# check if we're going to a new node
+		if currentDialogNode != null:
+			var dialogNode = "end"
+			var tempPage = currentDialogNode[numPhrases-1]
+			if "target" in tempPage.keys():
+				dialogNode = tempPage["target"]
+			if dialogNode.to_lower() != "end":
+				currentDialogNode = dialog[dialogNode]
+				phraseNum = 0
+				numPhrases = len(currentDialogNode)
+				return
+		endVars()
 		makeInvisible()
 		return
 	# check if we need to get new page from node
@@ -390,7 +420,7 @@ func nextPhrase() -> void:
 				if not playerShowing:
 					playerPortrait.comeOntoScreen()
 					playerShowing = true
-				if len(temp["choices"].keys()) > 0:
+				if len(temp["choices"]) > 0:
 					print("choices available")
 					showChoices = true
 					choiceSetup = true
@@ -459,15 +489,14 @@ func printChoices():
 	printingText = true
 	# get and print our options
 	var choices = dialog[dialogNode][phraseNum-1]["choices"]
-	var choiceKeys = choices.keys()
 	var index = 0
 	# the process here is . uh um.
 	# we will go over all the choices and assign them to an option
 	# there can only be 4 maximum choices because uh. i decreed it.
-	for key in choiceKeys:
+	for choice in choices:
 		index += 1
 		print(index)
-		printOption.emit(index, choices[key])
+		printOption.emit(index, choice)
 		textbox_dialogue.text = "" # redundancy
 	numOptions = index
 	# hide the text indicator
@@ -490,8 +519,15 @@ func processChoice(selection):
 	var consequence = selection.get("consequence")
 	if consequence == 'none':
 		consequence = 0
+	# save consequence of choice
+	player.processReaction(consequence)
 	# get the new dialogNode data
-	currentDialogNode = dialog[dialogNode]
+	if dialogNode.to_lower() == "end":
+		currentDialogNode = null
+		endVars()
+		makeInvisible()
+	else:
+		currentDialogNode = dialog[dialogNode]
 	numPhrases = len(currentDialogNode)
 	changePages = true
 	# we are no longer showing choices
@@ -501,8 +537,6 @@ func processChoice(selection):
 	# show the new text
 	phraseNum = 0
 	optionSelected = 1
-	# save consequence of choice
-	player.processReaction(consequence)
 	nextPhrase()
 	
 func setEmotion(emotion):

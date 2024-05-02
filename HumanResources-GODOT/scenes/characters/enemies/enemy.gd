@@ -1,139 +1,173 @@
+class_name Enemy
+
 extends CharacterBody3D
 
 # pathfinding creds: https://www.youtube.com/watch?v=-juhGgA076E
 # enemy ai partially referenced from here: https://gist.github.com/AJ08Coder/d464dc6a6e99b028b51c1663ad1a904d
+# TODO: cleanup 
 
-@export var humanResources = 10
+static var humanResources = 10
+# signal(s)
 signal death(humanResources, pos)
 
-# player speed in m/s
-@export var speed = 3
-var speedMod = 0
-var attackCooldown = 3
-# downward acceleration in m/s
-@export var fall_acceleration = 75
-# jumping (vertical) impulse in m/s
-@export var jump_impulse = 20
+static var attackCooldown = 3
+# movement variables
+static var speed = 3
+static var speedMod = 0
+static var fall_acceleration = 75
+static var jump_impulse = 20
+static var target_velocity = Vector3.ZERO
+static var damage = 10
+static var health = 30
 
-var target_velocity = Vector3.ZERO
+# navigation variables
+static var navAgent 
+static var resources 
+static var VisionArea 
+static var VisionRaycast
+static var target 
+static var pos
 
-@onready var navAgent = $NavigationAgent3D
-@onready var resources = $".."
-
-@onready var pivot = $Pivot
+# other necessary nodes
+static var pivot
+static var timer
+static var animationPlayer
 
 # the other parts of da body. god. fuck. im so tired
-@onready var combatCollisions = get_tree().get_nodes_in_group("enemybody")
-var hitboxes = []
+static var combatCollisions
+static var hitboxes = []
 
-@onready var animationPlayer = $Pivot/Enemy/AnimationPlayer
-
-var spawnLocation = Vector3.ZERO
+static var spawnLocation
 
 # AI state variables
-var aggro = false
-var returningToSpawn = false
-var stopReturning = false
-var checking = false
-var attacking = false
-var circling = false
-var following = false
-var playerInSight = false
-var inAnimation = false
-var canAttack = true
-var idling = true
+static var initialized = false
+static var aggro = false
+static var returningToSpawn = false
+static var stopReturning = false
+static var checking = false
+static var attacking = false
+static var circling = false
+static var following = false
+static var playerInSight = false
+static var inAnimation = false
+static var canAttack = true
+static var idling = true
+static var dying = false
+static var doAttack = false
 
 # function for trying to find player when out of sight
-var followingNavPath = false
-var navIndex = 0
-var navSteps = 0
-var currentNavPath # makes more sense than enemy "magically" knowing player's new position
+static var followingNavPath = false
+static var navIndex = 0
+static var navSteps = 0
+static var currentNavPath # makes more sense than enemy "magically" knowing player's new position
 
 # how long the enemy waits before charging at player
-var attackWait = 7
+static var attackWait = 7
 
 # controls how many attacks the enemy can use in quick succession
 # meant to prevent stunlocking the player/attack spam
 # because that's not fun
-var comboAttacks = 2 # should be max attacks + 1 because im dumb -ramen
-var totalAttacks = 0
+static var comboAttacks = 2 
+static var totalAttacks = 0
 
 # tells us if we're still chasing the player
-var playerMissingDuration = 0
-var willpower = 2000 # how long enemy will chase player
-var playerDirection = Vector3.ZERO
-var attackDistance = 6
-var actionDistance = 8
-var circleDistance = 20
-var checkingRayCast = false
+static var playerMissingDuration = 0
+static var willpower = 2000 # how long enemy will chase player
+static var playerDirection = Vector3.ZERO
+static var attackDistance = 6
+static var actionDistance = 8
+static var circleDistance = 20
+static var checkingRayCast = false
 
 # for the circling the player function
-var circlePos = 0
+static var circlePos = 0
 
-@onready var VisionArea = $Pivot/VisionArea
-@onready var VisionRaycast = $Pivot/Eyes/VisionRaycast
-@onready var timer = $Timer
-@onready var target = $"../Player"
+# can change for new enemy types
+static var idleAnim = "idling/idling"
+static var walkAnim = "walkCycles/walkingBasic"
+static var dyingAnim = null
+
 
 # mini-functions to connect necessary signals
-func connect_anim_finish(animPlayer):
-	animPlayer.animation_finished.connect(self._on_animation_player_animation_finished)
 func _connect_death(node):
+	print("connecting dieded")
+	self.target = node.return_player()
+	self.resources = node.return_resources()
 	node.connect_enemy_death(self)
+func set_exceptions():
+	VisionRaycast.add_exception(self)
+	VisionRaycast.add_exception(target.return_int_radius())
+	initialized = true
+func add_exception(node):
+	VisionRaycast.add_exception(node)
+	
+func set_navs(pivotIn, navAgentIn, VisionAreaIn, VisionRaycastIn, timerIn, animationPlayerIn):
+	pivot = pivotIn
+	navAgent = navAgentIn
+	VisionArea = VisionAreaIn
+	VisionRaycast = VisionRaycastIn
+	timer = timerIn
+	animationPlayer = animationPlayerIn
 	
 # when enemy spawns, connect necessary signals, add to necessary group(s)
-func _ready():
-	# groups and exceptions
-	self.add_to_group("enemies", true)
-	VisionRaycast.add_exception(self)
-	VisionRaycast.add_exception($"../Player/interactionRadius")
+func set_defaults(damageIn=null):
+	if damageIn != null:
+		damage = damageIn
 	# marking spawn location
-	spawnLocation = global_position
+	spawnLocation = pos
 	velocity = Vector3.ZERO
 	navAgent.target_desired_distance = actionDistance
+	# filling up combatCollisions
+	combatCollisions = pivot.find_children("hb", "Area3D", true)
 	# get all hitboxes connected
 	for collider in combatCollisions:
 		VisionRaycast.add_exception(collider) # making sure vision doesnt collide with self
 		if collider.is_in_group("weapons"):
 			hitboxes.append(collider)
-			collider.set_meta("damage",self.get_meta("damage"))
+			collider.set_meta("damage",damage)
 		# connect area entered to the damage func
 		collider.area_entered.connect(self._on_HurtboxArea_area_entered)
+	initialized = true
+	print("FINISHED INIT")
 
 # runs every frame
-func _physics_process(delta):
-	# only have to do all this if the enemy has been aggro'd
-	if aggro == true and not inAnimation:
-		# check where player is and what next position should be
-		pathfinding()
-		# look at the player, ensures we dont get any funky rotations
-		pivot.look_at(target.global_transform.origin, Vector3.UP, true)
-		pivot.rotation.x = 0
-		VisionRaycast.look_at(target.global_transform.origin, Vector3.UP, true)
-		# if no other animation queued, start walking
-		if not inAnimation:
-			animationPlayer.play("walkCycles/walkingBasic")
-	# if we lost aggro, enemy should return to spawn location
-	elif returningToSpawn:
-		return_to_spawn()
-	# periodically check vision
-	# state variable prevents multithread conflicts
-	if not checkingRayCast:
-		check_vision(target)
-	
-	check_collisions()
-	if not inAnimation:
-		move_and_slide()
+func default_physics_process(delta):
+	if not dying:
+		# only have to do all this if the enemy has been aggro'd
+		if aggro == true and not inAnimation:
+			# check where player is and what next position should be
+			pathfinding()
+			# look at the player, ensures we dont get any funky rotations
+			pivot.look_at(target.global_transform.origin, Vector3.UP, true)
+			pivot.rotation.x = 0
+			VisionRaycast.look_at(target.global_transform.origin, Vector3.UP, true)
+			# if no other animation queued, start walking
+			if not inAnimation:
+				animationPlayer.play(walkAnim)
+		else:
+			# if we lost aggro, enemy should return to spawn location
+			if returningToSpawn:
+				return_to_spawn()
+			elif not aggro:
+				animationPlayer.play(idleAnim)
+		check_collisions()
+		# periodically check vision
+		# state variable prevents multithread conflicts
+		if not checkingRayCast and checking:
+			for area in VisionArea.get_overlapping_areas():
+				if aggro:
+					break
+				check_vision(area)
 	
 # putting things into tiny functions
 # so the main one is a little less cluttered
 
 # base function for pathfinding in combat
 func pathfinding():
-	var pos = global_transform.origin
 	#print(pos)
 	# if the player is in sight, follow player exactly
 	# if not, follow AI path
+	doAttack = false
 	update_target_location()
 	var newPos = navAgent.get_next_path_position()
 	if playerInSight:
@@ -158,7 +192,7 @@ func pathfinding():
 		var distance = navAgent.distance_to_target()
 		if canAttack and aggro:
 			if distance <= attackDistance:
-				basic_attack()
+				doAttack = true
 	else:
 		circle_player()
 		#print(velocity)
@@ -202,7 +236,7 @@ func update_navpath_index():
 	# the rounding is scuffed and ugly, but necessary
 	#print(Vector3(snappedf(global_position.x, 1), 0, snappedf(global_position.z, 1)))
 	#print(Vector3(snappedf(currentNavPath[navIndex].x, 1), 0, snappedf(currentNavPath[navIndex].z, 1)))
-	if Vector3(snappedf(global_position.x, 1), 0, snappedf(global_position.z, 1)) == Vector3(snappedf(currentNavPath[navIndex].x, 1), 0, snappedf(currentNavPath[navIndex].z, 1)):
+	if Vector3(snappedf(pos.x, 1), 0, snappedf(pos.z, 1)) == Vector3(snappedf(currentNavPath[navIndex].x, 1), 0, snappedf(currentNavPath[navIndex].z, 1)):
 		print("reached path point")
 		navIndex += 1
 		if navIndex >= navSteps:
@@ -218,6 +252,9 @@ func update_target_location():
 		navAgent.target_position = spawnLocation
 	else:
 		navAgent.target_position = target.global_transform.origin
+func return_target_distance():
+	update_target_location()
+	return navAgent.distance_to_target()
 
 func check_collisions(object=self):
 	# Iterate through all collisions that occurred this frame
@@ -238,9 +275,9 @@ func _on_navigation_agent_3d_target_reached():
 
 func check_vision(overlap):
 	if not checkingRayCast:
+		var playerSeen = false
 		if overlap == null:
 			return
-		var playerSeen = false
 		checkingRayCast = true
 		if not aggro:
 			if overlap.is_in_group("protagbody"):
@@ -286,10 +323,11 @@ func check_vision(overlap):
 	checkingRayCast = false
 
 func _on_VisionArea_area_entered(area):
-	if not aggro and not checkingRayCast:
-		print("checking interactionbox")
-		check_vision(area)
-		checking = true
+	if initialized:
+		if not aggro and not checkingRayCast:
+			print("checking interactionbox")
+			check_vision(area)
+			checking = true
 func _on_VisionArea_area_exited(area):
 	checking = false
 	
@@ -301,23 +339,19 @@ func _on_HurtboxArea_area_entered(area):
 			aggro = true
 			# prevent multiple damage instances in one hit
 			area.setInactive()
-			var health = self.get_meta("health")
-			health-=area.get_meta("baseDamage")
-			print("enemy damaged, health is %d" % health)
-			if health <= 0:
-				death.emit(humanResources, global_position)
-				queue_free()
+			var tempHealth = health
+			tempHealth-=area.get_meta("baseDamage")
+			print("enemy damaged, tempHealth is %d" % tempHealth)
+			if tempHealth <= 0:
+				dying = true
+				# eventually a dying animation will play
+				if dyingAnim == null:
+					pivot.rotation_degrees.x = 90
+				else:
+					animationPlayer.play(dyingAnim)
+				timer.start(3)
 			else:
-				self.set_meta("health", health)
-
-func _on_animation_player_animation_finished(animName):
-	inAnimation = false
-	if attacking:
-		attacking = false
-	for hitbox in hitboxes:
-		hitbox.setInactive()
-	# if the next attack would exceed attack limit, we gotta reset some vars
-	check_if_attack(true)
+				health = tempHealth
 
 func decide_action():
 	if not inAnimation and aggro:
@@ -332,6 +366,7 @@ func decide_action():
 			if distance <= actionDistance:
 				# if we can attack, speed towards the player and attack
 				if canAttack:
+					print("canAttack")
 					following = true
 					circling = false
 					speedMod = 10
@@ -344,13 +379,11 @@ func decide_action():
 			elif distance <= circleDistance and not following:
 				if not attacking and canAttack:
 					attacking = true
-					timer.start(attackWait)
 				following = false
 				circling = true
 			# if too far, wait to charge
 			elif not attacking and canAttack:
 				attacking = true
-				timer.start(attackWait)
 
 func circle_player():
 	var targetPos = target.global_transform.origin
@@ -358,36 +391,40 @@ func circle_player():
 	 #Distance from center to circumference of circle
 	var angle = PI * 2;
 	var newPos = Vector3(targetPos.x + cos(angle) * radius, 0, targetPos.z + cos(angle) * radius)
-	var direction = (newPos - global_transform.origin).normalized() 
+	var direction = (newPos - pos).normalized() 
 	velocity =  direction * speed
 	
-func basic_attack():
-	totalAttacks += 1
+func basic_attack(anim="meleeAttacks/swipe_left"):
 	if check_if_attack():
+		timer.start(attackWait)
 		inAnimation = true
 		for hitbox in hitboxes:
 			hitbox.setActive()
 		print("attacking")
 		animationPlayer.stop()
-		animationPlayer.play("meleeAttacks/swipe_left")
+		animationPlayer.play(anim)
+		totalAttacks += 1
 
-func check_if_attack(increment=false):
-	var tempAttacks = totalAttacks
-	if increment:
-		tempAttacks += 1
-	if tempAttacks > comboAttacks:
-		inAnimation = false
-		canAttack = false
-		following = false
-		navAgent.target_desired_distance = actionDistance
-		speedMod = 0
-		timer.start(attackCooldown)
-		return false
-	else:
-		return true
+func check_if_attack():
+	if not inAnimation:
+		print("checking attack %d" % totalAttacks)
+		if totalAttacks+1 > comboAttacks:
+			inAnimation = false
+			canAttack = false
+			following = false
+			navAgent.target_desired_distance = actionDistance
+			speedMod = 0
+			timer.start(attackCooldown)
+			return false
+		else:
+			return true
 
 func _on_timer_timeout():
+	print("timeout")
 	timer.stop()
+	if dying:
+		death.emit(humanResources, pos)
+		queue_free()
 	# first checking if we were waiting to attack
 	if attacking:
 		circling = false

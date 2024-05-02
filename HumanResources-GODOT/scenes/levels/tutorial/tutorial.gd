@@ -1,16 +1,26 @@
 extends Node
 
 @onready var player = $Player
+@onready var resources = $UserInterface/Resources
 var paused = false
 signal soul(humanResources)
 
 # mini-functions to connect necessary signals
 func connect_enemy_death(enemy):
 	enemy.death.connect(self._on_kill)
-	
+func return_player():
+	return player
+func return_resources():
+	return resources
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	get_tree().call_group("enemies", "_connect_death", self)
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var floors = get_tree().get_nodes_in_group("floor")
+	for enemy in enemies:
+		enemy._connect_death(self)
+		for floor in floors:
+			enemy.add_exception(floor)
 	get_tree().call_group("watercoolers", "set_on_interact", $UserInterface/completion)
 	$smokecontrol/loader/smoke.load_complete()
 
